@@ -1,8 +1,6 @@
-// middleware.ts
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// Rutas que requieren autenticación
 const PROTECTED_ROUTES = ['/garden', '/profile', '/identify']
 
 export async function middleware(request: NextRequest) {
@@ -26,7 +24,6 @@ export async function middleware(request: NextRequest) {
   )
 
   const { data: { user } } = await supabase.auth.getUser()
-
   const pathname = request.nextUrl.pathname
   const isProtected = PROTECTED_ROUTES.some(route => pathname.startsWith(route))
 
@@ -37,7 +34,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Si ya está logueado y va a login, redirigir a home
   if (user && pathname.startsWith('/auth/login')) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
