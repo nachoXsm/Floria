@@ -28,17 +28,24 @@ export default function HomePage() {
         width: 'calc(100% - 32px)',
         maxWidth: '1120px',
         zIndex: 50,
-        backgroundColor: 'rgba(249,252,248,0.82)',
+        backgroundColor: 'rgba(249,252,248,0.92)',
         backdropFilter: 'blur(18px)',
         border: '1px solid rgba(231,239,230,0.9)',
         boxShadow: '0 16px 40px rgba(30,61,43,0.08)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '10px 16px 10px 20px',
+        padding: '0 16px 0 20px',
         borderRadius: '999px',
+        height: '60px',
       }}>
-        <img src="/logo-floria.png" alt="Floria" style={{ height: '120px', width: 'auto' }} />
+        <a href="/" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
+          <img
+            src="/logo-floria.png"
+            alt="Floria"
+            style={{ width: '200px', height: 'auto', display: 'block' }}
+          />
+        </a>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <a href="/explore" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '10px 12px' }}>Explorar</a>
           <a href="/identify" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '10px 12px' }}>Identificar</a>
@@ -267,7 +274,7 @@ export default function HomePage() {
       </section>
 
       <footer style={{ backgroundColor: '#0D1E15', padding: '54px 24px', textAlign: 'center' }}>
-        <img src="/logo-floria.png" alt="Floria" style={{ height: '28px', width: 'auto', marginBottom: '16px', opacity: 0.7 }} />
+        <img src="/logo-floria.png" alt="Floria" style={{ width: '160px', height: 'auto', marginBottom: '16px', opacity: 0.8 }} />
         <p style={{ color: '#A7C4A1', fontSize: '13px', margin: '0 0 4px' }}>Tu espacio, tu naturaleza.</p>
         <p style={{ color: '#4C7F5B', fontSize: '11px', margin: 0 }}>© {new Date().getFullYear()} Floria</p>
       </footer>
