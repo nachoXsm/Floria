@@ -1,98 +1,124 @@
-// app/api/webhooks/stripe/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import Stripe from 'stripe'
+import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-04-10' })
+const FREE_LIMIT = 3
 
 export async function POST(request: NextRequest) {
-  const body = await request.text()
-  const sig = request.headers.get('stripe-signature')!
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  let event: Stripe.Event
-  try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
-  } catch (err) {
-    return NextResponse.json({ error: 'Webhook signature inválida' }, { status: 400 })
+  if (!user) {
+    return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('plan, identifications_this_month, identifications_reset_at')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile) {
+    return NextResponse.json({ error: 'Perfil no encontrado' }, { status: 404 })
   }
 
   const admin = createAdminClient()
+  const now = new Date()
+  const resetAt = new Date(profile.identifications_reset_at)
 
-  switch (event.type) {
-    case 'checkout.session.completed': {
-      const session = event.data.object as Stripe.CheckoutSession
-      const userId = session.metadata?.user_id
-      if (!userId) break
-
-      const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
-
-      await admin.from('subscriptions').upsert({
-        user_id: userId,
-        stripe_customer_id: session.customer as string,
-        stripe_subscription_id: subscription.id,
-        plan: 'pro',
-        status: subscription.status,
-        current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-        current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-        cancel_at_period_end: subscription.cancel_at_period_end,
-      })
-
-      await admin.from('profiles')
-        .update({ plan: 'pro' })
-        .eq('id', userId)
-
-      break
-    }
-
-    case 'customer.subscription.updated': {
-      const subscription = event.data.object as Stripe.Subscription
-      const { data: sub } = await admin
-        .from('subscriptions')
-        .select('user_id')
-        .eq('stripe_subscription_id', subscription.id)
-        .single()
-
-      if (!sub) break
-
-      const newPlan = subscription.status === 'active' ? 'pro' : 'free'
-
-      await admin.from('subscriptions').update({
-        status: subscription.status as any,
-        plan: newPlan,
-        current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-        current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-        cancel_at_period_end: subscription.cancel_at_period_end,
-      }).eq('stripe_subscription_id', subscription.id)
-
-      await admin.from('profiles')
-        .update({ plan: newPlan })
-        .eq('id', sub.user_id)
-
-      break
-    }
-
-    case 'customer.subscription.deleted': {
-      const subscription = event.data.object as Stripe.Subscription
-      const { data: sub } = await admin
-        .from('subscriptions')
-        .select('user_id')
-        .eq('stripe_subscription_id', subscription.id)
-        .single()
-
-      if (!sub) break
-
-      await admin.from('subscriptions').update({
-        status: 'canceled',
-        plan: 'free',
-      }).eq('stripe_subscription_id', subscription.id)
-
-      await admin.from('profiles')
-        .update({ plan: 'free' })
-        .eq('id', sub.user_id)
-
-      break
-    }
+  if (now > resetAt) {
+    await admin.from('profiles').update({
+      identifications_this_month: 0,
+      identifications_reset_at: new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString()
+    }).eq('id', user.id)
+    profile.identifications_this_month = 0
   }
 
-  return NextResponse.json({ received: true })
+  if (profile.plan === 'free' && profile.identifications_this_month >= FREE_LIMIT) {
+    return NextResponse.json({
+      error: 'Límite mensual alcanzado',
+      code: 'FREE_LIMIT_REACHED',
+      limit: FREE_LIMIT,
+      upgrade_url: '/pricing'
+    }, { status: 429 })
+  }
+
+  const formData = await request.formData()
+  const imageFile = formData.get('image') as File | null
+
+  if (!imageFile) {
+    return NextResponse.json({ error: 'No se recibió imagen' }, { status: 400 })
+  }
+
+  const fileName = `${user.id}/${Date.now()}-${imageFile.name}`
+  const imageBuffer = await imageFile.arrayBuffer()
+
+  const { data: storageData, error: storageError } = await admin.storage
+    .from('identifications')
+    .upload(fileName, imageBuffer, { contentType: imageFile.type, upsert: false })
+
+  if (storageError) {
+    return NextResponse.json({ error: 'Error subiendo imagen' }, { status: 500 })
+  }
+
+  const { data: urlData } = admin.storage.from('identifications').getPublicUrl(storageData.path)
+  const publicUrl = urlData.publicUrl
+
+  const base64Image = Buffer.from(imageBuffer).toString('base64')
+
+  const plantIdResponse = await fetch('https://plant.id/api/v3/identification', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Api-Key': process.env.PLANT_ID_API_KEY ?? '',
+    },
+    body: JSON.stringify({
+      images: [`data:${imageFile.type};base64,${base64Image}`],
+      details: ['common_names', 'taxonomy', 'url', 'description', 'watering'],
+      similar_images: true,
+    }),
+  })
+
+  if (!plantIdResponse.ok) {
+    return NextResponse.json({ error: 'Error en la API de identificación' }, { status: 502 })
+  }
+
+  const plantIdData = await plantIdResponse.json()
+  const suggestions = plantIdData.result?.classification?.suggestions ?? []
+  const topSuggestion = suggestions[0]
+
+  let matchedPlantId: string | null = null
+  let confidence: number | null = null
+
+  if (topSuggestion) {
+    confidence = topSuggestion.probability
+    const { data: existingPlant } = await supabase
+      .from('plants')
+      .select('id')
+      .ilike('scientific_name', `%${topSuggestion.name}%`)
+      .single()
+    if (existingPlant) matchedPlantId = existingPlant.id
+  }
+
+  const { data: identification } = await admin.from('identifications').insert({
+    user_id: user.id,
+    image_url: publicUrl,
+    api_response: plantIdData,
+    matched_plant_id: matchedPlantId,
+    confidence,
+    suggestions: suggestions.slice(0, 5),
+  }).select().single()
+
+  await admin.from('profiles')
+    .update({ identifications_this_month: profile.identifications_this_month + 1 })
+    .eq('id', user.id)
+
+  return NextResponse.json({
+    id: identification?.id,
+    image_url: publicUrl,
+    suggestions: suggestions.slice(0, 5),
+    matched_plant_id: matchedPlantId,
+    confidence,
+    is_plant: plantIdData.result?.is_plant?.binary ?? false,
+  })
 }
