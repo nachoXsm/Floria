@@ -38,7 +38,7 @@ export default function HomePage() {
         padding: '10px 16px 10px 20px',
         borderRadius: '999px',
       }}>
-        <img src="/logo-floria.png" alt="Floria" style={{ height: '44px', width: 'auto' }} />
+        <img src="/logo-floria.png" alt="Floria" style={{ height: '64px', width: 'auto' }} />
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <a href="/explore" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '10px 12px' }}>Explorar</a>
           <a href="/identify" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '10px 12px' }}>Identificar</a>
