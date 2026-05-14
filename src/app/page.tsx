@@ -1,56 +1,73 @@
-import Link from 'next/link'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Floria — Tu espacio, tu naturaleza',
+}
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-floria-50">
+    <main style={{ minHeight: '100vh', backgroundColor: '#F9FCF8' }}>
+
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-floria-200">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="font-serif text-xl text-floria-900 font-medium">🌿 Floria</span>
-          <div className="flex items-center gap-3">
-            <Link href="/auth/login" className="text-sm text-floria-700 hover:text-floria-900">Iniciar sesión</Link>
-            <Link href="/auth/signup" className="bg-floria-900 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-floria-800">Registrarse</Link>
-          </div>
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        backgroundColor: 'white', borderBottom: '1px solid #E7EFE6',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 24px', height: '64px'
+      }}>
+        <span style={{ fontSize: '22px', fontWeight: 600, color: '#1E3D2B' }}>🌿 Floria</span>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <a href="/auth/login" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '14px' }}>Iniciar sesión</a>
+          <a href="/auth/signup" style={{
+            backgroundColor: '#1E3D2B', color: 'white', padding: '8px 20px',
+            borderRadius: '999px', textDecoration: 'none', fontSize: '14px'
+          }}>Registrarse</a>
         </div>
       </nav>
 
       {/* HERO */}
-      <section className="pt-40 pb-20 px-6 text-center">
-        <p className="text-floria-600 text-sm uppercase tracking-widest mb-4">
+      <section style={{ paddingTop: '120px', paddingBottom: '80px', textAlign: 'center', padding: '140px 24px 80px' }}>
+        <p style={{ color: '#4C7F5B', fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '16px' }}>
           Naturaleza · Diseño · Bienestar
         </p>
-        <h1 className="font-serif text-5xl md:text-7xl text-floria-900 leading-tight mb-6">
+        <h1 style={{ fontSize: 'clamp(40px, 8vw, 72px)', color: '#1E3D2B', lineHeight: 1.1, marginBottom: '24px', fontFamily: 'Georgia, serif' }}>
           Tu espacio,<br />
-          <span className="italic text-floria-700">tu naturaleza.</span>
+          <em>tu naturaleza.</em>
         </h1>
-        <p className="text-lg text-floria-600 mb-10 max-w-xl mx-auto">
+        <p style={{ fontSize: '18px', color: '#4C7F5B', marginBottom: '40px', maxWidth: '480px', margin: '0 auto 40px' }}>
           Inspiración inteligente para vivir rodeado de verde.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/explore" className="bg-floria-900 text-white px-8 py-3.5 rounded-full hover:bg-floria-800 transition-colors">
-            Explorar plantas
-          </Link>
-          <Link href="/identify" className="border border-floria-900 text-floria-900 px-8 py-3.5 rounded-full hover:bg-floria-100 transition-colors">
-            Identificar por foto
-          </Link>
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/explore" style={{
+            backgroundColor: '#1E3D2B', color: 'white', padding: '14px 32px',
+            borderRadius: '999px', textDecoration: 'none', fontSize: '16px'
+          }}>Explorar plantas</a>
+          <a href="/identify" style={{
+            border: '2px solid #1E3D2B', color: '#1E3D2B', padding: '14px 32px',
+            borderRadius: '999px', textDecoration: 'none', fontSize: '16px', backgroundColor: 'transparent'
+          }}>Identificar por foto</a>
         </div>
       </section>
 
       {/* FEATURES */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-serif text-3xl text-floria-900 mb-12">
+      <section style={{ backgroundColor: 'white', padding: '80px 24px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '32px', color: '#1E3D2B', marginBottom: '48px' }}>
             Todo lo que necesitás para diseñar con plantas
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
             {[
-              { title: 'Reconocé especies', desc: 'Fotografiá cualquier planta y obtené su identificación al instante.' },
-              { title: 'Explorá plantas', desc: 'Filtrá por luz, riego, clima y estilo. El catálogo que siempre quisiste.' },
-              { title: 'Diseñá tu jardín', desc: 'Creá jardines, combiná especies y llevá tus proyectos verdes adelante.' },
+              { emoji: '📷', title: 'Reconocé especies', desc: 'Fotografiá cualquier planta y obtené su identificación al instante.' },
+              { emoji: '🔍', title: 'Explorá plantas', desc: 'Filtrá por luz, riego, clima y estilo. El catálogo que siempre quisiste.' },
+              { emoji: '🌿', title: 'Diseñá tu jardín', desc: 'Creá jardines, combiná especies y llevá tus proyectos verdes adelante.' },
             ].map((f) => (
-              <div key={f.title} className="p-6 rounded-2xl border border-floria-200">
-                <h3 className="font-serif text-lg text-floria-900 mb-2">{f.title}</h3>
-                <p className="text-sm text-floria-600">{f.desc}</p>
+              <div key={f.title} style={{
+                padding: '32px 24px', borderRadius: '16px',
+                border: '1px solid #E7EFE6', backgroundColor: '#F9FCF8'
+              }}>
+                <div style={{ fontSize: '36px', marginBottom: '16px' }}>{f.emoji}</div>
+                <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '18px', color: '#1E3D2B', marginBottom: '8px' }}>{f.title}</h3>
+                <p style={{ fontSize: '14px', color: '#4C7F5B', lineHeight: 1.6 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -58,50 +75,55 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section className="py-20 px-6 bg-floria-900 text-center">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="font-serif text-4xl text-white mb-4">Empezá gratis</h2>
-          <p className="text-floria-300 text-lg mb-10">
+      <section style={{ backgroundColor: '#1E3D2B', padding: '80px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '36px', color: 'white', marginBottom: '16px' }}>
+            Empezá gratis
+          </h2>
+          <p style={{ color: '#A7C4A1', fontSize: '18px', marginBottom: '48px' }}>
             Explorá el catálogo sin costo. Activá Pro para IA ilimitada y jardines sin límite.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center max-w-lg mx-auto">
-            <div className="flex-1 bg-floria-800 rounded-2xl p-6 text-left">
-              <p className="text-floria-400 text-sm mb-1">Free</p>
-              <p className="font-serif text-3xl text-white mb-4">$0</p>
-              <ul className="text-sm text-floria-300 space-y-2 mb-6">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+            <div style={{ backgroundColor: '#2C5A3D', borderRadius: '16px', padding: '32px', textAlign: 'left' }}>
+              <p style={{ color: '#A7C4A1', fontSize: '13px', marginBottom: '4px' }}>Free</p>
+              <p style={{ fontFamily: 'Georgia, serif', fontSize: '36px', color: 'white', marginBottom: '24px' }}>$0</p>
+              <ul style={{ color: '#A7C4A1', fontSize: '14px', lineHeight: 2, paddingLeft: '0', listStyle: 'none', marginBottom: '24px' }}>
                 <li>✓ 10 búsquedas por día</li>
                 <li>✓ 3 identificaciones por mes</li>
                 <li>✓ 1 jardín guardado</li>
               </ul>
-              <Link href="/auth/signup" className="block text-center bg-floria-700 text-white text-sm py-2.5 rounded-full hover:bg-floria-600">
-                Registrarse gratis
-              </Link>
+              <a href="/auth/signup" style={{
+                display: 'block', textAlign: 'center', backgroundColor: '#3A7A52',
+                color: 'white', padding: '12px', borderRadius: '999px', textDecoration: 'none', fontSize: '14px'
+              }}>Registrarse gratis</a>
             </div>
-            <div className="flex-1 bg-white rounded-2xl p-6 text-left">
-              <p className="text-floria-600 text-sm mb-1">Pro</p>
-              <p className="font-serif text-3xl text-floria-900 mb-4">$9.99<span className="text-base text-floria-500">/mes</span></p>
-              <ul className="text-sm text-floria-700 space-y-2 mb-6">
+            <div style={{ backgroundColor: 'white', borderRadius: '16px', padding: '32px', textAlign: 'left', border: '2px solid #A7C4A1' }}>
+              <p style={{ color: '#4C7F5B', fontSize: '13px', marginBottom: '4px' }}>Pro</p>
+              <p style={{ fontFamily: 'Georgia, serif', fontSize: '36px', color: '#1E3D2B', marginBottom: '24px' }}>
+                $9.99<span style={{ fontSize: '16px', color: '#4C7F5B' }}>/mes</span>
+              </p>
+              <ul style={{ color: '#3A7A52', fontSize: '14px', lineHeight: 2, paddingLeft: '0', listStyle: 'none', marginBottom: '24px' }}>
                 <li>✓ IA ilimitada</li>
                 <li>✓ Jardines sin límite</li>
                 <li>✓ Exportar PDF / PNG</li>
                 <li>✓ Combinaciones automáticas</li>
               </ul>
-              <Link href="/pricing" className="block text-center bg-floria-900 text-white text-sm py-2.5 rounded-full hover:bg-floria-800">
-                Activar Pro
-              </Link>
+              <a href="/pricing" style={{
+                display: 'block', textAlign: 'center', backgroundColor: '#1E3D2B',
+                color: 'white', padding: '12px', borderRadius: '999px', textDecoration: 'none', fontSize: '14px'
+              }}>Activar Pro</a>
             </div>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="py-12 px-6 bg-floria-950 text-center">
-        <p className="font-serif text-2xl text-floria-200 mb-2">Floria</p>
-        <p className="text-sm text-floria-500">Tu espacio, tu naturaleza.</p>
-        <p className="text-xs text-floria-600 mt-2">
-          © {new Date().getFullYear()} Floria
-        </p>
+      <footer style={{ backgroundColor: '#0D1E15', padding: '48px 24px', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'Georgia, serif', fontSize: '24px', color: '#C5D9C2', marginBottom: '8px' }}>Floria</p>
+        <p style={{ color: '#4C7F5B', fontSize: '14px' }}>Tu espacio, tu naturaleza.</p>
+        <p style={{ color: '#2C5A3D', fontSize: '12px', marginTop: '8px' }}>© {new Date().getFullYear()} Floria</p>
       </footer>
+
     </main>
   )
 }
