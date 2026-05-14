@@ -23,7 +23,7 @@ type Plant = {
   plant_type: string | null
 }
 
-const CARE_COLOR: Record<string, string> = { easy: '#16a34a', moderate: '#d97706', expert: '#dc2626' }
+const CARE_COLOR: Record<string, string> = { easy: '#4C7F5B', moderate: '#B58A3A', expert: '#9F3A2F' }
 const CARE_LABELS: Record<string, string> = { easy: 'Fácil', moderate: 'Moderado', expert: 'Experto' }
 
 const FILTERS = {
@@ -99,17 +99,17 @@ function FilterGroup({ title, options, value, onChange }: {
 }) {
   return (
     <div style={{ marginBottom: '20px' }}>
-      <p style={{ fontSize: '12px', fontWeight: 700, color: '#1E3D2B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+      <p style={{ fontSize: '11px', fontWeight: 700, color: '#1E3D2B', textTransform: 'uppercase', letterSpacing: '1.6px', marginBottom: '10px' }}>
         {title}
       </p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
         {options.map(opt => (
           <button key={opt.value} onClick={() => onChange(opt.value === value ? '' : opt.value)} style={{
-            padding: '6px 14px', borderRadius: '999px', border: '1px solid',
+            padding: '8px 14px', borderRadius: '999px', border: '1px solid',
             borderColor: value === opt.value ? '#1E3D2B' : '#C5D9C2',
-            backgroundColor: value === opt.value ? '#1E3D2B' : 'white',
+            backgroundColor: value === opt.value ? '#1E3D2B' : '#F9FCF8',
             color: value === opt.value ? 'white' : '#4C7F5B',
-            fontSize: '12px', cursor: 'pointer', fontWeight: value === opt.value ? 600 : 400,
+            fontSize: '12px', cursor: 'pointer', fontWeight: value === opt.value ? 600 : 500, fontFamily: 'Montserrat, system-ui, sans-serif',
           }}>{opt.label}</button>
         ))}
       </div>
@@ -181,24 +181,38 @@ export default function ExplorePage() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#F9FCF8' }}>
+    <main style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(180deg, #F9FCF8 0%, #F2E9DD 100%)',
+      fontFamily: 'Montserrat, system-ui, sans-serif',
+      color: '#1E3D2B',
+    }}>
 
       {/* NAV */}
       <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-        backgroundColor: 'white', borderBottom: '1px solid #E7EFE6',
+        position: 'fixed', top: 16, left: '50%', transform: 'translateX(-50%)', zIndex: 50,
+        width: 'calc(100% - 32px)', maxWidth: '1180px',
+        backgroundColor: 'rgba(249,252,248,0.86)', backdropFilter: 'blur(18px)',
+        border: '1px solid rgba(231,239,230,0.95)',
+        boxShadow: '0 16px 40px rgba(30,61,43,0.08)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 24px', height: '64px'
+        padding: '12px 18px 12px 22px', borderRadius: '999px'
       }}>
-        <a href="/" style={{ fontSize: '20px', fontWeight: 600, color: '#1E3D2B', textDecoration: 'none' }}>🌿 Floria</a>
-        <div style={{ display: 'flex', gap: '24px', fontSize: '14px' }}>
+        <a href="/" style={{
+          fontFamily: 'Cormorant Garamond, Georgia, serif',
+          fontSize: '28px', fontWeight: 600, color: '#1E3D2B', textDecoration: 'none', letterSpacing: '-0.5px'
+        }}>Floria</a>
+        <div style={{ display: 'flex', gap: '18px', fontSize: '13px', alignItems: 'center' }}>
           <a href="/explore" style={{ color: '#1E3D2B', textDecoration: 'none', fontWeight: 600 }}>Explorar</a>
-          <a href="/identify" style={{ color: '#4C7F5B', textDecoration: 'none' }}>Identificar</a>
-          <a href="/auth/login" style={{ color: '#4C7F5B', textDecoration: 'none' }}>Mi cuenta</a>
+          <a href="/identify" style={{ color: '#4C7F5B', textDecoration: 'none', fontWeight: 500 }}>Identificar</a>
+          <a href="/auth/login" style={{
+            color: 'white', textDecoration: 'none', backgroundColor: '#1E3D2B',
+            borderRadius: '999px', padding: '10px 16px', fontWeight: 600
+          }}>Mi cuenta</a>
         </div>
       </nav>
 
-      <div style={{ paddingTop: '80px', display: 'flex', minHeight: 'calc(100vh - 64px)' }}>
+      <div style={{ paddingTop: '104px', display: 'flex', minHeight: 'calc(100vh - 64px)' }}>
 
         {/* SIDEBAR FILTROS */}
         <aside style={{
@@ -206,16 +220,17 @@ export default function ExplorePage() {
           minWidth: showFilters ? '280px' : '0',
           overflow: 'hidden',
           transition: 'all 0.3s ease',
-          backgroundColor: 'white',
+          backgroundColor: 'rgba(255,255,255,0.82)',
           borderRight: '1px solid #E7EFE6',
-          padding: showFilters ? '24px' : '0',
+          boxShadow: showFilters ? '18px 0 48px rgba(30,61,43,0.06)' : 'none',
+          padding: showFilters ? '28px 24px' : '0',
         }}>
           {showFilters && (
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '20px', color: '#1E3D2B', margin: 0 }}>Filtros</h2>
+                <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '26px', color: '#1E3D2B', margin: 0 }}>Filtros</h2>
                 {activeFilters > 0 && (
-                  <button onClick={clearAll} style={{ fontSize: '12px', color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer' }}>
+                  <button onClick={clearAll} style={{ fontSize: '12px', color: '#9F3A2F', background: 'none', border: 'none', cursor: 'pointer' }}>
                     Limpiar ({activeFilters})
                   </button>
                 )}
@@ -234,13 +249,13 @@ export default function ExplorePage() {
         </aside>
 
         {/* CONTENIDO */}
-        <div style={{ flex: 1, padding: '24px', minWidth: 0 }}>
+        <div style={{ flex: 1, padding: '28px', minWidth: 0 }}>
 
           {/* BARRA SUPERIOR */}
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '14px', marginBottom: '28px', alignItems: 'center', flexWrap: 'wrap' }}>
             <button onClick={() => setShowFilters(!showFilters)} style={{
-              padding: '12px 20px', borderRadius: '12px', border: '1px solid #C5D9C2',
-              backgroundColor: showFilters ? '#1E3D2B' : 'white',
+              padding: '13px 20px', borderRadius: '999px', border: '1px solid #C5D9C2',
+              backgroundColor: showFilters ? '#1E3D2B' : 'rgba(255,255,255,0.9)',
               color: showFilters ? 'white' : '#1E3D2B',
               fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px',
               whiteSpace: 'nowrap', flexShrink: 0,
@@ -253,9 +268,9 @@ export default function ExplorePage() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               style={{
-                flex: 1, padding: '12px 20px', borderRadius: '12px',
+                flex: 1, padding: '13px 20px', borderRadius: '999px',
                 border: '1px solid #C5D9C2', fontSize: '14px', color: '#1E3D2B',
-                backgroundColor: 'white', outline: 'none',
+                backgroundColor: 'rgba(255,255,255,0.9)', outline: 'none', boxShadow: '0 12px 30px rgba(30,61,43,0.05)', fontFamily: 'Montserrat, system-ui, sans-serif',
               }}
             />
             <span style={{ fontSize: '13px', color: '#4C7F5B', whiteSpace: 'nowrap', flexShrink: 0 }}>
@@ -278,12 +293,13 @@ export default function ExplorePage() {
               </button>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '22px' }}>
               {plants.map(plant => (
                 <a key={plant.id} href={`/plant/${plant.slug || plant.id}`} style={{ textDecoration: 'none' }}>
                   <div style={{
-                    backgroundColor: 'white', borderRadius: '16px', overflow: 'hidden',
+                    backgroundColor: 'white', borderRadius: '24px', overflow: 'hidden',
                     border: '1px solid #E7EFE6', cursor: 'pointer',
+                    boxShadow: '0 16px 40px rgba(30,61,43,0.06)',
                     transition: 'transform 0.2s, box-shadow 0.2s',
                   }}
                     onMouseEnter={e => {
@@ -292,20 +308,20 @@ export default function ExplorePage() {
                     }}
                     onMouseLeave={e => {
                       (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-                      ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
+                      ;(e.currentTarget as HTMLElement).style.boxShadow = '0 16px 40px rgba(30,61,43,0.06)'
                     }}
                   >
-                    <div style={{ height: '140px', backgroundColor: '#E7EFE6', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    <div style={{ height: '180px', backgroundColor: '#E7EFE6', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                       {plant.cover_image
                         ? <img src={plant.cover_image} alt={plant.common_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         : <span style={{ fontSize: '40px' }}>🌿</span>
                       }
                     </div>
-                    <div style={{ padding: '12px' }}>
-                      <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '15px', color: '#1E3D2B', margin: '0 0 3px' }}>
+                    <div style={{ padding: '16px' }}>
+                      <h3 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '24px', color: '#1E3D2B', margin: '0 0 3px' }}>
                         {plant.common_name}
                       </h3>
-                      <p style={{ fontSize: '11px', color: '#4C7F5B', fontStyle: 'italic', margin: '0 0 10px' }}>
+                      <p style={{ fontSize: '12px', color: '#4C7F5B', fontStyle: 'italic', margin: '0 0 10px' }}>
                         {plant.scientific_name}
                       </p>
                       <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
