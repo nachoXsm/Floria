@@ -9,7 +9,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif', backgroundColor: '#F9FCF8', color: '#1E3D2B' }}>
+      <head>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap');`}</style>
+      </head>
+      <body
+        style={{
+          margin: 0,
+          fontFamily: 'Montserrat, system-ui, sans-serif',
+          backgroundColor: '#F9FCF8',
+          color: '#1E3D2B',
+        }}
+      >
         {children}
       </body>
     </html>
