@@ -1,6 +1,7 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+
 import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 type Plant = {
@@ -15,107 +16,22 @@ type Plant = {
   pot_suitable: boolean
   flowering: boolean
   evergreen: boolean
-  growth_speed: string | null
   garden_styles: string[]
   cover_image: string | null
   slug: string
   tags: string[]
-  description: string | null
-  plant_type: string | null
 }
 
-const CARE_COLOR: Record<string, string> = { easy: '#16a34a', moderate: '#d97706', expert: '#dc2626' }
-const CARE_LABELS: Record<string, string> = { easy: 'Fácil', moderate: 'Moderado', expert: 'Experto' }
-
-const FILTERS = {
-  tipo: [
-    { label: 'Todos', value: '' },
-    { label: 'Árbol', value: 'árbol' },
-    { label: 'Arbusto', value: 'arbusto' },
-    { label: 'Herbácea', value: 'herbácea' },
-    { label: 'Suculenta', value: 'suculenta' },
-    { label: 'Gramínea', value: 'gramínea' },
-    { label: 'Trepadora', value: 'trepadora' },
-    { label: 'Tapizante', value: 'tapizante' },
-    { label: 'Palmera', value: 'palmera' },
-    { label: 'Acuática', value: 'acuática' },
-  ],
-  cuidado: [
-    { label: 'Todos', value: '' },
-    { label: 'Fácil', value: 'easy' },
-    { label: 'Moderado', value: 'moderate' },
-    { label: 'Experto', value: 'expert' },
-  ],
-  ubicacion: [
-    { label: 'Todos', value: '' },
-    { label: 'Interior', value: 'indoor' },
-    { label: 'Exterior', value: 'outdoor' },
-  ],
-  luz: [
-    { label: 'Todas', value: '' },
-    { label: 'Pleno sol', value: 'full_sun' },
-    { label: 'Semisombra', value: 'partial_shade' },
-    { label: 'Sombra', value: 'shade' },
-    { label: 'Luz indirecta', value: 'indirect' },
-  ],
-  riego: [
-    { label: 'Todos', value: '' },
-    { label: 'Diario', value: 'daily' },
-    { label: '2x semana', value: 'twice_week' },
-    { label: 'Semanal', value: 'weekly' },
-    { label: 'Quincenal', value: 'biweekly' },
-    { label: 'Mensual', value: 'monthly' },
-  ],
-  ciclo: [
-    { label: 'Todos', value: '' },
-    { label: 'Perenne', value: 'perenne' },
-    { label: 'Anual', value: 'anual' },
-  ],
-  floracion: [
-    { label: 'Todas', value: '' },
-    { label: 'Con floración', value: 'si' },
-    { label: 'Sin floración', value: 'no' },
-  ],
-  maceta: [
-    { label: 'Todas', value: '' },
-    { label: 'Apto maceta', value: 'si' },
-    { label: 'Solo suelo', value: 'no' },
-  ],
-  estilo: [
-    { label: 'Todos', value: '' },
-    { label: 'Mediterráneo', value: 'mediterranean' },
-    { label: 'Tropical', value: 'tropical' },
-    { label: 'Minimalista', value: 'minimal' },
-    { label: 'Natural', value: 'natural' },
-    { label: 'Formal', value: 'formal' },
-    { label: 'Cottage', value: 'cottage' },
-  ],
+const CARE_COLOR: Record<string, string> = {
+  easy: '#16a34a',
+  moderate: '#d97706',
+  expert: '#dc2626',
 }
 
-function FilterGroup({ title, options, value, onChange }: {
-  title: string
-  options: { label: string; value: string }[]
-  value: string
-  onChange: (v: string) => void
-}) {
-  return (
-    <div style={{ marginBottom: '20px' }}>
-      <p style={{ fontSize: '12px', fontWeight: 700, color: '#1E3D2B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-        {title}
-      </p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-        {options.map(opt => (
-          <button key={opt.value} onClick={() => onChange(opt.value === value ? '' : opt.value)} style={{
-            padding: '6px 14px', borderRadius: '999px', border: '1px solid',
-            borderColor: value === opt.value ? '#1E3D2B' : '#C5D9C2',
-            backgroundColor: value === opt.value ? '#1E3D2B' : 'white',
-            color: value === opt.value ? 'white' : '#4C7F5B',
-            fontSize: '12px', cursor: 'pointer', fontWeight: value === opt.value ? 600 : 400,
-          }}>{opt.label}</button>
-        ))}
-      </div>
-    </div>
-  )
+const CARE_LABELS: Record<string, string> = {
+  easy: 'Facil',
+  moderate: 'Moderado',
+  expert: 'Experto',
 }
 
 export default function ExplorePage() {
@@ -123,28 +39,22 @@ export default function ExplorePage() {
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState('')
-  const [showFilters, setShowFilters] = useState(false)
-
-  const [fTipo, setFTipo] = useState('')
-  const [fCuidado, setFCuidado] = useState('')
-  const [fUbicacion, setFUbicacion] = useState('')
-  const [fLuz, setFLuz] = useState('')
-  const [fRiego, setFRiego] = useState('')
-  const [fCiclo, setFCiclo] = useState('')
-  const [fFloracion, setFloracion] = useState('')
-  const [fMaceta, setFMaceta] = useState('')
-  const [fEstilo, setFEstilo] = useState('')
+  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const supabase = createClient()
-  const searchTimeout = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
-    clearTimeout(searchTimeout.current)
+    if (searchTimeout.current) clearTimeout(searchTimeout.current)
     searchTimeout.current = setTimeout(loadPlants, 300)
-  }, [search, fTipo, fCuidado, fUbicacion, fLuz, fRiego, fCiclo, fFloracion, fMaceta, fEstilo])
+
+    return () => {
+      if (searchTimeout.current) clearTimeout(searchTimeout.current)
+    }
+  }, [search])
 
   async function loadPlants() {
     setLoading(true)
+
     let query = supabase
       .from('plants')
       .select('*', { count: 'exact' })
@@ -152,9 +62,156 @@ export default function ExplorePage() {
       .limit(60)
       .order('common_name')
 
-    if (search) query = query.or(`common_name.ilike.%${search}%,scientific_name.ilike.%${search}%`)
-    if (fCuidado) query = query.eq('care_level', fCuidado)
-    if (fUbicacion === 'indoor') query = query.eq('indoor', true)
-    if (fUbicacion === 'outdoor') query = query.eq('outdoor', true)
-    if (fLuz) query = query.eq('light', fLuz)
-    if (f
+    if (search) {
+      query = query.or(`common_name.ilike.%${search}%,scientific_name.ilike.%${search}%`)
+    }
+
+    const { data, count } = await query
+
+    setPlants((data || []) as Plant[])
+    setTotal(count || 0)
+    setLoading(false)
+  }
+
+  return (
+    <main style={{ minHeight: '100vh', backgroundColor: '#F9FCF8', fontFamily: 'Montserrat, system-ui, sans-serif' }}>
+      <nav style={{
+        position: 'fixed',
+        top: 16,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 'calc(100% - 32px)',
+        maxWidth: '1120px',
+        zIndex: 50,
+        backgroundColor: 'rgba(249,252,248,0.92)',
+        backdropFilter: 'blur(18px)',
+        border: '1px solid rgba(231,239,230,0.9)',
+        boxShadow: '0 16px 40px rgba(30,61,43,0.08)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 16px 0 20px',
+        borderRadius: '999px',
+        height: '60px',
+      }}>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
+          <img src="/logo-floria.png" alt="Floria" style={{ width: '200px', height: 'auto', display: 'block' }} />
+        </a>
+
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <a href="/explore" style={{ color: '#1E3D2B', textDecoration: 'none', fontSize: '13px', fontWeight: 700, padding: '8px 12px' }}>Explorar</a>
+          <a href="/identify" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '8px 12px' }}>Identificar</a>
+          <a href="/auth/login" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '8px 12px' }}>Mi cuenta</a>
+        </div>
+      </nav>
+
+      <div style={{ padding: '104px 24px 32px' }}>
+        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder="Buscar por nombre..."
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            style={{
+              flex: 1,
+              padding: '12px 20px',
+              borderRadius: '12px',
+              border: '1px solid #C5D9C2',
+              fontSize: '14px',
+              color: '#1E3D2B',
+              backgroundColor: 'white',
+              outline: 'none',
+            }}
+          />
+
+          <span style={{ fontSize: '13px', color: '#4C7F5B', whiteSpace: 'nowrap' }}>
+            {total} plantas
+          </span>
+        </div>
+
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '80px', color: '#4C7F5B' }}>
+            <p>Cargando plantas...</p>
+          </div>
+        ) : plants.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '80px', color: '#4C7F5B' }}>
+            <p>No se encontraron plantas.</p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+            {plants.map((plant) => (
+              <a key={plant.id} href={`/plant/${plant.slug || plant.id}`} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  backgroundColor: 'white',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  border: '1px solid #E7EFE6',
+                  cursor: 'pointer',
+                }}>
+                  <div style={{
+                    height: '140px',
+                    backgroundColor: '#E7EFE6',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    position: 'relative',
+                  }}>
+                    {plant.cover_image ? (
+                      <Image
+                        src={plant.cover_image}
+                        alt={plant.common_name}
+                        fill
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 220px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <span style={{ fontSize: '40px' }}>🌿</span>
+                    )}
+                  </div>
+
+                  <div style={{ padding: '12px' }}>
+                    <h3 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '15px', color: '#1E3D2B', margin: '0 0 3px' }}>
+                      {plant.common_name}
+                    </h3>
+
+                    <p style={{ fontSize: '11px', color: '#4C7F5B', fontStyle: 'italic', margin: '0 0 10px' }}>
+                      {plant.scientific_name}
+                    </p>
+
+                    <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                      {plant.care_level && (
+                        <span style={{
+                          fontSize: '10px',
+                          padding: '2px 8px',
+                          borderRadius: '999px',
+                          backgroundColor: `${CARE_COLOR[plant.care_level]}18`,
+                          color: CARE_COLOR[plant.care_level],
+                          fontWeight: 600,
+                        }}>
+                          {CARE_LABELS[plant.care_level]}
+                        </span>
+                      )}
+
+                      {plant.flowering && (
+                        <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#FDF2F8', color: '#9D174D' }}>
+                          Florece
+                        </span>
+                      )}
+
+                      {plant.pot_suitable && (
+                        <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#F0FDF4', color: '#166534' }}>
+                          Maceta
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
+  )
+}
