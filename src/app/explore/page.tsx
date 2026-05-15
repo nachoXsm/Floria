@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 
 type Plant = {
@@ -29,65 +30,65 @@ const CARE_LABELS: Record<string, string> = { easy: 'Fácil', moderate: 'Moderad
 const FILTERS = {
   tipo: [
     { label: 'Todos', value: '' },
-    { label: '🌳 Árbol', value: 'árbol' },
-    { label: '🌿 Arbusto', value: 'arbusto' },
-    { label: '🌸 Herbácea', value: 'herbácea' },
-    { label: '🌵 Suculenta', value: 'suculenta' },
-    { label: '🎋 Gramínea', value: 'gramínea' },
-    { label: '🍃 Trepadora', value: 'trepadora' },
-    { label: '🌱 Tapizante', value: 'tapizante' },
-    { label: '🌴 Palmera', value: 'palmera' },
-    { label: '💧 Acuática', value: 'acuática' },
+    { label: 'Árbol', value: 'árbol' },
+    { label: 'Arbusto', value: 'arbusto' },
+    { label: 'Herbácea', value: 'herbácea' },
+    { label: 'Suculenta', value: 'suculenta' },
+    { label: 'Gramínea', value: 'gramínea' },
+    { label: 'Trepadora', value: 'trepadora' },
+    { label: 'Tapizante', value: 'tapizante' },
+    { label: 'Palmera', value: 'palmera' },
+    { label: 'Acuática', value: 'acuática' },
   ],
   cuidado: [
     { label: 'Todos', value: '' },
-    { label: '🟢 Fácil', value: 'easy' },
-    { label: '🟡 Moderado', value: 'moderate' },
-    { label: '🔴 Experto', value: 'expert' },
+    { label: 'Fácil', value: 'easy' },
+    { label: 'Moderado', value: 'moderate' },
+    { label: 'Experto', value: 'expert' },
   ],
   ubicacion: [
     { label: 'Todos', value: '' },
-    { label: '🏠 Interior', value: 'indoor' },
-    { label: '☀️ Exterior', value: 'outdoor' },
+    { label: 'Interior', value: 'indoor' },
+    { label: 'Exterior', value: 'outdoor' },
   ],
   luz: [
     { label: 'Todas', value: '' },
-    { label: '☀️ Pleno sol', value: 'full_sun' },
-    { label: '⛅ Semisombra', value: 'partial_shade' },
-    { label: '🌥️ Sombra', value: 'shade' },
-    { label: '💡 Luz indirecta', value: 'indirect' },
+    { label: 'Pleno sol', value: 'full_sun' },
+    { label: 'Semisombra', value: 'partial_shade' },
+    { label: 'Sombra', value: 'shade' },
+    { label: 'Luz indirecta', value: 'indirect' },
   ],
   riego: [
     { label: 'Todos', value: '' },
-    { label: '💧 Diario', value: 'daily' },
-    { label: '💧 2x semana', value: 'twice_week' },
-    { label: '💧 Semanal', value: 'weekly' },
-    { label: '💧 Quincenal', value: 'biweekly' },
-    { label: '💧 Mensual', value: 'monthly' },
+    { label: 'Diario', value: 'daily' },
+    { label: '2x semana', value: 'twice_week' },
+    { label: 'Semanal', value: 'weekly' },
+    { label: 'Quincenal', value: 'biweekly' },
+    { label: 'Mensual', value: 'monthly' },
   ],
   ciclo: [
     { label: 'Todos', value: '' },
-    { label: '🌿 Perenne', value: 'perenne' },
-    { label: '🍂 Anual', value: 'anual' },
+    { label: 'Perenne', value: 'perenne' },
+    { label: 'Anual', value: 'anual' },
   ],
   floracion: [
     { label: 'Todas', value: '' },
-    { label: '🌸 Con floración', value: 'si' },
-    { label: '🌿 Sin floración', value: 'no' },
+    { label: 'Con floración', value: 'si' },
+    { label: 'Sin floración', value: 'no' },
   ],
   maceta: [
     { label: 'Todas', value: '' },
-    { label: '🪴 Apto maceta', value: 'si' },
-    { label: '🌍 Solo suelo', value: 'no' },
+    { label: 'Apto maceta', value: 'si' },
+    { label: 'Solo suelo', value: 'no' },
   ],
   estilo: [
     { label: 'Todos', value: '' },
-    { label: '🫒 Mediterráneo', value: 'mediterranean' },
-    { label: '🌴 Tropical', value: 'tropical' },
-    { label: '⬜ Minimalista', value: 'minimal' },
-    { label: '🌾 Natural', value: 'natural' },
-    { label: '🏛️ Formal', value: 'formal' },
-    { label: '🌷 Cottage', value: 'cottage' },
+    { label: 'Mediterráneo', value: 'mediterranean' },
+    { label: 'Tropical', value: 'tropical' },
+    { label: 'Minimalista', value: 'minimal' },
+    { label: 'Natural', value: 'natural' },
+    { label: 'Formal', value: 'formal' },
+    { label: 'Cottage', value: 'cottage' },
   ],
 }
 
@@ -156,178 +157,4 @@ export default function ExplorePage() {
     if (fUbicacion === 'indoor') query = query.eq('indoor', true)
     if (fUbicacion === 'outdoor') query = query.eq('outdoor', true)
     if (fLuz) query = query.eq('light', fLuz)
-    if (fRiego) query = query.eq('water', fRiego)
-    if (fCiclo === 'perenne') query = query.eq('evergreen', true)
-    if (fCiclo === 'anual') query = query.eq('evergreen', false)
-    if (fFloracion === 'si') query = query.eq('flowering', true)
-    if (fFloracion === 'no') query = query.eq('flowering', false)
-    if (fMaceta === 'si') query = query.eq('pot_suitable', true)
-    if (fMaceta === 'no') query = query.eq('pot_suitable', false)
-    if (fTipo) query = query.contains('tags', [fTipo])
-    if (fEstilo) query = query.contains('garden_styles', [fEstilo])
-
-    const { data, count } = await query
-    setPlants(data || [])
-    setTotal(count || 0)
-    setLoading(false)
-  }
-
-  const activeFilters = [fTipo, fCuidado, fUbicacion, fLuz, fRiego, fCiclo, fFloracion, fMaceta, fEstilo].filter(Boolean).length
-
-  function clearAll() {
-    setFTipo(''); setFCuidado(''); setFUbicacion(''); setFLuz('')
-    setFRiego(''); setFCiclo(''); setFloracion(''); setFMaceta(''); setFEstilo('')
-    setSearch('')
-  }
-
-  return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#F9FCF8', fontFamily: 'Montserrat, system-ui, sans-serif' }}>
-
-      {/* NAV */}
-      <nav style={{
-        position: 'fixed', top: 16, left: '50%', transform: 'translateX(-50%)',
-        width: 'calc(100% - 32px)', maxWidth: '1120px', zIndex: 50,
-        backgroundColor: 'rgba(249,252,248,0.92)', backdropFilter: 'blur(18px)',
-        border: '1px solid rgba(231,239,230,0.9)',
-        boxShadow: '0 16px 40px rgba(30,61,43,0.08)',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 16px 0 20px', borderRadius: '999px', height: '60px',
-      }}>
-        <a href="/" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
-          <img src="/logo-floria.png" alt="Floria" style={{ width: '200px', height: 'auto', display: 'block' }} />
-        </a>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <a href="/explore" style={{ color: '#1E3D2B', textDecoration: 'none', fontSize: '13px', fontWeight: 700, padding: '8px 12px' }}>Explorar</a>
-          <a href="/identify" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '8px 12px' }}>Identificar</a>
-          <a href="/auth/login" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '8px 12px' }}>Mi cuenta</a>
-        </div>
-      </nav>
-
-      <div style={{ paddingTop: '92px', display: 'flex', minHeight: 'calc(100vh - 64px)' }}>
-
-        {/* SIDEBAR */}
-        <aside style={{
-          width: showFilters ? '280px' : '0',
-          minWidth: showFilters ? '280px' : '0',
-          overflow: 'hidden',
-          transition: 'all 0.3s ease',
-          backgroundColor: 'white',
-          borderRight: '1px solid #E7EFE6',
-          padding: showFilters ? '24px' : '0',
-        }}>
-          {showFilters && (
-            <>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '20px', color: '#1E3D2B', margin: 0 }}>Filtros</h2>
-                {activeFilters > 0 && (
-                  <button onClick={clearAll} style={{ fontSize: '12px', color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer' }}>
-                    Limpiar ({activeFilters})
-                  </button>
-                )}
-              </div>
-              <FilterGroup title="Tipo de planta" options={FILTERS.tipo} value={fTipo} onChange={setFTipo} />
-              <FilterGroup title="Nivel de cuidado" options={FILTERS.cuidado} value={fCuidado} onChange={setFCuidado} />
-              <FilterGroup title="Ubicación" options={FILTERS.ubicacion} value={fUbicacion} onChange={setFUbicacion} />
-              <FilterGroup title="Necesidad de luz" options={FILTERS.luz} value={fLuz} onChange={setFLuz} />
-              <FilterGroup title="Riego" options={FILTERS.riego} value={fRiego} onChange={setFRiego} />
-              <FilterGroup title="Ciclo de vida" options={FILTERS.ciclo} value={fCiclo} onChange={setFCiclo} />
-              <FilterGroup title="Floración" options={FILTERS.floracion} value={fFloracion} onChange={setFloracion} />
-              <FilterGroup title="Apto maceta" options={FILTERS.maceta} value={fMaceta} onChange={setFMaceta} />
-              <FilterGroup title="Estilo de jardín" options={FILTERS.estilo} value={fEstilo} onChange={setFEstilo} />
-            </>
-          )}
-        </aside>
-
-        {/* CONTENIDO */}
-        <div style={{ flex: 1, padding: '24px', minWidth: 0 }}>
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', alignItems: 'center' }}>
-            <button onClick={() => setShowFilters(!showFilters)} style={{
-              padding: '12px 20px', borderRadius: '12px', border: '1px solid #C5D9C2',
-              backgroundColor: showFilters ? '#1E3D2B' : 'white',
-              color: showFilters ? 'white' : '#1E3D2B',
-              fontSize: '14px', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
-            }}>
-              ⚙️ Filtros {activeFilters > 0 && `(${activeFilters})`}
-            </button>
-            <input
-              type="text"
-              placeholder="🔍  Buscar por nombre..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              style={{
-                flex: 1, padding: '12px 20px', borderRadius: '12px',
-                border: '1px solid #C5D9C2', fontSize: '14px', color: '#1E3D2B',
-                backgroundColor: 'white', outline: 'none',
-              }}
-            />
-            <span style={{ fontSize: '13px', color: '#4C7F5B', whiteSpace: 'nowrap', flexShrink: 0 }}>
-              {total} plantas
-            </span>
-          </div>
-
-          {loading ? (
-            <div style={{ textAlign: 'center', padding: '80px', color: '#4C7F5B' }}>
-              <p style={{ fontSize: '40px', marginBottom: '16px' }}>🌿</p>
-              <p>Cargando plantas...</p>
-            </div>
-          ) : plants.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '80px', color: '#4C7F5B' }}>
-              <p style={{ fontSize: '40px', marginBottom: '16px' }}>🔍</p>
-              <p>No se encontraron plantas con esos filtros.</p>
-              <button onClick={clearAll} style={{ marginTop: '16px', padding: '10px 24px', borderRadius: '999px', border: 'none', backgroundColor: '#1E3D2B', color: 'white', cursor: 'pointer' }}>
-                Limpiar filtros
-              </button>
-            </div>
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
-              {plants.map(plant => (
-                <a key={plant.id} href={`/plant/${plant.slug || plant.id}`} style={{ textDecoration: 'none' }}>
-                  <div style={{
-                    backgroundColor: 'white', borderRadius: '16px', overflow: 'hidden',
-                    border: '1px solid #E7EFE6', cursor: 'pointer',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                  }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'
-                      ;(e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(30,61,43,0.1)'
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-                      ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
-                    }}
-                  >
-                    <div style={{ height: '140px', backgroundColor: '#E7EFE6', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      {plant.cover_image
-                        ? <img src={plant.cover_image} alt={plant.common_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        : <span style={{ fontSize: '40px' }}>🌿</span>
-                      }
-                    </div>
-                    <div style={{ padding: '12px' }}>
-                      <h3 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '15px', color: '#1E3D2B', margin: '0 0 3px' }}>
-                        {plant.common_name}
-                      </h3>
-                      <p style={{ fontSize: '11px', color: '#4C7F5B', fontStyle: 'italic', margin: '0 0 10px' }}>
-                        {plant.scientific_name}
-                      </p>
-                      <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-                        {plant.care_level && (
-                          <span style={{
-                            fontSize: '10px', padding: '2px 8px', borderRadius: '999px',
-                            backgroundColor: `${CARE_COLOR[plant.care_level]}18`,
-                            color: CARE_COLOR[plant.care_level], fontWeight: 600
-                          }}>{CARE_LABELS[plant.care_level]}</span>
-                        )}
-                        {plant.flowering && <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#FDF2F8', color: '#9D174D' }}>Florece</span>}
-                        {plant.pot_suitable && <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#F0FDF4', color: '#166534' }}>🪴 Maceta</span>}
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </main>
-  )
-}
+    if (f
