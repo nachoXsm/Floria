@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getPlantBySlug } from '@/lib/queries/plants'
+import type { Plant } from '@/types'
 import type { Metadata } from 'next'
 
 const LIGHT_LABELS: Record<string, string> = {
@@ -70,9 +71,9 @@ export default async function PlantPage({ params }: Props) {
     notFound()
   }
 
-  const combinations = [
-    ...(plant.plant_combinations_a?.map((c: { plant_b: { id: string; common_name: string; cover_image: string | null; slug: string | null; care_level: string } }) => c.plant_b) ?? []),
-    ...(plant.plant_combinations_b?.map((c: { plant_a: { id: string; common_name: string; cover_image: string | null; slug: string | null; care_level: string } }) => c.plant_a) ?? []),
+  const combinations: Partial<Plant>[] = [
+    ...(plant.plant_combinations_a?.map((c: { plant_b: Partial<Plant> }) => c.plant_b) ?? []),
+    ...(plant.plant_combinations_b?.map((c: { plant_a: Partial<Plant> }) => c.plant_a) ?? []),
   ]
 
   return (
@@ -272,8 +273,7 @@ export default async function PlantPage({ params }: Props) {
                 value: `${plant.humidity_min ?? 0}–${plant.humidity_max ?? 100}%`,
                 icon: '💦',
               },
-            ].filter(Boolean).map((item: { label: string; value: string; icon: string } | false) => {
-              if (!item) return null
+            ].filter((x): x is { label: string; value: string; icon: string } => Boolean(x)).map((item) => {
               return (
                 <div key={item.label} style={{
                   backgroundColor: 'white',
@@ -364,7 +364,7 @@ export default async function PlantPage({ params }: Props) {
               Plantas compatibles por estética y requerimientos
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '16px' }}>
-              {combinations.map((p: { id: string; common_name: string; cover_image: string | null; slug: string | null; care_level: string }) => (
+              {combinations.map((p) => p.id && (
                 <Link key={p.id} href={`/plant/${p.slug ?? p.id}`} style={{ textDecoration: 'none' }}>
                   <div style={{
                     backgroundColor: 'white',
@@ -375,7 +375,7 @@ export default async function PlantPage({ params }: Props) {
                   }}>
                     <div style={{ height: '110px', backgroundColor: '#E7EFE6', position: 'relative' }}>
                       {p.cover_image ? (
-                        <Image src={p.cover_image} alt={p.common_name} fill sizes="180px" style={{ objectFit: 'cover' }} />
+                        <Image src={p.cover_image} alt={p.common_name ?? ''} fill sizes="180px" style={{ objectFit: 'cover' }} />
                       ) : (
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: '32px' }}>🌿</div>
                       )}
