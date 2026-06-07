@@ -265,6 +265,62 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ cleared: (data ?? []).length, names: (data ?? []).map((p: any) => p.common_name), error: error?.message })
   }
 
+  // ── CLEARFIX MODE: clear the 19 problematic plants and immediately re-fetch images ──
+  if (mode === 'clearfix') {
+    const PLANTS_TO_FIX = [
+      'Abelia','Achira Amarilla','Alegría del hogar','Anémona Japonesa',
+      'Árbol de Sebo','Azalea','Caña de Ámbar','Jazmín Magno','Limonero',
+      'Malvavisco','Pasto Inglés / Ray Grass','Petunia','Plátano',
+      'Retama Amarilla Enana','Rosal','Salvia × Silvestris','Salvia Amistad',
+      'Salvia Nelson',"Salvia Wendy's Wish",
+    ]
+    // Step 1: clear
+    await supabase.from('plants')
+      .update({ cover_image: null, image_source: null, image_attribution: null })
+      .in('common_name', PLANTS_TO_FIX)
+
+    // Step 2: fetch all now-null plants
+    const { data: plants } = await supabase
+      .from('plants')
+      .select('id, common_name, scientific_name, cover_image')
+      .eq('published', true)
+      .in('common_name', PLANTS_TO_FIX)
+      .order('common_name')
+
+    const results: { name: string; scientific: string; status: string; source: string; url?: string }[] = []
+
+    for (const plant of (plants ?? []) as Plant[]) {
+      await sleep(600)
+      const inat = await searchInat(plant.scientific_name)
+      if (inat) {
+        await supabase.from('plants').update({
+          cover_image: inat.url,
+          image_source: 'inaturalist',
+          image_attribution: inat.attribution,
+          image_fetched_at: new Date().toISOString(),
+        }).eq('id', plant.id)
+        results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'fixed', source: 'inat', url: inat.url })
+        continue
+      }
+      const wiki = await searchWikimedia(plant.scientific_name)
+      if (wiki) {
+        await supabase.from('plants').update({
+          cover_image: wiki,
+          image_source: 'wikimedia',
+          image_attribution: `Wikimedia / ${plant.scientific_name}`,
+          image_fetched_at: new Date().toISOString(),
+        }).eq('id', plant.id)
+        results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'fixed', source: 'wiki', url: wiki })
+        continue
+      }
+      results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'not_found', source: 'none' })
+    }
+
+    const fixed = results.filter(r => r.status === 'fixed').length
+    const notFound = results.filter(r => r.status === 'not_found')
+    return NextResponse.json({ total: results.length, fixed, not_found: notFound.map(r => r.name), results })
+  }
+
   // ── OVERRIDE MODE: fix a single plant by id or name with a specific URL ──
   if (mode === 'override') {
     const id = req.nextUrl.searchParams.get('id')
