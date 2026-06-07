@@ -137,11 +137,9 @@ export default function LoginPage() {
           boxShadow: '0 24px 70px rgba(30, 61, 43, 0.12)',
         }}>
           <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <div style={{ margin: '0 auto 16px', display: 'flex', justifyContent: 'center' }}>
-              <div style={{ width: 72, height: 72, borderRadius: 16, backgroundColor: '#1E3D2B', overflow: 'hidden' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo-floria-icon.png" alt="Floria" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-              </div>
+            <div style={{ margin: '0 auto 20px', display: 'flex', justifyContent: 'center' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-floria.png" alt="Floria" style={{ height: 52, width: 'auto', display: 'block' }} />
             </div>
             <h2 style={{
               fontFamily: 'Cormorant Garamond, Georgia, serif',
