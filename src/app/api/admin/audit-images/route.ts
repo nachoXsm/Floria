@@ -109,7 +109,7 @@ export async function GET(req: NextRequest) {
       .from('plants')
       .select('id, common_name, scientific_name, cover_image')
       .eq('published', true)
-      .eq('image_source', 'wikimedia')
+      .like('cover_image', '%wikimedia%')
       .order('common_name')
       .range(offset, offset + batchSize - 1)
 
