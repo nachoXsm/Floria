@@ -35,9 +35,9 @@ export default function Nav({ dark }: NavProps) {
       {/* Logo */}
       <a href="/" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
         <img
-          src="/logo-floria.png"
+          src={dark ? '/icono-floria.jpg' : '/logo-floria.jpg'}
           alt="Floria"
-          style={{ height: '28px', width: 'auto', display: 'block', filter: dark ? 'brightness(0) invert(1)' : 'none' }}
+          style={{ height: dark ? '40px' : '44px', width: 'auto', display: 'block' }}
         />
       </a>
 

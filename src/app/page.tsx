@@ -248,7 +248,7 @@ export default function HomePage() {
       </section>
 
       <footer style={{ backgroundColor: '#0D1E15', padding: '54px 24px', textAlign: 'center' }}>
-        <img src="/logo-floria.png" alt="Floria" style={{ width: '160px', height: 'auto', marginBottom: '16px', opacity: 0.8 }} />
+        <img src="/icono-floria.jpg" alt="Floria" style={{ width: '64px', height: '64px', borderRadius: '18px', marginBottom: '14px', objectFit: 'cover' }} />
         <p style={{ color: '#A7C4A1', fontSize: '13px', margin: '0 0 4px' }}>Tu espacio, tu naturaleza.</p>
         <p style={{ color: '#4C7F5B', fontSize: '11px', margin: 0 }}>© {new Date().getFullYear()} Floria</p>
       </footer>
