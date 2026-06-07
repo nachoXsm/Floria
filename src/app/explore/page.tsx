@@ -37,23 +37,45 @@ const CARE_LABELS: Record<string, string> = {
 
 type FilterChip = { label: string; field: string; value: string | boolean }
 
-const FILTER_CHIPS: FilterChip[] = [
-  { label: 'Interior', field: 'indoor', value: true },
-  { label: 'Exterior', field: 'outdoor', value: true },
-  { label: 'Maceta', field: 'pot_suitable', value: true },
-  { label: 'Florece', field: 'flowering', value: true },
-  { label: 'Fácil cuidado', field: 'care_level', value: 'easy' },
-  { label: 'Moderado', field: 'care_level', value: 'moderate' },
-  { label: 'Experto', field: 'care_level', value: 'expert' },
-  { label: 'Sol directo', field: 'light', value: 'full_sun' },
-  { label: 'Semi sombra', field: 'light', value: 'partial_shade' },
-  { label: 'Sombra', field: 'light', value: 'shade' },
-  { label: 'Luz indirecta', field: 'light', value: 'indirect' },
-  { label: 'Crecimiento rápido', field: 'growth_speed', value: 'fast' },
-  { label: 'Tropical', field: 'garden_style', value: 'tropical' },
-  { label: 'Mediterráneo', field: 'garden_style', value: 'mediterranean' },
-  { label: 'Minimalista', field: 'garden_style', value: 'minimal' },
-  { label: 'Natural', field: 'garden_style', value: 'natural' },
+const FILTER_GROUPS: { label: string; chips: FilterChip[] }[] = [
+  {
+    label: 'Ubicación',
+    chips: [
+      { label: 'Interior', field: 'indoor', value: true },
+      { label: 'Exterior', field: 'outdoor', value: true },
+      { label: 'Apto maceta', field: 'pot_suitable', value: true },
+      { label: 'Florece', field: 'flowering', value: true },
+    ],
+  },
+  {
+    label: 'Cuidado',
+    chips: [
+      { label: 'Fácil', field: 'care_level', value: 'easy' },
+      { label: 'Moderado', field: 'care_level', value: 'moderate' },
+      { label: 'Experto', field: 'care_level', value: 'expert' },
+      { label: 'Crecimiento rápido', field: 'growth_speed', value: 'fast' },
+    ],
+  },
+  {
+    label: 'Luz',
+    chips: [
+      { label: 'Sol directo', field: 'light', value: 'full_sun' },
+      { label: 'Semi sombra', field: 'light', value: 'partial_shade' },
+      { label: 'Sombra', field: 'light', value: 'shade' },
+      { label: 'Luz indirecta', field: 'light', value: 'indirect' },
+    ],
+  },
+  {
+    label: 'Estilo',
+    chips: [
+      { label: 'Tropical', field: 'garden_style', value: 'tropical' },
+      { label: 'Mediterráneo', field: 'garden_style', value: 'mediterranean' },
+      { label: 'Minimalista', field: 'garden_style', value: 'minimal' },
+      { label: 'Natural', field: 'garden_style', value: 'natural' },
+      { label: 'Formal', field: 'garden_style', value: 'formal' },
+      { label: 'Cottage', field: 'garden_style', value: 'cottage' },
+    ],
+  },
 ]
 
 export default function ExplorePage() {
@@ -188,45 +210,96 @@ export default function ExplorePage() {
         </div>
 
         {/* FILTROS */}
-        <div style={{ marginBottom: '28px' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
-            {FILTER_CHIPS.map(chip => {
-              const active = isActive(chip)
-              return (
+        <div style={{
+          backgroundColor: 'white',
+          border: '1px solid #E7EFE6',
+          borderRadius: '20px',
+          padding: '20px 24px',
+          marginBottom: '28px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '14px',
+        }}>
+          {FILTER_GROUPS.map(group => (
+            <div key={group.label} style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+              <span style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#7A9E82',
+                textTransform: 'uppercase',
+                letterSpacing: '1.5px',
+                minWidth: '68px',
+                flexShrink: 0,
+              }}>
+                {group.label}
+              </span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {group.chips.map(chip => {
+                  const active = isActive(chip)
+                  return (
+                    <button
+                      key={`${chip.field}-${chip.value}`}
+                      onClick={() => toggleFilter(chip)}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: '999px',
+                        border: active ? '1px solid #1E3D2B' : '1px solid #D4E4D0',
+                        backgroundColor: active ? '#1E3D2B' : '#F9FCF8',
+                        color: active ? 'white' : '#345E43',
+                        fontSize: '12px',
+                        fontWeight: active ? 600 : 500,
+                        cursor: 'pointer',
+                        fontFamily: 'Montserrat, system-ui, sans-serif',
+                        transition: 'all 0.15s',
+                      }}
+                    >
+                      {chip.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+
+          {activeFilters.length > 0 && (
+            <div style={{ borderTop: '1px solid #E7EFE6', paddingTop: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '11px', color: '#7A9E82', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', minWidth: '68px' }}>
+                Activos
+              </span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'center' }}>
+                {activeFilters.map(f => (
+                  <span
+                    key={`${f.field}-${f.value}`}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '5px',
+                      padding: '4px 10px', borderRadius: '999px',
+                      backgroundColor: '#E7EFE6', color: '#1E3D2B',
+                      fontSize: '11px', fontWeight: 600,
+                    }}
+                  >
+                    {f.label}
+                    <button
+                      onClick={() => toggleFilter(f)}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#4C7F5B', lineHeight: 1, fontSize: '13px' }}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
                 <button
-                  key={`${chip.field}-${chip.value}`}
-                  onClick={() => toggleFilter(chip)}
+                  onClick={() => setActiveFilters([])}
                   style={{
-                    padding: '7px 16px',
-                    borderRadius: '999px',
-                    border: active ? '1px solid #1E3D2B' : '1px solid #C5D9C2',
-                    backgroundColor: active ? '#1E3D2B' : 'white',
-                    color: active ? 'white' : '#345E43',
-                    fontSize: '12px',
-                    fontWeight: active ? 600 : 500,
-                    cursor: 'pointer',
-                    fontFamily: 'Montserrat, system-ui, sans-serif',
-                    transition: 'all 0.15s',
+                    padding: '4px 12px', borderRadius: '999px',
+                    border: '1px solid #E8C4B9', backgroundColor: '#FFF4F1',
+                    color: '#9F3A2F', fontSize: '11px', fontWeight: 600,
+                    cursor: 'pointer', fontFamily: 'Montserrat, system-ui, sans-serif',
                   }}
                 >
-                  {chip.label}
+                  Limpiar todo
                 </button>
-              )
-            })}
-            {activeFilters.length > 0 && (
-              <button
-                onClick={() => setActiveFilters([])}
-                style={{
-                  padding: '7px 16px', borderRadius: '999px',
-                  border: '1px solid #E8C4B9', backgroundColor: '#FFF4F1',
-                  color: '#9F3A2F', fontSize: '12px', fontWeight: 500,
-                  cursor: 'pointer', fontFamily: 'Montserrat, system-ui, sans-serif',
-                }}
-              >
-                Limpiar filtros ✕
-              </button>
-            )}
-          </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* GRID */}
