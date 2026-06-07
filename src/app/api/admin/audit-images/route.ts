@@ -15,6 +15,29 @@ type InatTaxon = {
   default_photo?: { medium_url: string; attribution: string }
 }
 
+// Plants that need a different search term than their scientific name
+const SEARCH_OVERRIDES: Record<string, string> = {
+  'impatiens noli-tangere': 'Impatiens walleriana',
+  'magnolia stellata': 'Magnolia stellata',
+  'malva sylvestris': 'Malva sylvestris',
+  'lolium perenne': 'Lolium perenne',
+  'triadica sebifera': 'Triadica sebifera',
+  'petunia × hybrida': 'Petunia',
+  'platanus × hispanica': 'Platanus acerifolia',
+  'rosa spp.': 'Rosa canina',
+  'salvia × sylvestris': 'Salvia nemorosa',
+  "salvia 'amistad'": 'Salvia guaranitica',
+  'salvia × jamensis': 'Salvia microphylla',
+  "salvia 'wendy\\'s wish'": 'Salvia',
+  'cytisus × praecox': 'Cytisus scoparius',
+  'rhododendron spp.': 'Rhododendron',
+  'canna indica': 'Canna indica',
+  'phragmites australis': 'Phragmites australis',
+  'abelia × grandiflora': 'Abelia',
+  'anemone × hybrida': 'Anemone hupehensis',
+  'citrus limon': 'Citrus limon',
+}
+
 async function sleep(ms: number) {
   return new Promise(r => setTimeout(r, ms))
 }
@@ -34,7 +57,8 @@ function buildSearchVariants(scientificName: string): string[] {
 }
 
 async function searchInat(query: string): Promise<{ url: string; name: string; attribution: string } | null> {
-  const variants = buildSearchVariants(query)
+  const override = SEARCH_OVERRIDES[query.toLowerCase()]
+  const variants = override ? [override, ...buildSearchVariants(query)] : buildSearchVariants(query)
   for (let i = 0; i < variants.length; i++) {
     const variant = variants[i]
     // For genus-only searches (last variant, single word), drop rank filter
@@ -222,6 +246,23 @@ export async function GET(req: NextRequest) {
 
     const mismatches = results.filter(r => !r.match)
     return NextResponse.json({ total: results.length, mismatches: mismatches.length, ok: results.filter(r => r.match), wrong: mismatches })
+  }
+
+  // ── CLEAR MODE: reset cover_image for a list of plants by common name ──
+  if (mode === 'clear') {
+    const PLANTS_TO_CLEAR = [
+      'Abelia','Achira Amarilla','Alegría del hogar','Anémona Japonesa',
+      'Árbol de Sebo','Azalea','Caña de Ámbar','Jazmín Magno','Limonero',
+      'Malvavisco','Pasto Inglés / Ray Grass','Petunia','Plátano',
+      'Retama Amarilla Enana','Rosal','Salvia × Silvestris','Salvia Amistad',
+      'Salvia Nelson','Salvia Wendy\'s Wish',
+    ]
+    const { data, error } = await supabase
+      .from('plants')
+      .update({ cover_image: null, image_source: null, image_attribution: null })
+      .in('common_name', PLANTS_TO_CLEAR)
+      .select('common_name')
+    return NextResponse.json({ cleared: (data ?? []).length, names: (data ?? []).map((p: any) => p.common_name), error: error?.message })
   }
 
   // ── OVERRIDE MODE: fix a single plant by id with a specific URL ──
