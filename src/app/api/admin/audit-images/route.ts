@@ -178,6 +178,53 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ processed: results.length, results })
   }
 
+  // ── VALIDATE MODE: check each plant image via Plant.id and flag mismatches ──
+  if (mode === 'validate') {
+    const { data: plants } = await supabase
+      .from('plants')
+      .select('id, common_name, scientific_name, cover_image')
+      .eq('published', true)
+      .not('cover_image', 'is', null)
+      .order('common_name')
+      .range(offset, offset + batchSize - 1)
+
+    const plantIdKey = process.env.PLANT_ID_API_KEY
+    if (!plantIdKey) return NextResponse.json({ error: 'PLANT_ID_API_KEY not set' }, { status: 500 })
+
+    const results: { name: string; scientific: string; image: string; identified_as: string; match: boolean; score: number }[] = []
+
+    for (const plant of (plants ?? []) as Plant[]) {
+      await sleep(600)
+      try {
+        const res = await fetch('https://api.plant.id/v2/identify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Api-Key': plantIdKey },
+          body: JSON.stringify({
+            images: [plant.cover_image],
+            plant_details: ['scientific_name'],
+            modifiers: ['similar_images'],
+          }),
+          signal: AbortSignal.timeout(12000),
+        })
+        if (!res.ok) { results.push({ name: plant.common_name, scientific: plant.scientific_name, image: plant.cover_image!, identified_as: 'API_ERROR', match: false, score: 0 }); continue }
+        const data = await res.json()
+        const top = data.suggestions?.[0]
+        const identified = top?.plant_name ?? 'unknown'
+        const score = Math.round((top?.probability ?? 0) * 100)
+        // Match if genus matches (first word)
+        const expectedGenus = plant.scientific_name.split(' ')[0].toLowerCase()
+        const foundGenus = identified.split(' ')[0].toLowerCase()
+        const match = foundGenus === expectedGenus
+        results.push({ name: plant.common_name, scientific: plant.scientific_name, image: plant.cover_image!, identified_as: identified, match, score })
+      } catch {
+        results.push({ name: plant.common_name, scientific: plant.scientific_name, image: plant.cover_image!, identified_as: 'TIMEOUT', match: false, score: 0 })
+      }
+    }
+
+    const mismatches = results.filter(r => !r.match)
+    return NextResponse.json({ total: results.length, mismatches: mismatches.length, ok: results.filter(r => r.match), wrong: mismatches })
+  }
+
   // ── OVERRIDE MODE: fix a single plant by id with a specific URL ──
   if (mode === 'override') {
     const id = req.nextUrl.searchParams.get('id')
