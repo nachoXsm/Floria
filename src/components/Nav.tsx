@@ -1,6 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import FloriaLogo from './FloriaLogo'
 
 type NavProps = { dark?: boolean }
 
@@ -33,12 +34,8 @@ export default function Nav({ dark }: NavProps) {
       height: '56px',
     }}>
       {/* Logo */}
-      <a href="/" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
-        <img
-          src={dark ? '/icono-floria.jpg' : '/logo-floria.jpg'}
-          alt="Floria"
-          style={{ height: dark ? '40px' : '44px', width: 'auto', display: 'block' }}
-        />
+      <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <FloriaLogo size={34} color={dark ? '#C5D9C2' : '#1E3D2B'} />
       </a>
 
       {/* Desktop links — hidden on mobile via CSS class */}

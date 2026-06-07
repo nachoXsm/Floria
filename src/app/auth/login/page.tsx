@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import BottomNav from '@/components/BottomNav'
+import FloriaLogo from '@/components/FloriaLogo'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -136,19 +137,9 @@ export default function LoginPage() {
           boxShadow: '0 24px 70px rgba(30, 61, 43, 0.12)',
         }}>
           <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <div style={{
-              width: '72px',
-              height: '72px',
-              margin: '0 auto 18px',
-              borderRadius: '24px',
-              background: 'linear-gradient(145deg, #1E3D2B, #4C7F5B)',
-              color: '#F2E9DD',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '32px',
-              boxShadow: '0 16px 34px rgba(30,61,43,0.22)',
-            }}>☘</div>
+            <div style={{ margin: '0 auto 16px', display: 'flex', justifyContent: 'center' }}>
+              <FloriaLogo variant="icon" size={64} color="#1E3D2B" />
+            </div>
             <h2 style={{
               fontFamily: 'Cormorant Garamond, Georgia, serif',
               fontSize: '38px',

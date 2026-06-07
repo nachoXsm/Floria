@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
+import FloriaLogo from '@/components/FloriaLogo'
 
 export const metadata: Metadata = {
   title: 'Floria — Tu espacio, tu naturaleza',
@@ -248,7 +249,9 @@ export default function HomePage() {
       </section>
 
       <footer style={{ backgroundColor: '#0D1E15', padding: '54px 24px', textAlign: 'center' }}>
-        <img src="/icono-floria.jpg" alt="Floria" style={{ width: '64px', height: '64px', borderRadius: '18px', marginBottom: '14px', objectFit: 'cover' }} />
+        <div style={{ marginBottom: '14px', display: 'flex', justifyContent: 'center' }}>
+          <FloriaLogo variant="full" size={36} color="#A7C4A1" textColor="#C5D9C2" />
+        </div>
         <p style={{ color: '#A7C4A1', fontSize: '13px', margin: '0 0 4px' }}>Tu espacio, tu naturaleza.</p>
         <p style={{ color: '#4C7F5B', fontSize: '11px', margin: 0 }}>© {new Date().getFullYear()} Floria</p>
       </footer>
