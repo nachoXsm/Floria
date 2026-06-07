@@ -13,53 +13,47 @@ export default function FloriaLogo({
   textColor,
   light = false,
 }: Props) {
-  // Colores exactos del logo real
   const circleStroke = color ?? (light ? '#FFFFFF' : '#5C7A68')
-  const leafLeft     = '#4A7260'   // verde oscuro
-  const leafCenter   = '#7DB88E'   // verde medio/claro
-  const leafPink     = '#E8B5A4'   // rosa/salmón
   const tc = textColor ?? (light ? '#FFFFFF' : '#4A7260')
 
-  // viewBox 0 0 48 52
-  // Círculo: centro (22,26) radio 17
-  // Gap superior-derecho: de ~60° a ~30° horario (hueco pequeño ~1:00–2:00)
-  // Punto en 65° horario desde 12: (22+17*sin65, 26-17*cos65) = (37.4, 18.8)
-  // Punto en 28° horario desde 12: (22+17*sin28, 26-17*cos28) = (29.98, 10.99)
   const icon = (
     <svg
       width={size}
-      height={Math.round(size * 52 / 48)}
-      viewBox="0 0 48 52"
+      height={size}
+      viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: 'block', flexShrink: 0 }}
-      aria-label="Floria"
     >
-      {/* Arco de círculo — gap en 1:00-2:00 */}
+      {/* Arco de círculo — casi completo, gap en 1:00-2:00
+          Centro (46,50) radio 36
+          Punto a 60°: (46+36*sin60, 50-36*cos60) = (77.2, 32)
+          Punto a 25°: (46+36*sin25, 50-36*cos25) = (61.2, 17.4)
+          Arco largo horario: large-arc=1 sweep=1                    */}
       <path
-        d="M 37.4,18.8 A 17,17 0 1,1 30,11"
+        d="M 77,32 A 36,36 0 1,1 61,17"
         stroke={circleStroke}
-        strokeWidth="2"
+        strokeWidth="4"
         strokeLinecap="round"
         fill="none"
       />
 
-      {/* Hoja izquierda — grande, verde oscuro, apunta arriba-izquierda */}
+      {/* Hoja izquierda — verde oscuro, apunta arriba-izquierda */}
       <path
-        d="M 22,40 C 11,33 6,20 10,13 C 15,8 20,21 22,40 Z"
-        fill={leafLeft}
+        d="M 46,78 C 30,72 14,52 20,36 C 28,26 40,52 46,78 Z"
+        fill="#4A7260"
       />
 
-      {/* Hoja central — alta y estrecha, verde claro, apunta arriba */}
+      {/* Hoja central — verde claro, apunta arriba */}
       <path
-        d="M 22,40 C 19,28 18,13 22,7 C 26,13 25,28 22,40 Z"
-        fill={leafCenter}
+        d="M 46,78 C 40,58 38,32 46,18 C 54,32 52,58 46,78 Z"
+        fill="#7DB88E"
       />
 
       {/* Hoja derecha — rosa/salmón, apunta arriba-derecha */}
       <path
-        d="M 22,40 C 31,34 38,23 35,16 C 31,10 24,23 22,40 Z"
-        fill={leafPink}
+        d="M 46,78 C 62,72 76,52 70,36 C 62,26 52,52 46,78 Z"
+        fill="#E8B5A4"
       />
     </svg>
   )
@@ -67,11 +61,11 @@ export default function FloriaLogo({
   if (variant === 'icon') return icon
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: size * 0.22, lineHeight: 1 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: size * 0.2, lineHeight: 1 }}>
       {icon}
       <span style={{
         fontFamily: 'Cormorant Garamond, Georgia, serif',
-        fontSize: size * 0.8,
+        fontSize: size * 0.75,
         color: tc,
         fontWeight: 500,
         letterSpacing: '-0.3px',
