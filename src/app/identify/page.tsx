@@ -1,8 +1,9 @@
 'use client'
-// app/identify/page.tsx
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import Link from 'next/link'
+import Nav from '@/components/Nav'
+import BottomNav from '@/components/BottomNav'
 
 interface IdentificationResult {
   id: string
@@ -74,8 +75,9 @@ export default function IdentifyPage() {
   }
 
   return (
-    <main className="min-h-screen bg-floria-50 pt-24 pb-20 px-6">
-      <div className="max-w-2xl mx-auto">
+    <main className="min-h-screen bg-floria-50 mobile-page-pb" style={{ paddingTop: '88px' }}>
+      <Nav />
+      <div className="max-w-2xl mx-auto px-4 pb-10">
         <div className="mb-10 text-center">
           <h1 className="font-serif text-4xl text-floria-900 mb-3">Reconocé una planta</h1>
           <p className="font-sans text-floria-600">Subí una foto y la IA identificará la especie al instante</p>
@@ -212,6 +214,7 @@ export default function IdentifyPage() {
           </div>
         )}
       </div>
+      <BottomNav />
     </main>
   )
 }

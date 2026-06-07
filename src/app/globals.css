@@ -18,3 +18,17 @@
     @apply bg-white rounded-2xl overflow-hidden border border-floria-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer;
   }
 }
+
+/* ── Responsive nav & bottom bar ── */
+.bottom-nav { display: flex; }
+.nav-desktop-links { display: flex; }
+
+@media (min-width: 768px) {
+  .bottom-nav { display: none !important; }
+}
+
+@media (max-width: 767px) {
+  .nav-desktop-links { display: none !important; }
+  /* pages need pb for bottom nav */
+  .mobile-page-pb { padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
+}

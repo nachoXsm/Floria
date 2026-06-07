@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import Nav from '@/components/Nav'
+import BottomNav from '@/components/BottomNav'
 
 export const metadata: Metadata = {
   title: 'Floria — Tu espacio, tu naturaleza',
@@ -12,7 +14,7 @@ export default function HomePage() {
   ]
 
   return (
-    <main style={{
+    <main className="mobile-page-pb" style={{
       minHeight: '100vh',
       backgroundColor: '#F9FCF8',
       color: '#1E3D2B',
@@ -20,50 +22,22 @@ export default function HomePage() {
       overflow: 'hidden',
     }}>
 
-      <nav style={{
-        position: 'fixed',
-        top: 16,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: 'calc(100% - 32px)',
-        maxWidth: '1120px',
-        zIndex: 50,
-        backgroundColor: 'rgba(249,252,248,0.92)',
-        backdropFilter: 'blur(18px)',
-        border: '1px solid rgba(231,239,230,0.9)',
-        boxShadow: '0 16px 40px rgba(30,61,43,0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 16px 0 20px',
-        borderRadius: '999px',
-        height: '60px',
-      }}>
-        <a href="/" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
-          <img
-            src="/logo-floria.png"
-            alt="Floria"
-            style={{ width: '200px', height: 'auto', display: 'block' }}
-          />
-        </a>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <a href="/explore" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '10px 12px' }}>Explorar</a>
-          <a href="/identify" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '10px 12px' }}>Identificar</a>
-          <a href="/auth/login" style={{ color: '#4C7F5B', textDecoration: 'none', fontSize: '13px', fontWeight: 500, padding: '10px 12px' }}>Iniciar sesión</a>
-          <a href="/auth/login" style={{
-            backgroundColor: '#1E3D2B',
-            color: 'white',
-            padding: '11px 20px',
-            borderRadius: '999px',
-            textDecoration: 'none',
-            fontSize: '13px',
-            fontWeight: 600,
-            boxShadow: '0 10px 24px rgba(30,61,43,0.18)',
-          }}>Registrarse</a>
-        </div>
-      </nav>
+      <Nav />
 
-      <section style={{
+      <style>{`
+        @media (max-width: 767px) {
+          .hero-section { padding: 96px 20px 60px !important; min-height: auto !important; }
+          .hero-h1 { font-size: 52px !important; letter-spacing: -1px !important; }
+          .hero-desc { font-size: 15px !important; }
+          .hero-btns a { width: 100%; text-align: center; justify-content: center; }
+          .hero-btns { flex-direction: column !important; }
+          .hero-card { display: none !important; }
+          .features-h2 { font-size: 32px !important; }
+          .pricing-h2 { font-size: 36px !important; }
+        }
+      `}</style>
+
+      <section className="hero-section" style={{
         minHeight: '100vh',
         padding: '132px 24px 84px',
         background: 'radial-gradient(circle at 12% 14%, #E7EFE6 0, transparent 30%), radial-gradient(circle at 86% 22%, #F2E9DD 0, transparent 30%), linear-gradient(135deg, #F9FCF8 0%, #F2E9DD 100%)',
@@ -85,7 +59,7 @@ export default function HomePage() {
               margin: '0 0 18px',
               fontWeight: 600,
             }}>Naturaleza · Diseño · Bienestar</p>
-            <h1 style={{
+            <h1 className="hero-h1" style={{
               fontSize: 'clamp(58px, 9vw, 104px)',
               color: '#1E3D2B',
               lineHeight: 0.9,
@@ -97,7 +71,7 @@ export default function HomePage() {
               Tu espacio,<br />
               <em style={{ color: '#4C7F5B', fontStyle: 'italic' }}>tu naturaleza.</em>
             </h1>
-            <p style={{
+            <p className="hero-desc" style={{
               fontSize: '18px',
               color: '#345E43',
               margin: '0 0 38px',
@@ -106,7 +80,7 @@ export default function HomePage() {
             }}>
               Inspiración inteligente para descubrir, cuidar y diseñar con plantas desde una experiencia premium, simple y profundamente botánica.
             </p>
-            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+            <div className="hero-btns" style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
               <a href="/explore" style={{
                 backgroundColor: '#1E3D2B',
                 color: 'white',
@@ -130,7 +104,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div style={{
+          <div className="hero-card" style={{
             background: 'linear-gradient(160deg, #1E3D2B 0%, #0D1E15 100%)',
             borderRadius: '42px',
             padding: '28px',
@@ -190,7 +164,7 @@ export default function HomePage() {
       <section style={{ backgroundColor: 'white', padding: '90px 24px' }}>
         <div style={{ maxWidth: '1060px', margin: '0 auto', textAlign: 'center' }}>
           <p style={{ color: '#4C7F5B', letterSpacing: '3px', textTransform: 'uppercase', fontSize: '12px', fontWeight: 600, margin: '0 0 14px' }}>Floria</p>
-          <h2 style={{
+          <h2 className="features-h2" style={{
             fontFamily: 'Cormorant Garamond, Georgia, serif',
             fontSize: 'clamp(38px, 5vw, 58px)',
             color: '#1E3D2B',
@@ -231,7 +205,7 @@ export default function HomePage() {
 
       <section style={{ backgroundColor: '#1E3D2B', padding: '90px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '52px', color: '#F9FCF8', margin: '0 0 16px', fontWeight: 500 }}>
+          <h2 className="pricing-h2" style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '52px', color: '#F9FCF8', margin: '0 0 16px', fontWeight: 500 }}>
             Empezá gratis
           </h2>
           <p style={{ color: '#C5D9C2', fontSize: '17px', margin: '0 0 42px', lineHeight: 1.7 }}>
@@ -279,6 +253,7 @@ export default function HomePage() {
         <p style={{ color: '#4C7F5B', fontSize: '11px', margin: 0 }}>© {new Date().getFullYear()} Floria</p>
       </footer>
 
+      <BottomNav />
     </main>
   )
 }
