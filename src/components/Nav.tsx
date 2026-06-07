@@ -35,7 +35,7 @@ export default function Nav({ dark }: NavProps) {
     }}>
       {/* Logo */}
       <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-        <FloriaLogo size={34} color={dark ? '#C5D9C2' : '#1E3D2B'} />
+        <FloriaLogo size={44} color={dark ? '#C5D9C2' : '#1E3D2B'} />
       </a>
 
       {/* Desktop links — hidden on mobile via CSS class */}

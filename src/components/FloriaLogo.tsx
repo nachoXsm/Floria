@@ -15,14 +15,24 @@ export default function FloriaLogo({
 }: Props) {
   if (variant === 'icon') {
     return (
-      <Image
-        src="/logo-floria-icon.png"
-        alt="Floria"
-        width={size}
-        height={size}
-        style={{ display: 'block', borderRadius: size * 0.22, flexShrink: 0 }}
-        priority
-      />
+      <div style={{
+        width: size,
+        height: size,
+        borderRadius: size * 0.22,
+        background: '#1E3D2B',
+        overflow: 'hidden',
+        flexShrink: 0,
+        display: 'block',
+      }}>
+        <Image
+          src="/logo-floria-icon.png"
+          alt="Floria"
+          width={size}
+          height={size}
+          style={{ display: 'block' }}
+          priority
+        />
+      </div>
     )
   }
 
