@@ -1,15 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56">
-  <!-- Fondo verde oscuro redondeado -->
-  <rect width="56" height="56" rx="14" fill="#1E3D2B"/>
-  <!-- Círculo casi completo, color crema -->
-  <path d="M 46,15 A 22,22 0 1,1 42,11" stroke="#EDE8DE" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-  <!-- Tallo -->
-  <line x1="27" y1="35" x2="27" y2="44" stroke="#EDE8DE" stroke-width="2" stroke-linecap="round"/>
-  <!-- Hoja izquierda verde -->
-  <path d="M 27,35 C 22,28 11,29 10,37 C 10,44 22,42 27,35 Z" fill="#7BBF8A"/>
-  <!-- Hoja central verde claro con nervio -->
-  <path d="M 27,35 C 32,24 28,12 22,9 C 16,12 18,24 27,35 Z" fill="#A8D4B0"/>
-  <path d="M 27,35 C 25,24 23,14 22,9" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" stroke-linecap="round" fill="none"/>
-  <!-- Pétalo rosa -->
-  <path d="M 27,35 C 25,27 34,16 40,19 C 44,24 37,33 27,35 Z" fill="#F0C4B8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <rect width="120" height="120" rx="26" fill="#1E3D2B"/>
+  <path d="M 88,44 A 37,37 0 1,1 72,23" stroke="#EAE6DF" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 55,92 C 30,76 18,50 26,34 C 34,22 48,50 55,92 Z" fill="#4A7260"/>
+  <path d="M 55,92 C 49,66 47,34 55,18 C 63,34 61,66 55,92 Z" fill="#7DB88E"/>
+  <path d="M 55,92 C 76,80 90,56 84,40 C 76,26 60,54 55,92 Z" fill="#E8B5A4"/>
 </svg>

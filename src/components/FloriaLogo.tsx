@@ -1,75 +1,64 @@
 type Props = {
   variant?: 'full' | 'icon'
   size?: number
-  /** Color del círculo, tallo y texto. Por defecto #1E3D2B */
   color?: string
-  /** Color del texto si es diferente al ícono */
   textColor?: string
-  /** Versión sobre fondo oscuro — hojas en tonos claros */
   light?: boolean
 }
 
 export default function FloriaLogo({
   variant = 'full',
   size = 40,
-  color = '#1E3D2B',
+  color,
   textColor,
   light = false,
 }: Props) {
-  const tc = textColor ?? color
+  // Colores exactos del logo real
+  const circleStroke = color ?? (light ? '#FFFFFF' : '#5C7A68')
+  const leafLeft     = '#4A7260'   // verde oscuro
+  const leafCenter   = '#7DB88E'   // verde medio/claro
+  const leafPink     = '#E8B5A4'   // rosa/salmón
+  const tc = textColor ?? (light ? '#FFFFFF' : '#4A7260')
 
-  // Colores de las hojas según contexto
-  const leafLeft   = light ? '#7BBF8A' : '#2C5A3D'   // hoja grande verde oscuro / verde claro
-  const leafCenter = light ? '#A8D4B0' : '#5A9A72'   // hoja central verde medio
-  const leafPink   = light ? '#F0C4B8' : '#E8AFA0'   // pétalo rosa
-  const circleColor = color
-
-  // SVG icon — viewBox 56×56, círculo centro (28,28) radio 22
-  // Arco: de (46,15) sentido horario 320° hasta (42,11) — hueco en 1:00-1:30
-  // Unión de hojas: (27,35)  Tallo: (27,35)→(27,44)
+  // viewBox 0 0 48 52
+  // Círculo: centro (22,26) radio 17
+  // Gap superior-derecho: de ~60° a ~30° horario (hueco pequeño ~1:00–2:00)
+  // Punto en 65° horario desde 12: (22+17*sin65, 26-17*cos65) = (37.4, 18.8)
+  // Punto en 28° horario desde 12: (22+17*sin28, 26-17*cos28) = (29.98, 10.99)
   const icon = (
     <svg
       width={size}
-      height={size}
-      viewBox="0 0 56 56"
+      height={Math.round(size * 52 / 48)}
+      viewBox="0 0 48 52"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: 'block', flexShrink: 0 }}
       aria-label="Floria"
     >
-      {/* Círculo casi completo, hueco superior-derecho */}
+      {/* Arco de círculo — gap en 1:00-2:00 */}
       <path
-        d="M 46,15 A 22,22 0 1,1 42,11"
-        stroke={circleColor}
-        strokeWidth="2.2"
+        d="M 37.4,18.8 A 17,17 0 1,1 30,11"
+        stroke={circleStroke}
+        strokeWidth="2"
         strokeLinecap="round"
+        fill="none"
       />
 
-      {/* Tallo */}
-      <line x1="27" y1="35" x2="27" y2="44" stroke={circleColor} strokeWidth="2" strokeLinecap="round"/>
-
-      {/* Hoja izquierda — grande, verde oscuro, apunta abajo-izquierda */}
+      {/* Hoja izquierda — grande, verde oscuro, apunta arriba-izquierda */}
       <path
-        d="M 27,35 C 22,28 11,29 10,37 C 10,44 22,42 27,35 Z"
+        d="M 22,40 C 11,33 6,20 10,13 C 15,8 20,21 22,40 Z"
         fill={leafLeft}
       />
 
-      {/* Hoja central — más alta, verde medio, apunta arriba con leve inclinación izquierda */}
+      {/* Hoja central — alta y estrecha, verde claro, apunta arriba */}
       <path
-        d="M 27,35 C 32,24 28,12 22,9 C 16,12 18,24 27,35 Z"
+        d="M 22,40 C 19,28 18,13 22,7 C 26,13 25,28 22,40 Z"
         fill={leafCenter}
       />
-      {/* Nervio central sutil */}
-      <path
-        d="M 27,35 C 25,24 23,14 22,9"
-        stroke={light ? 'rgba(255,255,255,0.25)' : 'rgba(30,61,43,0.2)'}
-        strokeWidth="0.8"
-        strokeLinecap="round"
-      />
 
-      {/* Pétalo rosa — arriba-derecha, redondeado */}
+      {/* Hoja derecha — rosa/salmón, apunta arriba-derecha */}
       <path
-        d="M 27,35 C 25,27 34,16 40,19 C 44,24 37,33 27,35 Z"
+        d="M 22,40 C 31,34 38,23 35,16 C 31,10 24,23 22,40 Z"
         fill={leafPink}
       />
     </svg>
@@ -78,14 +67,14 @@ export default function FloriaLogo({
   if (variant === 'icon') return icon
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', lineHeight: 1 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: size * 0.22, lineHeight: 1 }}>
       {icon}
       <span style={{
         fontFamily: 'Cormorant Garamond, Georgia, serif',
-        fontSize: size * 0.75,
+        fontSize: size * 0.8,
         color: tc,
         fontWeight: 500,
-        letterSpacing: '-0.5px',
+        letterSpacing: '-0.3px',
         lineHeight: 1,
         userSelect: 'none',
       }}>
