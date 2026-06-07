@@ -31,12 +31,18 @@ const SEARCH_OVERRIDES: Record<string, string> = {
   "salvia 'wendy\\'s wish'": 'Salvia',
   'cytisus × praecox': 'Cytisus scoparius',
   'rhododendron spp.': 'Rhododendron',
+  'canna × generalis': 'Canna indica',
   'canna indica': 'Canna indica',
-  'phragmites australis': 'Phragmites australis communis',
+  'phragmites australis': 'Phragmites australis',
   'abelia × grandiflora': 'Abelia',
   'anemone × hybrida': 'Anemone hupehensis',
   'citrus limon': 'Citrus limon',
 }
+
+// Plants where Wikimedia is more reliable than iNaturalist
+const PREFER_WIKIMEDIA = new Set([
+  'citrus limon', 'phragmites australis', 'canna × generalis', 'canna indica',
+])
 
 async function sleep(ms: number) {
   return new Promise(r => setTimeout(r, ms))
@@ -54,6 +60,19 @@ function buildSearchVariants(scientificName: string): string[] {
   const genus = scientificName.split(/\s+/)[0]
   if (genus && !variants.includes(genus)) variants.push(genus)
   return variants.filter((v, i) => variants.indexOf(v) === i)
+}
+
+async function getBestImage(scientificName: string): Promise<{ url: string; source: string } | null> {
+  const key = scientificName.toLowerCase()
+  if (PREFER_WIKIMEDIA.has(key)) {
+    const wiki = await searchWikimedia(SEARCH_OVERRIDES[key] ?? scientificName)
+    if (wiki) return { url: wiki, source: 'wikimedia' }
+  }
+  const inat = await searchInat(scientificName)
+  if (inat) return { url: inat.url, source: 'inaturalist' }
+  const wiki = await searchWikimedia(scientificName)
+  if (wiki) return { url: wiki, source: 'wikimedia' }
+  return null
 }
 
 async function searchInat(query: string): Promise<{ url: string; name: string; attribution: string } | null> {
@@ -291,34 +310,38 @@ export async function GET(req: NextRequest) {
 
     for (const plant of (plants ?? []) as Plant[]) {
       await sleep(600)
-      const inat = await searchInat(plant.scientific_name)
-      if (inat) {
+      const best = await getBestImage(plant.scientific_name)
+      if (best) {
         await supabase.from('plants').update({
-          cover_image: inat.url,
-          image_source: 'inaturalist',
-          image_attribution: inat.attribution,
+          cover_image: best.url,
+          image_source: best.source,
           image_fetched_at: new Date().toISOString(),
         }).eq('id', plant.id)
-        results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'fixed', source: 'inat', url: inat.url })
-        continue
+        results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'fixed', source: best.source, url: best.url })
+      } else {
+        results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'not_found', source: 'none' })
       }
-      const wiki = await searchWikimedia(plant.scientific_name)
-      if (wiki) {
-        await supabase.from('plants').update({
-          cover_image: wiki,
-          image_source: 'wikimedia',
-          image_attribution: `Wikimedia / ${plant.scientific_name}`,
-          image_fetched_at: new Date().toISOString(),
-        }).eq('id', plant.id)
-        results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'fixed', source: 'wiki', url: wiki })
-        continue
-      }
-      results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'not_found', source: 'none' })
     }
 
     const fixed = results.filter(r => r.status === 'fixed').length
     const notFound = results.filter(r => r.status === 'not_found')
     return NextResponse.json({ total: results.length, fixed, not_found: notFound.map(r => r.name), results })
+  }
+
+  // ── FIXONE MODE: re-fetch image for a single plant by common name ──
+  if (mode === 'fixone') {
+    const name = req.nextUrl.searchParams.get('name')
+    if (!name) return NextResponse.json({ error: 'Missing name' }, { status: 400 })
+    const { data: plants } = await supabase
+      .from('plants').select('id, common_name, scientific_name, cover_image')
+      .eq('published', true).ilike('common_name', name).limit(1)
+    const plant = (plants ?? [])[0] as Plant | undefined
+    if (!plant) return NextResponse.json({ error: 'Plant not found' }, { status: 404 })
+    await supabase.from('plants').update({ cover_image: null, image_source: null }).eq('id', plant.id)
+    const best = await getBestImage(plant.scientific_name)
+    if (!best) return NextResponse.json({ status: 'not_found', name: plant.common_name })
+    await supabase.from('plants').update({ cover_image: best.url, image_source: best.source, image_fetched_at: new Date().toISOString() }).eq('id', plant.id)
+    return NextResponse.json({ status: 'fixed', name: plant.common_name, source: best.source, url: best.url })
   }
 
   // ── OVERRIDE MODE: fix a single plant by id or name with a specific URL ──
