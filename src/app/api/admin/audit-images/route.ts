@@ -188,30 +188,29 @@ export async function GET(req: NextRequest) {
       .order('common_name')
       .range(offset, offset + batchSize - 1)
 
-    const plantIdKey = process.env.PLANT_ID_API_KEY
-    if (!plantIdKey) return NextResponse.json({ error: 'PLANT_ID_API_KEY not set' }, { status: 500 })
-
     const results: { name: string; scientific: string; image: string; identified_as: string; match: boolean; score: number }[] = []
 
     for (const plant of (plants ?? []) as Plant[]) {
-      await sleep(600)
+      await sleep(400)
       try {
-        const res = await fetch('https://api.plant.id/v2/identify', {
+        // Use iNaturalist CV (free, no key needed) to identify the image
+        const formData = new FormData()
+        // Fetch the image and send as blob
+        const imgRes = await fetch(plant.cover_image!, { signal: AbortSignal.timeout(8000) })
+        if (!imgRes.ok) { results.push({ name: plant.common_name, scientific: plant.scientific_name, image: plant.cover_image!, identified_as: 'IMG_ERROR', match: false, score: 0 }); continue }
+        const imgBlob = await imgRes.blob()
+        formData.append('image', imgBlob, 'plant.jpg')
+
+        const res = await fetch('https://api.inaturalist.org/v1/computervision/score_image', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Api-Key': plantIdKey },
-          body: JSON.stringify({
-            images: [plant.cover_image],
-            plant_details: ['scientific_name'],
-            modifiers: ['similar_images'],
-          }),
-          signal: AbortSignal.timeout(12000),
+          body: formData,
+          signal: AbortSignal.timeout(15000),
         })
         if (!res.ok) { results.push({ name: plant.common_name, scientific: plant.scientific_name, image: plant.cover_image!, identified_as: 'API_ERROR', match: false, score: 0 }); continue }
         const data = await res.json()
-        const top = data.suggestions?.[0]
-        const identified = top?.plant_name ?? 'unknown'
-        const score = Math.round((top?.probability ?? 0) * 100)
-        // Match if genus matches (first word)
+        const top = data.results?.[0]
+        const identified: string = top?.taxon?.name ?? 'unknown'
+        const score = Math.round((top?.combined_score ?? 0) * 100)
         const expectedGenus = plant.scientific_name.split(' ')[0].toLowerCase()
         const foundGenus = identified.split(' ')[0].toLowerCase()
         const match = foundGenus === expectedGenus
