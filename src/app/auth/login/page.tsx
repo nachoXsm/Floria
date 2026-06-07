@@ -138,8 +138,10 @@ export default function LoginPage() {
         }}>
           <div style={{ textAlign: 'center', marginBottom: '30px' }}>
             <div style={{ margin: '0 auto 20px', display: 'flex', justifyContent: 'center' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo-floria.png" alt="Floria" style={{ height: 52, width: 'auto', display: 'block' }} />
+              <div style={{ width: 80, height: 80, borderRadius: 18, backgroundColor: '#1E3D2B', overflow: 'hidden' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo-floria-icon.png" alt="Floria" width={80} height={80} style={{ display: 'block', width: 80, height: 80 }} />
+              </div>
             </div>
             <h2 style={{
               fontFamily: 'Cormorant Garamond, Georgia, serif',
