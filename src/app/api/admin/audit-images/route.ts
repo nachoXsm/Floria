@@ -95,15 +95,30 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  // ── FIX MODE: find and update missing images ──
+  // ── FIX MODE: find and update missing or wikimedia images ──
   if (mode === 'fix') {
-    const { data: plants } = await supabase
+    const baseQuery = supabase
       .from('plants')
       .select('id, common_name, scientific_name, cover_image')
       .eq('published', true)
-      .is('cover_image', null)
       .order('common_name')
       .range(offset, offset + batchSize - 1)
+
+    const { data: nullPlants } = await baseQuery.is('cover_image', null)
+    const { data: wikiPlants } = await supabase
+      .from('plants')
+      .select('id, common_name, scientific_name, cover_image')
+      .eq('published', true)
+      .eq('image_source', 'wikimedia')
+      .order('common_name')
+      .range(offset, offset + batchSize - 1)
+
+    const seen = new Set<string>()
+    const plants = [...(nullPlants ?? []), ...(wikiPlants ?? [])].filter(p => {
+      if (seen.has(p.id)) return false
+      seen.add(p.id)
+      return true
+    })
 
     const results: { name: string; scientific: string; status: string; source: string; url?: string }[] = []
 
