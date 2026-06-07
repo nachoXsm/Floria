@@ -35,9 +35,13 @@ function buildSearchVariants(scientificName: string): string[] {
 
 async function searchInat(query: string): Promise<{ url: string; name: string; attribution: string } | null> {
   const variants = buildSearchVariants(query)
-  for (const variant of variants) {
+  for (let i = 0; i < variants.length; i++) {
+    const variant = variants[i]
+    // For genus-only searches (last variant, single word), drop rank filter
+    const isGenus = !variant.includes(' ')
+    const rankParam = isGenus ? '' : '&rank=species'
     try {
-      const url = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(variant)}&rank=species&per_page=5`
+      const url = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(variant)}${rankParam}&per_page=5`
       const res = await fetch(url, { signal: AbortSignal.timeout(8000) })
       if (!res.ok) continue
       const data = await res.json()
