@@ -30,7 +30,7 @@ function buildSearchVariants(scientificName: string): string[] {
   // Just genus
   const genus = scientificName.split(/\s+/)[0]
   if (genus && !variants.includes(genus)) variants.push(genus)
-  return [...new Set(variants)]
+  return variants.filter((v, i) => variants.indexOf(v) === i)
 }
 
 async function searchInat(query: string): Promise<{ url: string; name: string; attribution: string } | null> {
