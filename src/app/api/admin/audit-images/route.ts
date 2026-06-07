@@ -19,24 +19,41 @@ async function sleep(ms: number) {
   return new Promise(r => setTimeout(r, ms))
 }
 
+function buildSearchVariants(scientificName: string): string[] {
+  const variants: string[] = [scientificName]
+  // Remove hybrid marker and cultivar suffix: "Abelia × grandiflora" → "Abelia grandiflora"
+  const noHybrid = scientificName.replace(/\s*×\s*/g, ' ').replace(/\s*'[^']*'/g, '').trim()
+  if (noHybrid !== scientificName) variants.push(noHybrid)
+  // Remove spp. / sp. → just genus
+  const noSpp = scientificName.replace(/\s+(spp?\..*|×.*)$/i, '').trim()
+  if (noSpp !== scientificName && noSpp !== noHybrid) variants.push(noSpp)
+  // Just genus
+  const genus = scientificName.split(/\s+/)[0]
+  if (genus && !variants.includes(genus)) variants.push(genus)
+  return [...new Set(variants)]
+}
+
 async function searchInat(query: string): Promise<{ url: string; name: string; attribution: string } | null> {
-  try {
-    const url = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(query)}&rank=species&per_page=3`
-    const res = await fetch(url, { signal: AbortSignal.timeout(8000) })
-    if (!res.ok) return null
-    const data = await res.json()
-    const results: InatTaxon[] = data.results ?? []
-    const exact = results.find(r => r.name?.toLowerCase() === query.toLowerCase())
-    const best = exact ?? results[0]
-    if (!best?.default_photo?.medium_url) return null
-    return {
-      url: best.default_photo.medium_url,
-      name: best.name,
-      attribution: best.default_photo.attribution ?? '',
+  const variants = buildSearchVariants(query)
+  for (const variant of variants) {
+    try {
+      const url = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(variant)}&rank=species&per_page=5`
+      const res = await fetch(url, { signal: AbortSignal.timeout(8000) })
+      if (!res.ok) continue
+      const data = await res.json()
+      const results: InatTaxon[] = data.results ?? []
+      const best = results.find(r => r.default_photo?.medium_url) ?? null
+      if (!best?.default_photo?.medium_url) continue
+      return {
+        url: best.default_photo.medium_url,
+        name: best.name,
+        attribution: best.default_photo.attribution ?? '',
+      }
+    } catch {
+      continue
     }
-  } catch {
-    return null
   }
+  return null
 }
 
 async function searchWikimedia(scientificName: string): Promise<string | null> {
