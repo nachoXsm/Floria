@@ -8,6 +8,8 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: '*.plant.id' },
       { protocol: 'https', hostname: 'bs.plantnet.org' },
+      { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: '*.wikimedia.org' },
     ],
   },
 };
