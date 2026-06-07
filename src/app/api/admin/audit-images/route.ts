@@ -32,7 +32,7 @@ const SEARCH_OVERRIDES: Record<string, string> = {
   'cytisus × praecox': 'Cytisus scoparius',
   'rhododendron spp.': 'Rhododendron',
   'canna indica': 'Canna indica',
-  'phragmites australis': 'Phragmites australis',
+  'phragmites australis': 'Phragmites australis communis',
   'abelia × grandiflora': 'Abelia',
   'anemone × hybrida': 'Anemone hupehensis',
   'citrus limon': 'Citrus limon',
@@ -265,17 +265,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ cleared: (data ?? []).length, names: (data ?? []).map((p: any) => p.common_name), error: error?.message })
   }
 
-  // ── OVERRIDE MODE: fix a single plant by id with a specific URL ──
+  // ── OVERRIDE MODE: fix a single plant by id or name with a specific URL ──
   if (mode === 'override') {
     const id = req.nextUrl.searchParams.get('id')
+    const name = req.nextUrl.searchParams.get('name')
     const url = req.nextUrl.searchParams.get('url')
-    if (!id || !url) return NextResponse.json({ error: 'Missing id or url' }, { status: 400 })
-    const { error } = await supabase.from('plants').update({
-      cover_image: url,
-      image_source: 'manual',
-      image_attribution: 'Manual override',
-      image_fetched_at: new Date().toISOString(),
-    }).eq('id', id)
+    if ((!id && !name) || !url) return NextResponse.json({ error: 'Missing id/name or url' }, { status: 400 })
+    const filter = id
+      ? supabase.from('plants').update({ cover_image: url, image_source: 'manual', image_attribution: 'Manual override', image_fetched_at: new Date().toISOString() }).eq('id', id)
+      : supabase.from('plants').update({ cover_image: url, image_source: 'manual', image_attribution: 'Manual override', image_fetched_at: new Date().toISOString() }).ilike('common_name', name!)
+    const { error } = await filter
     return NextResponse.json({ ok: !error, error: error?.message })
   }
 
