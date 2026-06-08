@@ -196,7 +196,7 @@ export default function LunaPage() {
   return (
     <main style={{
       minHeight: '100vh',
-      background: 'linear-gradient(160deg, #0D1E15 0%, #1E3D2B 40%, #2D4A35 70%, #F2E9DD 100%)',
+      background: 'linear-gradient(160deg, #0D1E15 0%, #1E3D2B 50%, #1A3325 100%)',
       fontFamily: 'Montserrat, system-ui, sans-serif',
       color: '#F9FCF8',
       paddingBottom: '100px',
@@ -395,11 +395,11 @@ export default function LunaPage() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {f.plantas.map(p => (
                   <div key={p.categoria} style={{
-                    backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '12px',
-                    padding: '8px 12px', border: '1px solid rgba(255,255,255,0.08)',
+                    backgroundColor: 'rgba(255,255,255,0.10)', borderRadius: '12px',
+                    padding: '8px 12px', border: '1px solid rgba(255,255,255,0.15)',
                   }}>
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#A7C4A1', marginBottom: '2px' }}>{p.categoria}</div>
-                    <div style={{ fontSize: '11px', color: '#C5D9C2' }}>{p.accion}</div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#C5D9C2', marginBottom: '2px' }}>{p.categoria}</div>
+                    <div style={{ fontSize: '11px', color: '#F9FCF8' }}>{p.accion}</div>
                   </div>
                 ))}
               </div>
