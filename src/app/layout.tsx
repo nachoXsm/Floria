@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { I18nProvider } from '@/components/I18nProvider'
 
 export const metadata: Metadata = {
   title: 'Floria — Tu espacio, tu naturaleza',
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         backgroundColor: '#F9FCF8',
         color: '#1E3D2B',
       }}>
-        {children}
+        <I18nProvider>{children}</I18nProvider>
       </body>
     </html>
   )

@@ -56,7 +56,7 @@ const tabs = [
     ),
   },
   {
-    href: '/auth/login',
+    href: '/perfil',
     label: 'Perfil',
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#1E3D2B' : '#4C7F5B'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
