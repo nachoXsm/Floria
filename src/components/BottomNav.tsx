@@ -24,6 +24,19 @@ const tabs = [
     ),
   },
   {
+    href: '/huerta',
+    label: 'Huerta',
+    icon: (active: boolean) => (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#1E3D2B' : '#4C7F5B'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2a10 10 0 0 1 0 20"/>
+        <path d="M12 2C6.5 2 4 7 4 12s2.5 10 8 10"/>
+        <path d="M12 22V12"/>
+        <path d="M12 12C8 8 4 9 2 12"/>
+        <path d="M12 12c4-4 8-3 10 0"/>
+      </svg>
+    ),
+  },
+  {
     href: '/identify',
     label: 'Identificar',
     icon: (active: boolean) => (

@@ -42,6 +42,7 @@ export default function Nav({ dark }: NavProps) {
       <div className="nav-desktop-links" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
         {[
           { href: '/explore', label: 'Explorar' },
+          { href: '/huerta', label: 'Huerta' },
           { href: '/identify', label: 'Identificar' },
           { href: '/pricing', label: 'Precios' },
         ].map(link => (
