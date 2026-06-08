@@ -41,6 +41,7 @@ export default function Nav({ dark }: NavProps) {
       {/* Desktop links — hidden on mobile via CSS class */}
       <div className="nav-desktop-links" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
         {[
+          { href: '/jardinero', label: '🌿 Jardinero IA' },
           { href: '/explore', label: 'Explorar' },
           { href: '/huerta', label: 'Huerta' },
           { href: '/luna', label: 'Luna' },

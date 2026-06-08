@@ -24,6 +24,15 @@ const tabs = [
     ),
   },
   {
+    href: '/jardinero',
+    label: 'IA',
+    icon: (active: boolean) => (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#1E3D2B' : '#4C7F5B'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V12l3 3-3 3v1a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-1l-3-3 3-3V9.5C8.8 8.8 8 7.5 8 6a4 4 0 0 1 4-4z" fill={active ? '#1E3D2B' : 'none'}/>
+      </svg>
+    ),
+  },
+  {
     href: '/luna',
     label: 'Luna',
     icon: (active: boolean) => (
