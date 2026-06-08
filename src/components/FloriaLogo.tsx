@@ -41,7 +41,10 @@ export default function FloriaLogo({
       alt="Floria"
       width={logoWidth}
       height={size}
-      style={{ display: 'block', flexShrink: 0, objectFit: 'contain' }}
+      style={{
+        display: 'block', flexShrink: 0, objectFit: 'contain',
+        filter: light ? 'brightness(0) invert(1)' : 'none',
+      }}
       priority
     />
   )
