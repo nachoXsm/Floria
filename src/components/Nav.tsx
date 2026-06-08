@@ -44,6 +44,8 @@ export default function Nav({ dark }: NavProps) {
           { href: '/explore', label: 'Explorar' },
           { href: '/huerta', label: 'Huerta' },
           { href: '/luna', label: 'Luna' },
+          { href: '/plagas', label: 'Plagas' },
+          { href: '/viveros', label: 'Viveros' },
           { href: '/identify', label: 'Identificar' },
           { href: '/pricing', label: 'Precios' },
         ].map(link => (
