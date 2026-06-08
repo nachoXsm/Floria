@@ -22,9 +22,11 @@
 /* ── Responsive nav & bottom bar ── */
 .bottom-nav { display: flex; }
 .nav-desktop-links { display: flex; }
+.nav-profile-btn { display: flex; }
 
 @media (min-width: 768px) {
   .bottom-nav { display: none !important; }
+  .nav-profile-btn { display: none !important; }
 }
 
 @media (max-width: 767px) {

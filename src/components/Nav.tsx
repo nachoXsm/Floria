@@ -29,12 +29,12 @@ export default function Nav({ dark }: NavProps) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 12px 0 16px',
+      padding: '0 8px 0 16px',
       borderRadius: '999px',
       height: '56px',
     }}>
-      {/* Logo */}
-      <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+      {/* Logo — centrado verticalmente */}
+      <a href="/" style={{ display: 'flex', alignItems: 'center', height: '100%', textDecoration: 'none' }}>
         <FloriaLogo size={44} color={dark ? '#C5D9C2' : '#1E3D2B'} />
       </a>
 
@@ -72,6 +72,30 @@ export default function Nav({ dark }: NavProps) {
           whiteSpace: 'nowrap',
         }}>Iniciar sesión</a>
       </div>
+
+      {/* Botón perfil — siempre visible en mobile */}
+      <a href="/perfil" className="nav-profile-btn" style={{
+        width: '40px',
+        height: '40px',
+        borderRadius: '999px',
+        backgroundColor: isActive('/perfil')
+          ? (dark ? '#F9FCF8' : '#1E3D2B')
+          : (dark ? 'rgba(255,255,255,0.12)' : '#E7EFE6'),
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textDecoration: 'none',
+        flexShrink: 0,
+        border: dark ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(30,61,43,0.1)',
+      }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke={isActive('/perfil') ? (dark ? '#1E3D2B' : 'white') : (dark ? '#C5D9C2' : '#1E3D2B')}
+          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
     </nav>
   )
 }
+
