@@ -42,6 +42,9 @@ export async function GET(req: NextRequest) {
       const bytes = Buffer.from(plant.data, 'base64')
       const path = `user-photos/${plant.file}`
 
+      // Try to create bucket if not exists
+      await supabase.storage.createBucket('plant-images', { public: true }).catch(() => {})
+
       const { error: uploadError } = await supabase.storage
         .from('plant-images')
         .upload(path, bytes, { contentType: plant.mimeType, upsert: true })
