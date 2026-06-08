@@ -204,6 +204,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Secciones de la app — acceso rápido para mobile */}
+      <section style={{ backgroundColor: '#F9FCF8', padding: '70px 24px' }}>
+        <div style={{ maxWidth: '1060px', margin: '0 auto' }}>
+          <p style={{ color: '#4C7F5B', letterSpacing: '3px', textTransform: 'uppercase', fontSize: '12px', fontWeight: 600, margin: '0 0 10px', textAlign: 'center' }}>Todo en un lugar</p>
+          <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: 'clamp(34px, 5vw, 52px)', color: '#1E3D2B', margin: '0 0 36px', fontWeight: 500, textAlign: 'center' }}>
+            Explorá Floria
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
+            {[
+              { href: '/explore',   emoji: '🔍', label: 'Explorar plantas',    color: '#E7EFE6', textColor: '#1E3D2B' },
+              { href: '/identify',  emoji: '📷', label: 'Identificar',         color: '#E7EFE6', textColor: '#1E3D2B' },
+              { href: '/jardinero', emoji: '🌿', label: 'Jardinero IA',        color: '#1E3D2B', textColor: '#F9FCF8' },
+              { href: '/huerta',    emoji: '🥕', label: 'Mi Huerta',           color: '#E7EFE6', textColor: '#1E3D2B' },
+              { href: '/luna',      emoji: '🌙', label: 'Calendario lunar',    color: '#0D1E15', textColor: '#F9FCF8' },
+              { href: '/plagas',    emoji: '🐛', label: 'Plagas y enfermedades', color: '#FEF0EE', textColor: '#8B3A2F' },
+              { href: '/viveros',   emoji: '🪴', label: 'Viveros',             color: '#FDF3E3', textColor: '#7A5C1E' },
+              { href: '/perfil',    emoji: '👤', label: 'Mi Perfil',           color: '#E7EFE6', textColor: '#1E3D2B' },
+            ].map(s => (
+              <a key={s.href} href={s.href} style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                padding: '20px 18px', borderRadius: '22px', textDecoration: 'none',
+                backgroundColor: s.color, minHeight: '110px',
+                boxShadow: '0 4px 16px rgba(30,61,43,0.07)',
+                border: '1px solid rgba(0,0,0,0.04)',
+                transition: 'transform 0.15s, box-shadow 0.15s',
+              }}>
+                <span style={{ fontSize: '28px' }}>{s.emoji}</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: s.textColor, lineHeight: 1.3, marginTop: '12px' }}>{s.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section style={{ backgroundColor: '#1E3D2B', padding: '90px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           <h2 className="pricing-h2" style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '52px', color: '#F9FCF8', margin: '0 0 16px', fontWeight: 500 }}>

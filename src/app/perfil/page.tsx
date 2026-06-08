@@ -159,10 +159,10 @@ export default function PerfilPage() {
         {/* ── Tabs de sección ── */}
         <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
           {([
-            { key: 'gardens' as const, icon: '🌿', label: t('gardens_title') },
-            { key: 'lang' as const, icon: '🌐', label: t('lang_title') },
-            { key: 'help' as const, icon: '❓', label: t('help_title') },
-            { key: 'contact' as const, icon: '✉️', label: t('contact_title').split(' ')[0] },
+            { key: 'gardens' as const, icon: '🌿', label: 'Jardines' },
+            { key: 'lang'    as const, icon: '🌐', label: 'Idioma' },
+            { key: 'help'    as const, icon: '❓', label: 'Ayuda' },
+            { key: 'contact' as const, icon: '✉️', label: 'Contacto' },
           ]).map(tab => (
             <button key={tab.key} onClick={() => setActiveSection(tab.key)} style={{
               flexShrink: 0, padding: '10px 18px', borderRadius: '999px',
