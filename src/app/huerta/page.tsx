@@ -1,10 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
 
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+
+// Datos almacenados en meses del hemisferio sur (0=Enero).
+// Para hemisferio norte, desplazamos +6 al leer y -6 al guardar.
+function toSur(mes: number, hemisferio: 'sur' | 'norte') {
+  return hemisferio === 'norte' ? (mes + 6) % 12 : mes
+}
+function toDisplay(mesSur: number, hemisferio: 'sur' | 'norte') {
+  return hemisferio === 'norte' ? (mesSur + 6) % 12 : mesSur
+}
 
 type Tarea = 'siembra_directa' | 'siembra_indoor' | 'trasplante' | 'cosecha'
 
@@ -177,21 +186,40 @@ const TIPO_CONFIG: Record<string, { label: string; color: string }> = {
   fruta: { label: 'Fruta', color: '#8B3A2F' },
 }
 
-function getTareasDelMes(item: HuertaItem, mes: number): Tarea[] {
+function getTareasDelMes(item: HuertaItem, mesDisplay: number, hemisferio: 'sur' | 'norte'): Tarea[] {
+  const mesSur = toSur(mesDisplay, hemisferio)
   return (Object.entries(item.tareas) as [Tarea, number[]][])
-    .filter(([, meses]) => meses.includes(mes))
+    .filter(([, meses]) => meses.includes(mesSur))
     .map(([tarea]) => tarea)
 }
 
 export default function HuertaPage() {
-  const mesActual = new Date().getMonth()
-  const [mesSeleccionado, setMesSeleccionado] = useState(mesActual)
+  const mesActualReal = new Date().getMonth()
+  const [hemisferio, setHemisferio] = useState<'sur' | 'norte'>('sur')
+  const [showHemisferioModal, setShowHemisferioModal] = useState(false)
+  // mesSeleccionado está siempre en espacio "display" (lo que ve el usuario)
+  const [mesSeleccionado, setMesSeleccionado] = useState(mesActualReal)
   const [filtroTipo, setFiltroTipo] = useState<string | null>(null)
   const [filtroTarea, setFiltroTarea] = useState<Tarea | null>(null)
   const [itemExpandido, setItemExpandido] = useState<string | null>(null)
 
+  useEffect(() => {
+    const saved = localStorage.getItem('floria-hemisferio') as 'sur' | 'norte' | null
+    if (saved) {
+      setHemisferio(saved)
+    } else {
+      setShowHemisferioModal(true)
+    }
+  }, [])
+
+  function elegirHemisferio(h: 'sur' | 'norte') {
+    setHemisferio(h)
+    localStorage.setItem('floria-hemisferio', h)
+    setShowHemisferioModal(false)
+  }
+
   const itemsDelMes = HUERTA.filter(item => {
-    const tareas = getTareasDelMes(item, mesSeleccionado)
+    const tareas = getTareasDelMes(item, mesSeleccionado, hemisferio)
     if (tareas.length === 0) return false
     if (filtroTipo && item.tipo !== filtroTipo) return false
     if (filtroTarea && !tareas.includes(filtroTarea)) return false
@@ -211,6 +239,47 @@ export default function HuertaPage() {
     }}>
       <Nav />
 
+      {/* Modal hemisferio */}
+      {showHemisferioModal && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 100,
+          backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
+        }}>
+          <div style={{
+            backgroundColor: 'white', borderRadius: '28px', padding: '36px 32px',
+            maxWidth: '380px', width: '100%', textAlign: 'center',
+            boxShadow: '0 24px 60px rgba(0,0,0,0.2)',
+          }}>
+            <div style={{ fontSize: '40px', marginBottom: '12px' }}>🌍</div>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '26px', color: '#1E3D2B', margin: '0 0 8px' }}>¿Dónde estás?</h2>
+            <p style={{ color: '#4C7F5B', fontSize: '14px', lineHeight: 1.6, margin: '0 0 24px' }}>
+              Las estaciones son opuestas según el hemisferio. Elegí tu ubicación para ver las fechas correctas.
+            </p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button onClick={() => elegirHemisferio('sur')} style={{
+                flex: 1, padding: '16px', borderRadius: '18px', border: '2px solid #1E3D2B',
+                backgroundColor: '#1E3D2B', color: 'white', cursor: 'pointer',
+                fontSize: '14px', fontWeight: 700, fontFamily: 'Montserrat, system-ui, sans-serif',
+              }}>
+                <div style={{ fontSize: '24px', marginBottom: '6px' }}>🇦🇷</div>
+                Hemisferio Sur
+                <div style={{ fontSize: '11px', fontWeight: 400, opacity: 0.8, marginTop: '3px' }}>Argentina, Chile, Brasil...</div>
+              </button>
+              <button onClick={() => elegirHemisferio('norte')} style={{
+                flex: 1, padding: '16px', borderRadius: '18px', border: '2px solid #DDE9DA',
+                backgroundColor: 'white', color: '#1E3D2B', cursor: 'pointer',
+                fontSize: '14px', fontWeight: 700, fontFamily: 'Montserrat, system-ui, sans-serif',
+              }}>
+                <div style={{ fontSize: '24px', marginBottom: '6px' }}>🌍</div>
+                Hemisferio Norte
+                <div style={{ fontSize: '11px', fontWeight: 400, color: '#4C7F5B', marginTop: '3px' }}>Europa, EEUU, México...</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div style={{ paddingTop: '88px', padding: '88px 20px 0' }}>
         <div style={{ maxWidth: '680px', margin: '0 auto' }}>
@@ -224,6 +293,16 @@ export default function HuertaPage() {
           <p style={{ color: '#4C7F5B', fontSize: '14px', lineHeight: 1.7, marginTop: '12px' }}>
             Qué sembrar, trasplantar y cosechar cada mes del año.
           </p>
+          <button onClick={() => setShowHemisferioModal(true)} style={{
+            marginTop: '10px', display: 'inline-flex', alignItems: 'center', gap: '6px',
+            padding: '7px 14px', borderRadius: '999px', border: '1px solid #DDE9DA',
+            backgroundColor: 'rgba(255,255,255,0.8)', cursor: 'pointer',
+            fontSize: '12px', fontWeight: 600, color: '#4C7F5B',
+            fontFamily: 'Montserrat, system-ui, sans-serif',
+          }}>
+            {hemisferio === 'sur' ? '🌎 Hemisferio Sur' : '🌍 Hemisferio Norte'}
+            <span style={{ opacity: 0.6 }}>· cambiar</span>
+          </button>
         </div>
       </div>
 
@@ -250,7 +329,7 @@ export default function HuertaPage() {
                 fontFamily: 'Cormorant Garamond, Georgia, serif',
                 fontSize: '28px', fontWeight: 600, color: '#1E3D2B', lineHeight: 1,
               }}>{MESES[mesSeleccionado]}</div>
-              {mesSeleccionado === mesActual && (
+              {mesSeleccionado === mesActualReal && (
                 <span style={{
                   fontSize: '10px', backgroundColor: '#1E3D2B', color: 'white',
                   padding: '2px 10px', borderRadius: '999px', fontWeight: 600,
@@ -277,8 +356,8 @@ export default function HuertaPage() {
                 fontSize: '10px',
                 fontWeight: i === mesSeleccionado ? 700 : 500,
                 fontFamily: 'Montserrat, system-ui, sans-serif',
-                backgroundColor: i === mesSeleccionado ? '#1E3D2B' : i === mesActual ? '#E7EFE6' : 'transparent',
-                color: i === mesSeleccionado ? 'white' : i === mesActual ? '#1E3D2B' : '#4C7F5B',
+                backgroundColor: i === mesSeleccionado ? '#1E3D2B' : i === mesActualReal ? '#E7EFE6' : 'transparent',
+                color: i === mesSeleccionado ? 'white' : i === mesActualReal ? '#1E3D2B' : '#4C7F5B',
                 minWidth: '36px',
                 letterSpacing: '0.3px',
               }}>{mes.slice(0, 3)}</button>
@@ -325,7 +404,7 @@ export default function HuertaPage() {
       <div style={{ padding: '16px 20px 0', maxWidth: '680px', margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           {(Object.entries(TAREA_CONFIG) as [Tarea, typeof TAREA_CONFIG[Tarea]][]).map(([key, cfg]) => {
-            const count = HUERTA.filter(item => getTareasDelMes(item, mesSeleccionado).includes(key)).length
+            const count = HUERTA.filter(item => getTareasDelMes(item, mesSeleccionado, hemisferio).includes(key)).length
             if (count === 0) return null
             return (
               <div key={key} style={{
@@ -358,7 +437,7 @@ export default function HuertaPage() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {itemsDelMes.map(item => {
-              const tareas = getTareasDelMes(item, mesSeleccionado)
+              const tareas = getTareasDelMes(item, mesSeleccionado, hemisferio)
               const expandido = itemExpandido === item.nombre
               return (
                 <div
@@ -419,7 +498,7 @@ export default function HuertaPage() {
                         <div style={{ fontSize: '11px', fontWeight: 600, color: '#1E3D2B', marginBottom: '8px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Calendario anual</div>
                         <div style={{ display: 'flex', gap: '3px' }}>
                           {MESES.map((_, i) => {
-                            const tareasEseMes = getTareasDelMes(item, i)
+                            const tareasEseMes = getTareasDelMes(item, i, hemisferio)
                             const esMesActual = i === mesSeleccionado
                             const color = tareasEseMes.includes('cosecha') ? '#FEF0EE'
                               : tareasEseMes.includes('siembra_directa') ? '#E7EFE6'
