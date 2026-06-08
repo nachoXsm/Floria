@@ -1,19 +1,12 @@
-// eslint-disable-next-line @next/next/no-img-element
-import Image from 'next/image'
-
 type Props = {
   variant?: 'full' | 'icon'
   size?: number
+  light?: boolean
   color?: string
   textColor?: string
-  light?: boolean
 }
 
-export default function FloriaLogo({
-  variant = 'full',
-  size = 40,
-  light = false,
-}: Props) {
+export default function FloriaLogo({ variant = 'full', size = 40, light = false }: Props) {
   if (variant === 'icon') {
     return (
       <div
@@ -34,8 +27,8 @@ export default function FloriaLogo({
   }
 
   const logoWidth = Math.round(size * 3.5)
+  /* eslint-disable-next-line @next/next/no-img-element */
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src="/logo-floria.png"
       alt="Floria"
@@ -50,4 +43,3 @@ export default function FloriaLogo({
     />
   )
 }
-
