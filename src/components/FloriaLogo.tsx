@@ -36,16 +36,18 @@ export default function FloriaLogo({
   // Aspect ratio del logo horizontal: ~3.5:1 aprox
   const logoWidth = Math.round(size * 3.5)
   return (
-    <Image
-      src="/logo-floria.png"
-      alt="Floria"
-      width={logoWidth}
-      height={size}
-      style={{
-        display: 'block', flexShrink: 0, objectFit: 'contain',
-        filter: light ? 'brightness(0) invert(1)' : 'none',
-      }}
-      priority
-    />
+    <div style={{
+      display: 'flex', alignItems: 'center', flexShrink: 0,
+      filter: light ? 'brightness(0) invert(1)' : 'none',
+    }}>
+      <Image
+        src="/logo-floria.png"
+        alt="Floria"
+        width={logoWidth}
+        height={size}
+        style={{ display: 'block', objectFit: 'contain' }}
+        priority
+      />
+    </div>
   )
 }
