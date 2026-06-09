@@ -20,3 +20,6 @@ next-env.d.ts
 # misc
 .DS_Store
 *.pem
+
+# Working data files (delivered to user, not source)
+*.xlsx
