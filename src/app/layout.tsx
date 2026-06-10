@@ -12,11 +12,6 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'Floria',
   },
-  icons: {
-    icon: '/icono-floria.svg',
-    apple: '/icono-floria.svg',
-    shortcut: '/icono-floria.svg',
-  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -31,7 +26,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Floria" />
-        <link rel="apple-touch-icon" href="/icono-floria.svg" />
       </head>
       <body style={{
         margin: 0,
