@@ -1,11 +1,13 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const FROM = 'Floria <hola@floria.app>'
 
-const FROM = 'Floria <hola@floria.app>' // cambiar por tu dominio verificado en Resend
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 export async function sendConfirmationEmail(to: string, confirmUrl: string) {
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM,
     to,
     subject: 'Confirmá tu cuenta en Floria 🌿',
@@ -14,7 +16,7 @@ export async function sendConfirmationEmail(to: string, confirmUrl: string) {
 }
 
 export async function sendWelcomeEmail(to: string) {
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM,
     to,
     subject: 'Bienvenido a Floria 🌿',
@@ -23,7 +25,7 @@ export async function sendWelcomeEmail(to: string) {
 }
 
 export async function sendPasswordResetEmail(to: string, resetUrl: string) {
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM,
     to,
     subject: 'Recuperá tu contraseña de Floria',
@@ -44,7 +46,6 @@ function emailWrapper(content: string) {
     .container { max-width:560px; margin:0 auto; padding:40px 20px; }
     .card { background:white; border-radius:24px; padding:40px; border:1px solid #E7EFE6; box-shadow:0 8px 30px rgba(30,61,43,0.07); }
     .logo { font-size:28px; font-weight:600; color:#1E3D2B; margin-bottom:32px; display:block; text-decoration:none; letter-spacing:-0.5px; }
-    .logo span { color:#4C7F5B; }
     h1 { font-size:26px; font-weight:600; color:#1E3D2B; margin:0 0 14px; line-height:1.3; }
     p { font-size:15px; color:#4C7F5B; line-height:1.7; margin:0 0 20px; }
     .btn { display:inline-block; background:#1E3D2B; color:white !important; padding:14px 32px; border-radius:999px; text-decoration:none; font-size:15px; font-weight:600; margin:8px 0 24px; }
