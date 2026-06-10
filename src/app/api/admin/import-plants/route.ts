@@ -8,9 +8,13 @@ const CHUNK = 50
 export const maxDuration = 300
 export const dynamic = 'force-dynamic'
 
+function norm(s: string) {
+  return s.trim().toLowerCase().replace(/\s+/g, ' ')
+}
+
 // Importa la base de 510 plantas del Excel v5 a Supabase.
 // Uso: GET /api/admin/import-plants?token=floria-audit-2026
-// Requiere migración 004 aplicada (columnas ubicacion, flower_colors, etc.)
+// Matching por nombre científico normalizado (case/espacios insensible).
 export async function GET(req: NextRequest) {
   const token = req.nextUrl.searchParams.get('token')
   if (token !== ADMIN_TOKEN) {
@@ -23,59 +27,82 @@ export async function GET(req: NextRequest) {
     { auth: { persistSession: false } }
   )
 
-  // Slugs y nombres ya existentes (para no romper URLs ni chocar unique)
   const { data: existing, error: exErr } = await supabase
     .from('plants')
-    .select('scientific_name, slug')
+    .select('id, scientific_name, slug')
   if (exErr) {
     return NextResponse.json({ error: exErr.message }, { status: 500 })
   }
+
   const existingBySci = new Map(
-    (existing ?? []).map(p => [p.scientific_name.toLowerCase(), p.slug as string | null])
+    (existing ?? []).map(p => [norm(p.scientific_name), { id: p.id as string, slug: p.slug as string | null }])
   )
   const takenSlugs = new Set((existing ?? []).map(p => p.slug).filter(Boolean) as string[])
 
-  const plants = (plantsData as Record<string, unknown>[]).map(p => {
-    const sci = (p.scientific_name as string).toLowerCase()
-    const row = { ...p }
-    if (existingBySci.has(sci)) {
-      // planta existente: conservar su slug actual (URLs estables)
-      const current = existingBySci.get(sci)
-      if (current) row.slug = current
-      else delete row.slug
+  const updates: Record<string, unknown>[] = []
+  const inserts: Record<string, unknown>[] = []
+
+  for (const p of plantsData as Record<string, unknown>[]) {
+    const match = existingBySci.get(norm(p.scientific_name as string))
+    if (match) {
+      // existente: actualizar por id, sin tocar slug ni scientific_name ni cover_image
+      const row: Record<string, unknown> = { ...p, id: match.id }
+      delete row.slug
+      delete row.scientific_name
+      updates.push(row)
     } else {
-      // planta nueva: garantizar slug único
+      const row = { ...p }
       let slug = row.slug as string
       let n = 2
       while (takenSlugs.has(slug)) slug = `${row.slug}-${n++}`
       row.slug = slug
       takenSlugs.add(slug)
+      inserts.push(row)
     }
-    return row
-  })
+  }
 
-  let upserted = 0
-  const errors: { chunk: number; message: string }[] = []
+  let updated = 0
+  let inserted = 0
+  const failures: { plant: string; message: string }[] = []
 
-  for (let i = 0; i < plants.length; i += CHUNK) {
-    const chunk = plants.slice(i, i + CHUNK)
-    // upsert por scientific_name: actualiza datos sin pisar cover_image
-    const { error } = await supabase
-      .from('plants')
-      .upsert(chunk, { onConflict: 'scientific_name', ignoreDuplicates: false })
-
+  for (let i = 0; i < updates.length; i += CHUNK) {
+    const chunk = updates.slice(i, i + CHUNK)
+    const { error } = await supabase.from('plants').upsert(chunk, { onConflict: 'id' })
     if (error) {
-      errors.push({ chunk: i, message: error.message })
+      // reintentar fila por fila para aislar la que falla
+      for (const row of chunk) {
+        const { error: e2 } = await supabase.from('plants').upsert([row], { onConflict: 'id' })
+        if (e2) failures.push({ plant: String(row.common_name), message: e2.message })
+        else updated++
+      }
       if (error.message.includes('column') || error.message.includes('schema cache')) {
         return NextResponse.json({
           error: 'Faltan columnas en la tabla plants',
           detail: error.message,
-          fix: 'Ejecutar supabase/migrations/004_add_filter_columns.sql en Supabase → SQL Editor y reintentar',
-          upserted,
+          fix: 'Ejecutar supabase/migrations/004_add_filter_columns.sql en SQL Editor y reintentar',
         }, { status: 500 })
       }
     } else {
-      upserted += chunk.length
+      updated += chunk.length
+    }
+  }
+
+  for (let i = 0; i < inserts.length; i += CHUNK) {
+    const chunk = inserts.slice(i, i + CHUNK)
+    const { error } = await supabase.from('plants').insert(chunk)
+    if (error) {
+      for (const row of chunk) {
+        let { error: e2 } = await supabase.from('plants').insert([row])
+        if (e2 && e2.message.includes('slug')) {
+          // último recurso: slug con sufijo aleatorio
+          row.slug = `${row.slug}-${Math.random().toString(36).slice(2, 6)}`
+          ;({ error: e2 } = await supabase.from('plants').insert([row]))
+        }
+        if (e2) failures.push({ plant: String(row.common_name), message: e2.message })
+        else inserted++
+      }
+    } else {
+      inserted += chunk.length
     }
   }
 
@@ -85,13 +112,12 @@ export async function GET(req: NextRequest) {
     .eq('published', true)
 
   return NextResponse.json({
-    ok: errors.length === 0,
-    upserted,
-    total_in_file: plants.length,
+    ok: failures.length === 0,
+    updated,
+    inserted,
+    total_in_file: (plantsData as unknown[]).length,
     total_published: count,
-    errors,
-    next_steps: errors.length === 0
-      ? 'Listo. Para fotos faltantes: /api/admin/audit-images?token=floria-audit-2026&mode=fix&batch=25'
-      : 'Revisar errores y reintentar',
+    failures,
+    next_steps: 'Para fotos faltantes: /api/admin/audit-images?token=floria-audit-2026&mode=fix&batch=25',
   })
 }
