@@ -20,9 +20,23 @@ type Plant = {
   flowering: boolean
   growth_speed: string | null
   garden_styles: string[]
+  flower_colors: string[] | null
+  design_compatibility: string[] | null
+  is_native: boolean | null
   cover_image: string | null
   slug: string | null
   tags: string[]
+}
+
+const FLOWER_COLOR_DOT: Record<string, string> = {
+  blanco: '#F5F0E8',
+  amarillo: '#EAB308',
+  naranja: '#F97316',
+  rosa: '#F472B6',
+  rojo: '#DC2626',
+  violeta: '#8B5CF6',
+  azul: '#3B82F6',
+  verdoso: '#84CC16',
 }
 
 const CARE_COLOR: Record<string, string> = {
@@ -43,10 +57,39 @@ const FILTER_GROUPS: { label: string; chips: FilterChip[] }[] = [
   {
     label: 'Ubicación',
     chips: [
-      { label: 'Interior', field: 'indoor', value: true },
-      { label: 'Exterior', field: 'outdoor', value: true },
+      { label: 'Interior', field: 'ubicacion', value: 'interior' },
+      { label: 'Exterior', field: 'ubicacion', value: 'exterior' },
       { label: 'Apto maceta', field: 'pot_suitable', value: true },
       { label: 'Florece', field: 'flowering', value: true },
+      { label: 'Nativa', field: 'is_native', value: true },
+    ],
+  },
+  {
+    label: 'Color',
+    chips: [
+      { label: 'Blanco', field: 'flower_color', value: 'blanco' },
+      { label: 'Amarillo', field: 'flower_color', value: 'amarillo' },
+      { label: 'Naranja', field: 'flower_color', value: 'naranja' },
+      { label: 'Rosa', field: 'flower_color', value: 'rosa' },
+      { label: 'Rojo', field: 'flower_color', value: 'rojo' },
+      { label: 'Violeta', field: 'flower_color', value: 'violeta' },
+      { label: 'Azul', field: 'flower_color', value: 'azul' },
+    ],
+  },
+  {
+    label: 'Diseño',
+    chips: [
+      { label: 'Urban jungle', field: 'design_compat', value: 'urban_jungle' },
+      { label: 'Mediterráneo', field: 'design_compat', value: 'mediterraneo' },
+      { label: 'Jardín nativo', field: 'design_compat', value: 'nativo' },
+      { label: 'Naturalista', field: 'design_compat', value: 'naturalista' },
+      { label: 'Tropical', field: 'design_compat', value: 'tropical' },
+      { label: 'Huerto', field: 'design_compat', value: 'huerto' },
+      { label: 'Borde', field: 'design_compat', value: 'borde' },
+      { label: 'Rocalla / Xeriscape', field: 'design_compat', value: 'xeriscape' },
+      { label: 'Pérgola / Trepadoras', field: 'design_compat', value: 'pergola' },
+      { label: 'Parques y sombra', field: 'design_compat', value: 'parques' },
+      { label: 'Formal / Setos', field: 'design_compat', value: 'formal' },
     ],
   },
   {
@@ -55,7 +98,6 @@ const FILTER_GROUPS: { label: string; chips: FilterChip[] }[] = [
       { label: 'Fácil', field: 'care_level', value: 'easy' },
       { label: 'Moderado', field: 'care_level', value: 'moderate' },
       { label: 'Experto', field: 'care_level', value: 'expert' },
-      { label: 'Crecimiento rápido', field: 'growth_speed', value: 'fast' },
     ],
   },
   {
@@ -65,17 +107,6 @@ const FILTER_GROUPS: { label: string; chips: FilterChip[] }[] = [
       { label: 'Semi sombra', field: 'light', value: 'partial_shade' },
       { label: 'Sombra', field: 'light', value: 'shade' },
       { label: 'Luz indirecta', field: 'light', value: 'indirect' },
-    ],
-  },
-  {
-    label: 'Estilo',
-    chips: [
-      { label: 'Tropical', field: 'garden_style', value: 'tropical' },
-      { label: 'Mediterráneo', field: 'garden_style', value: 'mediterranean' },
-      { label: 'Minimalista', field: 'garden_style', value: 'minimal' },
-      { label: 'Natural', field: 'garden_style', value: 'natural' },
-      { label: 'Formal', field: 'garden_style', value: 'formal' },
-      { label: 'Cottage', field: 'garden_style', value: 'cottage' },
     ],
   },
 ]
@@ -100,8 +131,8 @@ export default function ExplorePage() {
     setActiveFilters(prev => {
       const exists = prev.some(f => f.field === chip.field && f.value === chip.value)
       if (exists) return prev.filter(f => !(f.field === chip.field && f.value === chip.value))
-      // Para booleanos únicos (indoor, outdoor, pot_suitable, flowering), reemplazar si ya existe el mismo field
-      if (typeof chip.value === 'boolean') {
+      // Filtros de selección única: booleanos y ubicación (Interior vs Exterior)
+      if (typeof chip.value === 'boolean' || chip.field === 'ubicacion') {
         return [...prev.filter(f => f.field !== chip.field), chip]
       }
       return [...prev, chip]
@@ -127,25 +158,25 @@ export default function ExplorePage() {
     }
 
     for (const f of activeFilters) {
-      if (f.field === 'indoor' || f.field === 'outdoor' || f.field === 'pot_suitable' || f.field === 'flowering') {
+      if (f.field === 'pot_suitable' || f.field === 'flowering' || f.field === 'is_native') {
         query = query.eq(f.field, f.value)
-      } else if (f.field === 'care_level' || f.field === 'light' || f.field === 'growth_speed') {
-        // Para múltiples valores del mismo campo, usamos .in() construido abajo
-      } else if (f.field === 'garden_style') {
-        // se maneja abajo
+      } else if (f.field === 'ubicacion') {
+        // Interior: aptas para interior. Exterior: solo de exterior (excluye las de interior)
+        if (f.value === 'interior') query = query.eq('indoor', true)
+        else query = query.eq('outdoor', true).eq('indoor', false)
       }
     }
 
     // Agrupar filtros multi-valor por campo
     const careLevels = activeFilters.filter(f => f.field === 'care_level').map(f => f.value as string)
     const lights = activeFilters.filter(f => f.field === 'light').map(f => f.value as string)
-    const growthSpeeds = activeFilters.filter(f => f.field === 'growth_speed').map(f => f.value as string)
-    const gardenStyles = activeFilters.filter(f => f.field === 'garden_style').map(f => f.value as string)
+    const flowerColors = activeFilters.filter(f => f.field === 'flower_color').map(f => f.value as string)
+    const designCompat = activeFilters.filter(f => f.field === 'design_compat').map(f => f.value as string)
 
     if (careLevels.length) query = query.in('care_level', careLevels)
     if (lights.length) query = query.in('light', lights)
-    if (growthSpeeds.length) query = query.in('growth_speed', growthSpeeds)
-    if (gardenStyles.length) query = query.overlaps('garden_styles', gardenStyles)
+    if (flowerColors.length) query = query.overlaps('flower_colors', flowerColors)
+    if (designCompat.length) query = query.overlaps('design_compatibility', designCompat)
 
     const { data, count } = await query
     setPlants((data || []) as Plant[])
@@ -221,6 +252,7 @@ export default function ExplorePage() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {group.chips.map(chip => {
                   const active = isActive(chip)
+                  const colorDot = chip.field === 'flower_color' ? FLOWER_COLOR_DOT[chip.value as string] : null
                   return (
                     <button
                       key={`${chip.field}-${chip.value}`}
@@ -236,8 +268,18 @@ export default function ExplorePage() {
                         cursor: 'pointer',
                         fontFamily: 'Montserrat, system-ui, sans-serif',
                         transition: 'all 0.15s',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
                       }}
                     >
+                      {colorDot && (
+                        <span style={{
+                          width: '9px', height: '9px', borderRadius: '999px',
+                          backgroundColor: colorDot, flexShrink: 0,
+                          border: '1px solid rgba(0,0,0,0.12)',
+                        }} />
+                      )}
                       {chip.label}
                     </button>
                   )
@@ -363,14 +405,26 @@ export default function ExplorePage() {
                           {CARE_LABELS[plant.care_level]}
                         </span>
                       )}
-                      {plant.indoor && !plant.outdoor && (
+                      {plant.indoor && (
                         <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#EFF6FF', color: '#1E40AF' }}>
                           Interior
                         </span>
                       )}
                       {plant.flowering && (
-                        <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#FDF2F8', color: '#9D174D' }}>
+                        <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#FDF2F8', color: '#9D174D', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                           Florece
+                          {(plant.flower_colors ?? []).slice(0, 3).map(c => (
+                            <span key={c} style={{
+                              width: '7px', height: '7px', borderRadius: '999px',
+                              backgroundColor: FLOWER_COLOR_DOT[c] ?? '#ccc',
+                              border: '1px solid rgba(0,0,0,0.1)', display: 'inline-block',
+                            }} />
+                          ))}
+                        </span>
+                      )}
+                      {plant.is_native && (
+                        <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', backgroundColor: '#ECFDF5', color: '#047857' }}>
+                          Nativa
                         </span>
                       )}
                       {plant.pot_suitable && (

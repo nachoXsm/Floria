@@ -51,6 +51,37 @@ const STYLE_LABELS: Record<string, string> = {
 
 const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 
+const FLOWER_COLOR_INFO: Record<string, { label: string; dot: string }> = {
+  blanco: { label: 'Blanco', dot: '#F5F0E8' },
+  amarillo: { label: 'Amarillo', dot: '#EAB308' },
+  naranja: { label: 'Naranja', dot: '#F97316' },
+  rosa: { label: 'Rosa', dot: '#F472B6' },
+  rojo: { label: 'Rojo', dot: '#DC2626' },
+  violeta: { label: 'Violeta', dot: '#8B5CF6' },
+  azul: { label: 'Azul', dot: '#3B82F6' },
+  verdoso: { label: 'Verdoso', dot: '#84CC16' },
+  multicolor: { label: 'Multicolor', dot: '#E879F9' },
+}
+
+const DESIGN_LABELS: Record<string, string> = {
+  urban_jungle: 'Urban jungle',
+  mediterraneo: 'Mediterráneo',
+  nativo: 'Jardín nativo',
+  naturalista: 'Naturalista',
+  tropical: 'Tropical',
+  huerto: 'Huerto',
+  borde: 'Borde',
+  xeriscape: 'Rocalla / Xeriscape',
+  pergola: 'Pérgola / Trepadoras',
+  parques: 'Parques y sombra',
+  formal: 'Formal / Setos',
+  maceta: 'Maceta / Balcón',
+  rural: 'Rural / Cottage',
+  costero: 'Costero',
+  patagonico: 'Patagónico / Andino',
+  acuatico: 'Acuático',
+}
+
 type Props = { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -152,6 +183,11 @@ export default async function PlantPage({ params }: Props) {
                   Florece
                 </span>
               )}
+              {plant.is_native && (
+                <span style={{ fontSize: '11px', padding: '4px 12px', borderRadius: '999px', backgroundColor: '#ECFDF5', color: '#047857', fontWeight: 600 }}>
+                  Nativa argentina
+                </span>
+              )}
             </div>
 
             <h1 style={{
@@ -247,6 +283,9 @@ export default async function PlantPage({ params }: Props) {
                 value: `${plant.humidity_min ?? 0}–${plant.humidity_max ?? 100}%`,
                 icon: '💦',
               },
+              plant.plant_type && { label: 'Tipo', value: plant.plant_type, icon: '🌱' },
+              plant.sowing_season && { label: 'Época de siembra', value: plant.sowing_season, icon: '🗓' },
+              plant.region && { label: 'Región', value: plant.region, icon: '📍' },
             ].filter((x): x is { label: string; value: string; icon: string } => Boolean(x)).map((item) => {
               return (
                 <div key={item.label} style={{
@@ -271,6 +310,28 @@ export default async function PlantPage({ params }: Props) {
             <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '32px', color: '#1E3D2B', margin: '0 0 20px', fontWeight: 500 }}>
               Temporada de floración
             </h2>
+            {(plant.flower_colors?.length ?? 0) > 0 && (
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
+                {plant.flower_colors!.map(c => {
+                  const info = FLOWER_COLOR_INFO[c]
+                  if (!info) return null
+                  return (
+                    <span key={c} style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '7px',
+                      fontSize: '13px', padding: '6px 14px', borderRadius: '999px',
+                      backgroundColor: 'white', border: '1px solid #E7EFE6',
+                      color: '#345E43', fontWeight: 500,
+                    }}>
+                      <span style={{
+                        width: '12px', height: '12px', borderRadius: '999px',
+                        backgroundColor: info.dot, border: '1px solid rgba(0,0,0,0.12)',
+                      }} />
+                      {info.label}
+                    </span>
+                  )
+                })}
+              </div>
+            )}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {MONTHS.map((m, i) => {
                 const active = plant.flowering_months.includes(i + 1)
@@ -324,6 +385,26 @@ export default async function PlantPage({ params }: Props) {
             <div style={{ backgroundColor: 'white', borderRadius: '24px', padding: '28px', border: '1px solid #E7EFE6' }}>
               <h3 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '22px', color: '#1E3D2B', margin: '0 0 16px', fontWeight: 500 }}>Origen</h3>
               <p style={{ fontSize: '14px', color: '#345E43', margin: 0, lineHeight: 1.7 }}>{plant.origin.join(', ')}</p>
+            </div>
+          )}
+
+          {(plant.design_compatibility?.length ?? 0) > 0 && (
+            <div style={{ backgroundColor: 'white', borderRadius: '24px', padding: '28px', border: '1px solid #E7EFE6' }}>
+              <h3 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '22px', color: '#1E3D2B', margin: '0 0 16px', fontWeight: 500 }}>Compatibilidad de diseño</h3>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {plant.design_compatibility!.map((s: string) => (
+                  <span key={s} style={{ fontSize: '12px', padding: '5px 14px', borderRadius: '999px', backgroundColor: '#F9FCF8', border: '1px solid #C5D9C2', color: '#345E43' }}>
+                    {DESIGN_LABELS[s] ?? s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {plant.companion_plants && (
+            <div style={{ backgroundColor: 'white', borderRadius: '24px', padding: '28px', border: '1px solid #E7EFE6' }}>
+              <h3 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '22px', color: '#1E3D2B', margin: '0 0 16px', fontWeight: 500 }}>Combina con</h3>
+              <p style={{ fontSize: '14px', color: '#345E43', margin: 0, lineHeight: 1.7 }}>{plant.companion_plants}</p>
             </div>
           )}
         </div>

@@ -41,6 +41,14 @@ export interface Plant {
   soil_types: string[]
   hardiness_zones: string[]
   garden_styles: GardenStyle[]
+  ubicacion: string | null
+  plant_type: string | null
+  flower_colors: string[] | null
+  design_compatibility: string[] | null
+  sowing_season: string | null
+  region: string | null
+  is_native: boolean | null
+  companion_plants: string | null
   cover_image: string | null
   images: string[]
   tags: string[]
