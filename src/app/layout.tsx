@@ -5,7 +5,7 @@ import { I18nProvider } from '@/components/I18nProvider'
 export const metadata: Metadata = {
   title: 'Floria — Tu espacio, tu naturaleza',
   description: 'Inspiración inteligente para vivir rodeado de verde.',
-  manifest: '/manifest.json?v=3',
+  manifest: '/manifest.json',
   themeColor: '#1E3D2B',
   appleWebApp: {
     capable: true,
