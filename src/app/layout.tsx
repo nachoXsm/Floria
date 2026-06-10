@@ -12,8 +12,11 @@ export const metadata: Metadata = {
     title: 'Floria',
   },
   icons: {
-    icon: '/icono-floria.png',
-    apple: '/icono-floria.png',
+    icon: [
+      { url: '/icono-floria.png', sizes: '512x512', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
     shortcut: '/icono-floria.png',
   },
 }
@@ -30,7 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Floria" />
-        <link rel="apple-touch-icon" href="/icono-floria.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icono-floria.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
       </head>
       <body style={{
         margin: 0,
