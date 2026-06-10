@@ -65,26 +65,11 @@ export async function GET(req: NextRequest) {
   let inserted = 0
   const failures: { plant: string; message: string }[] = []
 
-  for (let i = 0; i < updates.length; i += CHUNK) {
-    const chunk = updates.slice(i, i + CHUNK)
-    const { error } = await supabase.from('plants').upsert(chunk, { onConflict: 'id' })
-    if (error) {
-      // reintentar fila por fila para aislar la que falla
-      for (const row of chunk) {
-        const { error: e2 } = await supabase.from('plants').upsert([row], { onConflict: 'id' })
-        if (e2) failures.push({ plant: String(row.common_name), message: e2.message })
-        else updated++
-      }
-      if (error.message.includes('column') || error.message.includes('schema cache')) {
-        return NextResponse.json({
-          error: 'Faltan columnas en la tabla plants',
-          detail: error.message,
-          fix: 'Ejecutar supabase/migrations/004_add_filter_columns.sql en SQL Editor y reintentar',
-        }, { status: 500 })
-      }
-    } else {
-      updated += chunk.length
-    }
+  for (const row of updates) {
+    const { id, ...fields } = row as Record<string, unknown> & { id: string }
+    const { error } = await supabase.from('plants').update(fields).eq('id', id)
+    if (error) failures.push({ plant: String(row.common_name), message: error.message })
+    else updated++
   }
 
   for (let i = 0; i < inserts.length; i += CHUNK) {
