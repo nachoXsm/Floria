@@ -117,13 +117,17 @@ export default function ExplorePage() {
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState('')
   const [activeFilters, setActiveFilters] = useState<FilterChip[]>([])
+  const [page, setPage] = useState(1)
+  const [loadingMore, setLoadingMore] = useState(false)
   const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  const PAGE_SIZE = 60
   const supabase = createClient()
 
   useEffect(() => {
+    setPage(1)
     if (searchTimeout.current) clearTimeout(searchTimeout.current)
-    searchTimeout.current = setTimeout(loadPlants, 280)
+    searchTimeout.current = setTimeout(() => loadPlants(1), 280)
     return () => { if (searchTimeout.current) clearTimeout(searchTimeout.current) }
   }, [search, activeFilters])
 
@@ -143,14 +147,15 @@ export default function ExplorePage() {
     return activeFilters.some(f => f.field === chip.field && f.value === chip.value)
   }
 
-  async function loadPlants() {
-    setLoading(true)
+  async function loadPlants(toPage: number) {
+    if (toPage === 1) setLoading(true)
+    else setLoadingMore(true)
 
     let query = supabase
       .from('plants')
       .select('*', { count: 'exact' })
       .eq('published', true)
-      .limit(60)
+      .range(0, toPage * PAGE_SIZE - 1)
       .order('common_name')
 
     if (search) {
@@ -182,6 +187,13 @@ export default function ExplorePage() {
     setPlants((data || []) as Plant[])
     setTotal(count || 0)
     setLoading(false)
+    setLoadingMore(false)
+  }
+
+  function loadMore() {
+    const next = page + 1
+    setPage(next)
+    loadPlants(next)
   }
 
   return (
@@ -437,6 +449,21 @@ export default function ExplorePage() {
                 </div>
               </Link>
             ))}
+          </div>
+        )}
+
+        {/* VER MÁS */}
+        {!loading && plants.length < total && (
+          <div style={{ textAlign: 'center', marginTop: '28px' }}>
+            <button onClick={loadMore} disabled={loadingMore} style={{
+              padding: '12px 32px', borderRadius: '999px', border: '1px solid #1E3D2B',
+              backgroundColor: loadingMore ? '#E7EFE6' : '#1E3D2B',
+              color: loadingMore ? '#1E3D2B' : 'white',
+              fontSize: '14px', fontWeight: 600, cursor: loadingMore ? 'default' : 'pointer',
+              fontFamily: 'Montserrat, system-ui, sans-serif',
+            }}>
+              {loadingMore ? 'Cargando...' : `Ver más (${plants.length} de ${total})`}
+            </button>
           </div>
         )}
       </div>

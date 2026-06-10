@@ -11,9 +11,12 @@ type Plant = {
 }
 
 type InatTaxon = {
+  id: number
   name: string
   default_photo?: { medium_url: string; attribution: string }
 }
+
+const PLANTAE_TAXON_ID = 47126
 
 // Plants that need a different search term than their scientific name
 const SEARCH_OVERRIDES: Record<string, string> = {
@@ -75,7 +78,7 @@ async function getBestImage(scientificName: string): Promise<{ url: string; sour
   return null
 }
 
-async function searchInat(query: string): Promise<{ url: string; name: string; attribution: string } | null> {
+async function searchInat(query: string, excludeUrls?: Set<string>): Promise<{ url: string; name: string; attribution: string } | null> {
   const override = SEARCH_OVERRIDES[query.toLowerCase()]
   const variants = override ? [override, ...buildSearchVariants(query)] : buildSearchVariants(query)
   for (let i = 0; i < variants.length; i++) {
@@ -84,23 +87,47 @@ async function searchInat(query: string): Promise<{ url: string; name: string; a
     const isGenus = !variant.includes(' ')
     const rankParam = isGenus ? '' : '&rank=species'
     try {
-      const url = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(variant)}${rankParam}&per_page=5`
+      // taxon_id=47126 restringe la búsqueda al reino Plantae (evita animales homónimos)
+      const url = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(variant)}${rankParam}&taxon_id=${PLANTAE_TAXON_ID}&per_page=5`
       const res = await fetch(url, { signal: AbortSignal.timeout(8000) })
       if (!res.ok) continue
       const data = await res.json()
       const results: InatTaxon[] = data.results ?? []
-      const best = results.find(r => r.default_photo?.medium_url) ?? null
+      const withPhoto = results.filter(r => r.default_photo?.medium_url)
+      // Preferir el taxón cuyo nombre coincide exactamente con lo buscado
+      const best = withPhoto.find(r => r.name.toLowerCase() === variant.toLowerCase()) ?? withPhoto[0] ?? null
       if (!best?.default_photo?.medium_url) continue
-      return {
-        url: best.default_photo.medium_url,
-        name: best.name,
-        attribution: best.default_photo.attribution ?? '',
+      let photoUrl = best.default_photo.medium_url
+      let attribution = best.default_photo.attribution ?? ''
+      // Si la foto ya está usada por otra planta, buscar una alternativa del mismo taxón
+      if (excludeUrls?.has(photoUrl)) {
+        const alt = await getAlternateTaxonPhoto(best.id, excludeUrls)
+        if (!alt) continue
+        photoUrl = alt.url
+        attribution = alt.attribution
       }
+      return { url: photoUrl, name: best.name, attribution }
     } catch {
       continue
     }
   }
   return null
+}
+
+async function getAlternateTaxonPhoto(taxonId: number, excludeUrls: Set<string>): Promise<{ url: string; attribution: string } | null> {
+  try {
+    const res = await fetch(`https://api.inaturalist.org/v1/taxa/${taxonId}`, { signal: AbortSignal.timeout(8000) })
+    if (!res.ok) return null
+    const data = await res.json()
+    const photos: { photo?: { medium_url?: string; attribution?: string } }[] = data.results?.[0]?.taxon_photos ?? []
+    for (const tp of photos) {
+      const u = tp.photo?.medium_url
+      if (u && !excludeUrls.has(u)) return { url: u, attribution: tp.photo?.attribution ?? '' }
+    }
+    return null
+  } catch {
+    return null
+  }
 }
 
 async function searchWikimedia(scientificName: string): Promise<string | null> {
@@ -326,6 +353,54 @@ export async function GET(req: NextRequest) {
     const fixed = results.filter(r => r.status === 'fixed').length
     const notFound = results.filter(r => r.status === 'not_found')
     return NextResponse.json({ total: results.length, fixed, not_found: notFound.map(r => r.name), results })
+  }
+
+  // ── DEDUPE MODE: detect plants sharing the same cover_image and assign distinct photos ──
+  if (mode === 'dedupe') {
+    const { data: all } = await supabase
+      .from('plants')
+      .select('id, common_name, scientific_name, cover_image')
+      .eq('published', true)
+      .not('cover_image', 'is', null)
+      .order('common_name')
+
+    const byUrl = new Map<string, Plant[]>()
+    for (const p of (all ?? []) as Plant[]) {
+      const list = byUrl.get(p.cover_image!) ?? []
+      list.push(p)
+      byUrl.set(p.cover_image!, list)
+    }
+
+    const usedUrls = new Set(byUrl.keys())
+    const dupGroups = Array.from(byUrl.values()).filter(g => g.length > 1)
+    const results: { name: string; scientific: string; status: string; url?: string }[] = []
+    let processed = 0
+
+    for (const group of dupGroups) {
+      // mantener la foto para la primera planta del grupo, re-buscar para el resto
+      for (const plant of group.slice(1)) {
+        if (processed >= batchSize) break
+        processed++
+        await sleep(600)
+        const inat = await searchInat(plant.scientific_name, usedUrls)
+        if (inat) {
+          usedUrls.add(inat.url)
+          await supabase.from('plants').update({
+            cover_image: inat.url,
+            image_source: 'inaturalist',
+            image_attribution: inat.attribution,
+            image_fetched_at: new Date().toISOString(),
+          }).eq('id', plant.id)
+          results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'fixed', url: inat.url })
+        } else {
+          results.push({ name: plant.common_name, scientific: plant.scientific_name, status: 'no_alternative' })
+        }
+      }
+      if (processed >= batchSize) break
+    }
+
+    const remaining = dupGroups.reduce((n, g) => n + g.length - 1, 0) - results.filter(r => r.status === 'fixed').length
+    return NextResponse.json({ duplicate_groups: dupGroups.length, processed: results.length, remaining_duplicates: remaining, results })
   }
 
   // ── FIXONE MODE: re-fetch image for a single plant by common name ──
