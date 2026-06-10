@@ -8,12 +8,12 @@
   "theme_color": "#1E3D2B",
   "icons": [
     {
-      "src": "/icono-floria.svg",
+      "src": "/icono-floria.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icono-floria.svg",
+      "src": "/icono-floria.png",
       "sizes": "512x512",
       "type": "image/png"
     }
