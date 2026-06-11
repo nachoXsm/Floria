@@ -65,6 +65,8 @@ export default function AdminPage() {
   const [fixOneName, setFixOneName] = useState('')
   const [overrideName, setOverrideName] = useState('')
   const [overrideUrl, setOverrideUrl] = useState('')
+  const [autoFixLog, setAutoFixLog] = useState<string[]>([])
+  const [autoFixRunning, setAutoFixRunning] = useState(false)
 
   if (!authed) {
     return (
@@ -115,6 +117,40 @@ export default function AdminPage() {
     setLoading(l => ({ ...l, fixone: false }))
   }
 
+  async function runAutoFix() {
+    setAutoFixRunning(true)
+    setAutoFixLog([])
+    let round = 1
+    let totalFixed = 0
+
+    while (true) {
+      const params = new URLSearchParams({ token: TOKEN, mode: 'fix', batch: '30' })
+      let json: Result
+      try {
+        const res = await fetch(`/api/admin/audit-images?${params}`)
+        json = await res.json()
+      } catch (e) {
+        setAutoFixLog(l => [...l, `❌ Error en ronda ${round}: ${String(e)}`])
+        break
+      }
+      const processed = (json.processed as number) ?? 0
+      const fixed = Array.isArray(json.results)
+        ? (json.results as {status:string}[]).filter(r => r.status === 'fixed').length
+        : 0
+      const notFound = processed - fixed
+      totalFixed += fixed
+      setAutoFixLog(l => [...l, `Ronda ${round}: ${fixed} fotos asignadas, ${notFound} no encontradas (total acumulado: ${totalFixed})`])
+      round++
+      if (processed === 0) {
+        setAutoFixLog(l => [...l, `✅ Listo. ${totalFixed} fotos asignadas en total.`])
+        break
+      }
+      // Pausa entre rondas para no saturar la API
+      await new Promise(r => setTimeout(r, 2000))
+    }
+    setAutoFixRunning(false)
+  }
+
   async function runOverride() {
     if (!overrideName.trim() || !overrideUrl.trim()) return
     setLoading(l => ({ ...l, override: true }))
@@ -134,7 +170,34 @@ export default function AdminPage() {
           <button onClick={() => setAuthed(false)} style={{ padding: '6px 16px', borderRadius: '999px', border: '1px solid #E7EFE6', backgroundColor: 'white', color: '#6B7280', fontSize: '12px', cursor: 'pointer' }}>Salir</button>
         </div>
 
-        {/* Operaciones principales */}
+        {/* AUTO-FIX: busca fotos en loop hasta terminar */}
+        <div style={{ backgroundColor: '#1E3D2B', borderRadius: '16px', padding: '20px', marginBottom: '24px', color: 'white' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, margin: '0 0 4px' }}>🚀 Buscar todas las fotos faltantes (automático)</h2>
+          <p style={{ fontSize: '12px', opacity: 0.75, margin: '0 0 14px' }}>
+            Corre lotes de 30 en loop hasta que todas las plantas tengan foto. Puede tardar varios minutos.
+          </p>
+          <button
+            onClick={autoFixRunning ? undefined : runAutoFix}
+            disabled={autoFixRunning}
+            style={{
+              padding: '12px 28px', borderRadius: '10px', border: 'none',
+              backgroundColor: autoFixRunning ? '#4C7F5B' : '#A3C99A',
+              color: '#1E3D2B', fontSize: '14px', fontWeight: 700,
+              cursor: autoFixRunning ? 'default' : 'pointer',
+            }}
+          >
+            {autoFixRunning ? '⏳ Procesando...' : 'Iniciar'}
+          </button>
+          {autoFixLog.length > 0 && (
+            <div style={{ marginTop: '14px', backgroundColor: 'rgba(0,0,0,0.25)', borderRadius: '10px', padding: '12px', maxHeight: '200px', overflowY: 'auto' }}>
+              {autoFixLog.map((line, i) => (
+                <p key={i} style={{ margin: '2px 0', fontSize: '12px', fontFamily: 'monospace', opacity: 0.9 }}>{line}</p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Operaciones individuales */}
         {OPERATIONS.map(op => (
           <div key={op.id} style={{ backgroundColor: 'white', borderRadius: '16px', border: '1px solid #E7EFE6', padding: '20px', marginBottom: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
