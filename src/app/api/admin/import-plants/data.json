@@ -25660,5 +25660,3942 @@
     ],
     "slug": "juncus-effusus",
     "published": true
+  },
+  {
+    "scientific_name": "Sedum rubrotinctum",
+    "common_name": "Frijolitos",
+    "common_names": [
+      "Frijolitos"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Pequeña suculenta de hojas redondeadas que se tornan rojizas bajo el sol pleno. Muy resistente y fácil de propagar.",
+    "uses": [
+      "maceta",
+      "xeriscape",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Suculenta",
+    "flower_colors": [],
+    "design_compatibility": [
+      "xeriscape",
+      "maceta",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "xeriscape",
+      "borde"
+    ],
+    "slug": "frijolitos",
+    "published": true
+  },
+  {
+    "scientific_name": "Graptopetalum paraguayense",
+    "common_name": "Planta fantasma",
+    "common_names": [
+      "Planta fantasma"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Suculenta en roseta de tono gris perlado con reflejos rosados. Forma tapices colgantes y se propaga con facilidad por hojas.",
+    "uses": [
+      "maceta",
+      "xeriscape",
+      "colgante"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Suculenta",
+    "flower_colors": [
+      "blanco",
+      "amarillo"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "maceta",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "xeriscape",
+      "colgante"
+    ],
+    "slug": "planta-fantasma",
+    "published": true
+  },
+  {
+    "scientific_name": "Sempervivum tectorum",
+    "common_name": "Siempreviva",
+    "common_names": [
+      "Siempreviva"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Suculenta rústica en roseta que forma colonias apretadas y tolera el frío y la sequía. Tradicional en techos y muros de piedra.",
+    "uses": [
+      "maceta",
+      "xeriscape",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Suculenta",
+    "flower_colors": [
+      "rosa"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "maceta",
+      "patagonico"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "xeriscape",
+      "borde"
+    ],
+    "slug": "siempreviva",
+    "published": true
+  },
+  {
+    "scientific_name": "Opuntia ficus-indica",
+    "common_name": "Tuna",
+    "common_names": [
+      "Tuna"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Cactus de grandes pencas planas que produce frutos comestibles dulces. Muy difundido en regiones áridas del país.",
+    "uses": [
+      "xeriscape",
+      "comestible",
+      "cerco"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "amarillo",
+      "naranja"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "nativo",
+      "rural"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "xeriscape",
+      "comestible",
+      "cerco"
+    ],
+    "slug": "tuna",
+    "published": true
+  },
+  {
+    "scientific_name": "Cereus forbesii",
+    "common_name": "Cardón cactus",
+    "common_names": [
+      "Cardón cactus"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Cactus columnar azulado de crecimiento vertical y costillas marcadas. Florece de noche con grandes flores blancas perfumadas.",
+    "uses": [
+      "xeriscape",
+      "nativo",
+      "escultural"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "blanco"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "nativo",
+      "rural"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "xeriscape",
+      "nativo",
+      "escultural"
+    ],
+    "slug": "cardon-cactus",
+    "published": true
+  },
+  {
+    "scientific_name": "Mammillaria elongata",
+    "common_name": "Cactus dedo de oro",
+    "common_names": [
+      "Cactus dedo de oro"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Cactus globoso que forma grupos cilíndricos cubiertos de espinas doradas. Florece con pequeñas flores en corona.",
+    "uses": [
+      "maceta",
+      "xeriscape",
+      "interior"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "amarillo",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "maceta",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "xeriscape",
+      "interior"
+    ],
+    "slug": "cactus-dedo-de-oro",
+    "published": true
+  },
+  {
+    "scientific_name": "Gymnocalycium mihanovichii",
+    "common_name": "Cactus rubí",
+    "common_names": [
+      "Cactus rubí"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Cactus globoso nativo del norte argentino, popular en su versión injertada de color rojo o amarillo. Ideal para macetas pequeñas.",
+    "uses": [
+      "maceta",
+      "interior",
+      "xeriscape"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "rosa",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "nativo",
+      "xeriscape"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "interior",
+      "xeriscape"
+    ],
+    "slug": "cactus-rubi",
+    "published": true
+  },
+  {
+    "scientific_name": "Echinopsis oxygona",
+    "common_name": "Cactus erizo",
+    "common_names": [
+      "Cactus erizo"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Cactus globoso nativo de gran rusticidad que produce enormes flores tubulares perfumadas. Muy común en jardines del sur.",
+    "uses": [
+      "maceta",
+      "xeriscape",
+      "floral"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "rosa",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "nativo",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Pampeana / Patagonia",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "xeriscape",
+      "floral"
+    ],
+    "slug": "cactus-erizo",
+    "published": true
+  },
+  {
+    "scientific_name": "Cleistocactus strausii",
+    "common_name": "Cactus plateado",
+    "common_names": [
+      "Cactus plateado"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Cactus columnar cubierto de finas espinas blancas que le dan aspecto plateado. Forma grupos verticales muy decorativos.",
+    "uses": [
+      "maceta",
+      "xeriscape",
+      "escultural"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "rojo"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "maceta",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "xeriscape",
+      "escultural"
+    ],
+    "slug": "cactus-plateado",
+    "published": true
+  },
+  {
+    "scientific_name": "Ferocactus latispinus",
+    "common_name": "Cactus barril",
+    "common_names": [
+      "Cactus barril"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Cactus globoso robusto de fuertes espinas curvas y costillas pronunciadas. Aporta carácter a jardines de rocas y secos.",
+    "uses": [
+      "xeriscape",
+      "escultural",
+      "maceta"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "violeta",
+      "rojo"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "mediterraneo",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "xeriscape",
+      "escultural",
+      "maceta"
+    ],
+    "slug": "cactus-barril",
+    "published": true
+  },
+  {
+    "scientific_name": "Lithops karasmontana",
+    "common_name": "Piedra viva",
+    "common_names": [
+      "Piedra viva"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Suculenta diminuta que imita guijarros para camuflarse del sol intenso. Curiosa rareza para coleccionistas en maceta.",
+    "uses": [
+      "maceta",
+      "interior",
+      "coleccion"
+    ],
+    "care_level": "expert",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": false,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior",
+    "plant_type": "Suculenta",
+    "flower_colors": [
+      "amarillo",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "xeriscape",
+      "interior"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "interior",
+      "coleccion"
+    ],
+    "slug": "piedra-viva",
+    "published": true
+  },
+  {
+    "scientific_name": "Gasteria carinata",
+    "common_name": "Gasteria",
+    "common_names": [
+      "Gasteria"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Suculenta de hojas gruesas dispuestas en abanico, con superficie moteada y rugosa. Tolera baja luz y es muy resistente.",
+    "uses": [
+      "maceta",
+      "interior",
+      "xeriscape"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": false,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior",
+    "plant_type": "Suculenta",
+    "flower_colors": [
+      "rosa",
+      "rojo"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "interior",
+      "xeriscape"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "interior",
+      "xeriscape"
+    ],
+    "slug": "gasteria-2",
+    "published": true
+  },
+  {
+    "scientific_name": "Nephrolepis cordifolia",
+    "common_name": "Helecho serrucho",
+    "common_names": [
+      "Helecho serrucho"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Helecho de frondes erectas y angostas que forma matas densas. Muy resistente para borduras sombreadas y macetas colgantes.",
+    "uses": [
+      "sombra",
+      "maceta",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "urban_jungle",
+      "maceta",
+      "tropical"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "maceta",
+      "borde"
+    ],
+    "slug": "helecho-serrucho",
+    "published": true
+  },
+  {
+    "scientific_name": "Adiantum raddianum",
+    "common_name": "Culantrillo",
+    "common_names": [
+      "Culantrillo"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Delicado helecho de frondes finas y pinnas en forma de abanico sobre peciolos negros. Prefiere humedad alta y sombra.",
+    "uses": [
+      "sombra",
+      "maceta",
+      "interior"
+    ],
+    "care_level": "moderate",
+    "light": "shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "urban_jungle",
+      "tropical",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "maceta",
+      "interior"
+    ],
+    "slug": "culantrillo",
+    "published": true
+  },
+  {
+    "scientific_name": "Polystichum setiferum",
+    "common_name": "Helecho blando",
+    "common_names": [
+      "Helecho blando"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Helecho rústico de frondes suaves y plumosas que tolera el frío. Excelente para zonas sombreadas de jardines templados.",
+    "uses": [
+      "sombra",
+      "borde",
+      "naturalista"
+    ],
+    "care_level": "easy",
+    "light": "shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "naturalista",
+      "urban_jungle",
+      "patagonico"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "borde",
+      "naturalista"
+    ],
+    "slug": "helecho-blando",
+    "published": true
+  },
+  {
+    "scientific_name": "Dryopteris filix-mas",
+    "common_name": "Helecho macho europeo",
+    "common_names": [
+      "Helecho macho europeo"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Helecho robusto de grandes frondes verdes en roseta que aporta volumen a la sombra. Resistente al frío y de fácil cultivo.",
+    "uses": [
+      "sombra",
+      "borde",
+      "naturalista"
+    ],
+    "care_level": "easy",
+    "light": "shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "naturalista",
+      "urban_jungle",
+      "patagonico"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "borde",
+      "naturalista"
+    ],
+    "slug": "helecho-macho-europeo",
+    "published": true
+  },
+  {
+    "scientific_name": "Asparagus densiflorus",
+    "common_name": "Esparraguera helecho",
+    "common_names": [
+      "Esparraguera helecho"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Planta de tallos arqueados cubiertos de fino follaje plumoso. Muy usada en canastos colgantes y borduras sombreadas.",
+    "uses": [
+      "sombra",
+      "colgante",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [
+      "blanco"
+    ],
+    "design_compatibility": [
+      "urban_jungle",
+      "maceta",
+      "colgante"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "colgante",
+      "maceta"
+    ],
+    "slug": "esparraguera-helecho",
+    "published": true
+  },
+  {
+    "scientific_name": "Pteris cretica",
+    "common_name": "Helecho cinta",
+    "common_names": [
+      "Helecho cinta"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Helecho compacto de frondes acintadas, a menudo con franja central clara. Muy adaptable para interiores y sombra fresca.",
+    "uses": [
+      "sombra",
+      "interior",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "urban_jungle",
+      "maceta",
+      "tropical"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "interior",
+      "maceta"
+    ],
+    "slug": "helecho-cinta",
+    "published": true
+  },
+  {
+    "scientific_name": "Blechnum brasiliense",
+    "common_name": "Helecho árbol enano",
+    "common_names": [
+      "Helecho árbol enano"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Helecho nativo de frondes rígidas en roseta sobre un corto tronco. Aporta aspecto tropical a jardines de sombra húmeda.",
+    "uses": [
+      "sombra",
+      "tropical",
+      "naturalista"
+    ],
+    "care_level": "moderate",
+    "light": "shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "tropical",
+      "nativo",
+      "urban_jungle"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "tropical",
+      "naturalista"
+    ],
+    "slug": "helecho-arbol-enano",
+    "published": true
+  },
+  {
+    "scientific_name": "Cyathea cooperi",
+    "common_name": "Helecho arborescente",
+    "common_names": [
+      "Helecho arborescente"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Helecho arbóreo de tronco fibroso y grandes frondes que forman una copa elegante. Crea atmósferas selváticas en sombra.",
+    "uses": [
+      "sombra",
+      "tropical",
+      "escultural"
+    ],
+    "care_level": "moderate",
+    "light": "partial_shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "tropical",
+      "urban_jungle",
+      "naturalista"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "tropical",
+      "escultural"
+    ],
+    "slug": "helecho-arborescente",
+    "published": true
+  },
+  {
+    "scientific_name": "Microsorum diversifolium",
+    "common_name": "Helecho cuero",
+    "common_names": [
+      "Helecho cuero"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Helecho rastrero de frondes coriáceas y brillantes que forma tapices. Muy resistente para sombra seca y macetas.",
+    "uses": [
+      "sombra",
+      "cubresuelo",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Helecho",
+    "flower_colors": [],
+    "design_compatibility": [
+      "urban_jungle",
+      "maceta",
+      "tropical"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "sombra",
+      "cubresuelo",
+      "maceta"
+    ],
+    "slug": "helecho-cuero",
+    "published": true
+  },
+  {
+    "scientific_name": "Tulipa gesneriana",
+    "common_name": "Tulipán",
+    "common_names": [
+      "Tulipán"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa clásica de primavera con flores en forma de copa en una amplia gama de colores. Requiere frío invernal para florecer.",
+    "uses": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "rojo",
+      "amarillo",
+      "rosa",
+      "violeta"
+    ],
+    "design_compatibility": [
+      "formal",
+      "borde",
+      "maceta"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "slug": "tulipan",
+    "published": true
+  },
+  {
+    "scientific_name": "Narcissus pseudonarcissus",
+    "common_name": "Narciso",
+    "common_names": [
+      "Narciso"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de floración temprana con flores amarillas de trompeta central. Naturaliza bien y vuelve año tras año.",
+    "uses": [
+      "floral",
+      "borde",
+      "naturalista"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "amarillo",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "naturalista",
+      "borde",
+      "maceta"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "naturalista"
+    ],
+    "slug": "narciso",
+    "published": true
+  },
+  {
+    "scientific_name": "Hyacinthus orientalis",
+    "common_name": "Jacinto",
+    "common_names": [
+      "Jacinto"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de espigas densas y muy perfumadas en colores pastel. Ideal para macetas y borduras de primavera temprana.",
+    "uses": [
+      "floral",
+      "maceta",
+      "perfumada"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "azul",
+      "rosa",
+      "blanco",
+      "violeta"
+    ],
+    "design_compatibility": [
+      "formal",
+      "maceta",
+      "borde"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "maceta",
+      "perfumada"
+    ],
+    "slug": "jacinto",
+    "published": true
+  },
+  {
+    "scientific_name": "Hippeastrum hybridum",
+    "common_name": "Amarilis",
+    "common_names": [
+      "Amarilis"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Bulbosa de grandes flores acampanadas sobre tallos robustos, en rojos y rosas intensos. Espectacular en maceta y bordura.",
+    "uses": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "rojo",
+      "rosa",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "borde",
+      "nativo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "slug": "amarilis",
+    "published": true
+  },
+  {
+    "scientific_name": "Freesia refracta",
+    "common_name": "Fresia",
+    "common_names": [
+      "Fresia"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de espigas curvadas con flores muy perfumadas en colores brillantes. Excelente para macetas y flor de corte.",
+    "uses": [
+      "floral",
+      "maceta",
+      "perfumada"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "amarillo",
+      "blanco",
+      "rosa",
+      "violeta"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "borde",
+      "formal"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "maceta",
+      "perfumada"
+    ],
+    "slug": "fresia",
+    "published": true
+  },
+  {
+    "scientific_name": "Crocus vernus",
+    "common_name": "Croco",
+    "common_names": [
+      "Croco"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Pequeña bulbosa que asoma a fines del invierno con copas violetas, blancas o amarillas. Ideal para naturalizar en césped.",
+    "uses": [
+      "floral",
+      "borde",
+      "naturalista"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "violeta",
+      "blanco",
+      "amarillo"
+    ],
+    "design_compatibility": [
+      "naturalista",
+      "borde",
+      "maceta"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "naturalista"
+    ],
+    "slug": "croco",
+    "published": true
+  },
+  {
+    "scientific_name": "Muscari armeniacum",
+    "common_name": "Nazareno",
+    "common_names": [
+      "Nazareno"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa pequeña con racimos densos de florcitas azules como uvitas. Forma manchas vistosas en bordes y macetas.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "azul",
+      "violeta"
+    ],
+    "design_compatibility": [
+      "borde",
+      "naturalista",
+      "maceta"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "nazareno",
+    "published": true
+  },
+  {
+    "scientific_name": "Zantedeschia aethiopica",
+    "common_name": "Cala",
+    "common_names": [
+      "Cala"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Rizomatosa de grandes hojas y elegantes espatas blancas alrededor de un espádice amarillo. Prospera en suelos húmedos.",
+    "uses": [
+      "floral",
+      "acuatico",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "blanco"
+    ],
+    "design_compatibility": [
+      "acuatico",
+      "borde",
+      "formal"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "acuatico",
+      "borde"
+    ],
+    "slug": "cala",
+    "published": true
+  },
+  {
+    "scientific_name": "Hemerocallis fulva",
+    "common_name": "Lirio de día",
+    "common_names": [
+      "Lirio de día"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Rizomatosa rústica de flores efímeras anaranjadas que se renuevan cada día en verano. Muy resistente y de fácil cultivo.",
+    "uses": [
+      "floral",
+      "borde",
+      "parques"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "naranja",
+      "amarillo",
+      "rojo"
+    ],
+    "design_compatibility": [
+      "borde",
+      "parques",
+      "naturalista"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "parques"
+    ],
+    "slug": "lirio-de-dia",
+    "published": true
+  },
+  {
+    "scientific_name": "Lilium candidum",
+    "common_name": "Azucena",
+    "common_names": [
+      "Azucena"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de tallos altos coronados por flores blancas muy perfumadas. Clásica de jardines tradicionales y flor de corte.",
+    "uses": [
+      "floral",
+      "borde",
+      "perfumada"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "blanco"
+    ],
+    "design_compatibility": [
+      "formal",
+      "borde",
+      "mediterraneo"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "perfumada"
+    ],
+    "slug": "azucena",
+    "published": true
+  },
+  {
+    "scientific_name": "Iris pseudocorus",
+    "common_name": "Lirio amarillo de agua",
+    "common_names": [
+      "Lirio amarillo de agua"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Rizomatosa de borde de agua con flores amarillas y hojas en espada. Ideal para márgenes de estanques y zonas inundables.",
+    "uses": [
+      "floral",
+      "acuatico",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "daily",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "amarillo"
+    ],
+    "design_compatibility": [
+      "acuatico",
+      "borde",
+      "naturalista"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Pampeana",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "acuatico",
+      "borde"
+    ],
+    "slug": "lirio-amarillo-de-agua",
+    "published": true
+  },
+  {
+    "scientific_name": "Zephyranthes candida",
+    "common_name": "Flor de lluvia",
+    "common_names": [
+      "Flor de lluvia"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Bulbosa nativa que florece tras las lluvias con copas blancas sobre follaje fino. Forma borduras rústicas y prolíficas.",
+    "uses": [
+      "floral",
+      "borde",
+      "nativo"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "blanco"
+    ],
+    "design_compatibility": [
+      "nativo",
+      "borde",
+      "naturalista"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Pampeana",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "nativo"
+    ],
+    "slug": "flor-de-lluvia",
+    "published": true
+  },
+  {
+    "scientific_name": "Crocosmia crocosmiiflora",
+    "common_name": "Crocosmia",
+    "common_names": [
+      "Crocosmia"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de hojas acintadas y espigas arqueadas con flores anaranjadas de verano. Forma colonias vistosas en borduras.",
+    "uses": [
+      "floral",
+      "borde",
+      "parques"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "naranja",
+      "rojo"
+    ],
+    "design_compatibility": [
+      "borde",
+      "parques",
+      "naturalista"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "parques"
+    ],
+    "slug": "crocosmia",
+    "published": true
+  },
+  {
+    "scientific_name": "Dietes grandiflora",
+    "common_name": "Iris africano",
+    "common_names": [
+      "Iris africano"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Rizomatosa de hojas rígidas en abanico y flores blancas con marcas amarillas y violetas. Muy resistente y de bajo mantenimiento.",
+    "uses": [
+      "floral",
+      "borde",
+      "parques"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "blanco",
+      "amarillo",
+      "violeta"
+    ],
+    "design_compatibility": [
+      "borde",
+      "parques",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "parques"
+    ],
+    "slug": "iris-africano",
+    "published": true
+  },
+  {
+    "scientific_name": "Tulbaghia violacea",
+    "common_name": "Ajo social",
+    "common_names": [
+      "Ajo social"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Rizomatosa de follaje aromático con esferas de flores lila durante gran parte del año. Resistente a la sequía y muy florífera.",
+    "uses": [
+      "floral",
+      "borde",
+      "xeriscape"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "violeta",
+      "rosa"
+    ],
+    "design_compatibility": [
+      "borde",
+      "xeriscape",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "xeriscape"
+    ],
+    "slug": "ajo-social",
+    "published": true
+  },
+  {
+    "scientific_name": "Sprekelia formosissima",
+    "common_name": "Flor de lis",
+    "common_names": [
+      "Flor de lis"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de llamativa flor roja de forma asimétrica que recuerda a una orquídea. Curiosa y muy decorativa en maceta.",
+    "uses": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "rojo"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "borde",
+      "formal"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "slug": "flor-de-lis-2",
+    "published": true
+  },
+  {
+    "scientific_name": "Ranunculus asiaticus",
+    "common_name": "Ranúnculo",
+    "common_names": [
+      "Ranúnculo"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de flores muy dobles, parecidas a rosas, en colores brillantes. Apreciada en macetas, borduras y flor de corte.",
+    "uses": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "rojo",
+      "amarillo",
+      "naranja",
+      "rosa",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "borde",
+      "formal"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "slug": "ranunculo",
+    "published": true
+  },
+  {
+    "scientific_name": "Petunia x hybrida",
+    "common_name": "Petunia de jardín",
+    "common_names": [
+      "Petunia de jardín"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Anual estival de flores acampanadas abundantes en casi todos los colores. Ideal para macetas, canastos y borduras al sol.",
+    "uses": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "rosa",
+      "violeta",
+      "blanco",
+      "rojo"
+    ],
+    "design_compatibility": [
+      "maceta",
+      "borde",
+      "parques"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "maceta",
+      "borde"
+    ],
+    "slug": "petunia-de-jardin",
+    "published": true
+  },
+  {
+    "scientific_name": "Antirrhinum majus",
+    "common_name": "Conejito",
+    "common_names": [
+      "Conejito"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Estacional de espigas verticales con flores que se abren como bocas. Florece en otoño-primavera y dura como flor de corte.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "rosa",
+      "amarillo",
+      "rojo",
+      "blanco",
+      "naranja"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "formal"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "conejito",
+    "published": true
+  },
+  {
+    "scientific_name": "Lobularia maritima",
+    "common_name": "Aliso de jardín",
+    "common_names": [
+      "Aliso de jardín"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Estacional tapizante de florcitas blancas o lilas muy perfumadas. Forma mantos bajos en bordes, rocallas y macetas.",
+    "uses": [
+      "floral",
+      "borde",
+      "cubresuelo"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "blanco",
+      "violeta",
+      "rosa"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "mediterraneo"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "cubresuelo"
+    ],
+    "slug": "aliso-de-jardin",
+    "published": true
+  },
+  {
+    "scientific_name": "Tagetes patula",
+    "common_name": "Copete francés",
+    "common_names": [
+      "Copete francés"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Anual compacta de flores naranjas y amarillas que repele plagas del huerto. Muy fácil y florífera durante todo el verano.",
+    "uses": [
+      "floral",
+      "huerto",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "naranja",
+      "amarillo",
+      "rojo"
+    ],
+    "design_compatibility": [
+      "huerto",
+      "borde",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "huerto",
+      "borde"
+    ],
+    "slug": "copete-frances",
+    "published": true
+  },
+  {
+    "scientific_name": "Begonia semperflorens",
+    "common_name": "Begonia de jardín",
+    "common_names": [
+      "Begonia de jardín"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Estacional compacta de hojas brillantes y flores continuas en rosa, rojo o blanco. Tolera sol suave y media sombra.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "rosa",
+      "rojo",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "parques"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "begonia-de-jardin",
+    "published": true
+  },
+  {
+    "scientific_name": "Viola tricolor",
+    "common_name": "Pensamiento",
+    "common_names": [
+      "Pensamiento"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Estacional de invierno con flores aterciopeladas de tres colores. Clásica para canteros y macetas en la estación fría.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "violeta",
+      "amarillo",
+      "blanco",
+      "multicolor"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "formal"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "pensamiento",
+    "published": true
+  },
+  {
+    "scientific_name": "Dianthus chinensis",
+    "common_name": "Clavelina",
+    "common_names": [
+      "Clavelina"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Estacional de flores aflecadas y perfumadas en rosas y rojos. Compacta y florífera, ideal para bordes y macetas.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "rosa",
+      "rojo",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "formal"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "clavelina",
+    "published": true
+  },
+  {
+    "scientific_name": "Celosia argentea",
+    "common_name": "Cresta de gallo",
+    "common_names": [
+      "Cresta de gallo"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Anual de inflorescencias aterciopeladas y plegadas en rojos y amarillos intensos. Muy llamativa en canteros de verano.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "rojo",
+      "amarillo",
+      "naranja",
+      "rosa"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "parques"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "cresta-de-gallo",
+    "published": true
+  },
+  {
+    "scientific_name": "Portulaca grandiflora",
+    "common_name": "Flor de seda",
+    "common_names": [
+      "Flor de seda"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Anual rastrera de hojas carnosas y flores satinadas que se abren al sol. Perfecta para suelos secos, rocallas y macetas.",
+    "uses": [
+      "floral",
+      "xeriscape",
+      "cubresuelo"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "rosa",
+      "amarillo",
+      "naranja",
+      "rojo",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "borde",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "xeriscape",
+      "cubresuelo"
+    ],
+    "slug": "flor-de-seda",
+    "published": true
+  },
+  {
+    "scientific_name": "Verbena hybrida",
+    "common_name": "Verbena de jardín",
+    "common_names": [
+      "Verbena de jardín"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Estacional rastrera con ramilletes de flores en rosas, rojos y violetas durante todo el verano. Ideal para macetas colgantes.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "rosa",
+      "rojo",
+      "violeta",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "naturalista"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "verbena-de-jardin",
+    "published": true
+  },
+  {
+    "scientific_name": "Ageratum houstonianum",
+    "common_name": "Agérato",
+    "common_names": [
+      "Agérato"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Anual compacta de flores azules afelpadas que florece sin pausa en verano. Excelente para bordes bajos y macetas.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "azul",
+      "violeta",
+      "blanco"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "parques"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "agerato",
+    "published": true
+  },
+  {
+    "scientific_name": "Nicotiana alata",
+    "common_name": "Tabaco de jardín",
+    "common_names": [
+      "Tabaco de jardín"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Estacional de flores tubulares perfumadas que se abren al atardecer. Nativa del Litoral, atrae mariposas nocturnas.",
+    "uses": [
+      "floral",
+      "borde",
+      "perfumada"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "blanco",
+      "rosa",
+      "verdoso"
+    ],
+    "design_compatibility": [
+      "borde",
+      "nativo",
+      "naturalista"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "perfumada"
+    ],
+    "slug": "tabaco-de-jardin",
+    "published": true
+  },
+  {
+    "scientific_name": "Tropaeolum majus",
+    "common_name": "Taco de reina",
+    "common_names": [
+      "Taco de reina"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Anual trepadora o rastrera de hojas redondas y flores comestibles anaranjadas. Fácil y útil en el huerto como atrapaplagas.",
+    "uses": [
+      "floral",
+      "huerto",
+      "comestible"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "naranja",
+      "amarillo",
+      "rojo"
+    ],
+    "design_compatibility": [
+      "huerto",
+      "borde",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "huerto",
+      "comestible"
+    ],
+    "slug": "taco-de-reina",
+    "published": true
+  },
+  {
+    "scientific_name": "Helichrysum bracteatum",
+    "common_name": "Siempreviva de jardín",
+    "common_names": [
+      "Siempreviva de jardín"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Anual de flores papiráceas que conservan el color al secarse. Muy usada en ramos secos y borduras soleadas.",
+    "uses": [
+      "floral",
+      "borde",
+      "seca"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Herbácea",
+    "flower_colors": [
+      "amarillo",
+      "naranja",
+      "rojo",
+      "rosa"
+    ],
+    "design_compatibility": [
+      "borde",
+      "huerto",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "seca"
+    ],
+    "slug": "siempreviva-de-jardin",
+    "published": true
+  },
+  {
+    "scientific_name": "Brahea armata",
+    "common_name": "Palmera azul",
+    "common_names": [
+      "Palmera azul"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Palmera de crecimiento lento con hojas en abanico de intenso color azul plateado. Muy resistente a la sequía y al frío seco.",
+    "uses": [
+      "palmera",
+      "xeriscape",
+      "escultural"
+    ],
+    "care_level": "moderate",
+    "light": "full_sun",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Palmera",
+    "flower_colors": [],
+    "design_compatibility": [
+      "xeriscape",
+      "mediterraneo",
+      "parques"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "palmera",
+      "xeriscape",
+      "escultural"
+    ],
+    "slug": "palmera-azul",
+    "published": true
+  },
+  {
+    "scientific_name": "Butia yatay",
+    "common_name": "Palmera yatay",
+    "common_names": [
+      "Palmera yatay"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Palmera nativa del Litoral de hojas arqueadas glaucas y frutos comestibles anaranjados. Emblemática de los palmares entrerrianos.",
+    "uses": [
+      "palmera",
+      "nativo",
+      "parques"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Palmera",
+    "flower_colors": [],
+    "design_compatibility": [
+      "nativo",
+      "parques",
+      "rural"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "palmera",
+      "nativo",
+      "parques"
+    ],
+    "slug": "palmera-yatay",
+    "published": true
+  },
+  {
+    "scientific_name": "Trachycarpus fortunei",
+    "common_name": "Palmera molino",
+    "common_names": [
+      "Palmera molino"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Palmera rústica de tronco fibroso y hojas en abanico, muy tolerante al frío. Apta para jardines templados y patagónicos.",
+    "uses": [
+      "palmera",
+      "parques",
+      "escultural"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Palmera",
+    "flower_colors": [],
+    "design_compatibility": [
+      "parques",
+      "patagonico",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "palmera",
+      "parques",
+      "escultural"
+    ],
+    "slug": "palmera-molino",
+    "published": true
+  },
+  {
+    "scientific_name": "Chamaerops humilis",
+    "common_name": "Palmito",
+    "common_names": [
+      "Palmito"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Palmera baja y multitronco de hojas en abanico, muy resistente y compacta. Ideal para macetas grandes y jardines secos.",
+    "uses": [
+      "palmera",
+      "maceta",
+      "xeriscape"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Palmera",
+    "flower_colors": [],
+    "design_compatibility": [
+      "xeriscape",
+      "mediterraneo",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "palmera",
+      "maceta",
+      "xeriscape"
+    ],
+    "slug": "palmito",
+    "published": true
+  },
+  {
+    "scientific_name": "Melia azedarach",
+    "common_name": "Paraíso sombrilla",
+    "common_names": [
+      "Paraíso sombrilla"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Árbol de copa redondeada con flores lilas perfumadas en primavera y frutos amarillos. Muy difundido por su sombra y rusticidad.",
+    "uses": [
+      "arbol",
+      "parques",
+      "sombra"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Árbol",
+    "flower_colors": [
+      "violeta"
+    ],
+    "design_compatibility": [
+      "parques",
+      "rural",
+      "formal"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "arbol",
+      "parques",
+      "sombra"
+    ],
+    "slug": "paraiso-sombrilla",
+    "published": true
+  },
+  {
+    "scientific_name": "Ceibo crista-galli",
+    "common_name": "Ceibo",
+    "common_names": [
+      "Ceibo"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Árbol nativo, flor nacional argentina, de espectaculares racimos rojos en verano. Prospera en suelos húmedos del Litoral.",
+    "uses": [
+      "arbol",
+      "nativo",
+      "floral"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "twice_week",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Árbol",
+    "flower_colors": [
+      "rojo"
+    ],
+    "design_compatibility": [
+      "nativo",
+      "parques",
+      "acuatico"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NEA / Litoral",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "arbol",
+      "nativo",
+      "floral"
+    ],
+    "slug": "ceibo-2",
+    "published": true
+  },
+  {
+    "scientific_name": "Tabebuia chrysotricha",
+    "common_name": "Lapacho amarillo",
+    "common_names": [
+      "Lapacho amarillo"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Árbol nativo que ofrece una explosión de flores amarillas en primavera. Ornamental destacado en calles y plazas del norte.",
+    "uses": [
+      "arbol",
+      "nativo",
+      "floral"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Árbol",
+    "flower_colors": [
+      "amarillo"
+    ],
+    "design_compatibility": [
+      "nativo",
+      "parques",
+      "formal"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "arbol",
+      "nativo",
+      "floral"
+    ],
+    "slug": "lapacho-amarillo-2",
+    "published": true
+  },
+  {
+    "scientific_name": "Erythrina falcata",
+    "common_name": "Ceibo de monte",
+    "common_names": [
+      "Ceibo de monte"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Árbol nativo de gran porte con racimos colgantes de flores rojas en primavera. Propio de las yungas y selvas del noroeste.",
+    "uses": [
+      "arbol",
+      "nativo",
+      "floral"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Árbol",
+    "flower_colors": [
+      "rojo"
+    ],
+    "design_compatibility": [
+      "nativo",
+      "parques",
+      "tropical"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "arbol",
+      "nativo",
+      "floral"
+    ],
+    "slug": "ceibo-de-monte",
+    "published": true
+  },
+  {
+    "scientific_name": "Acer negundo",
+    "common_name": "Arce negundo",
+    "common_names": [
+      "Arce negundo"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Árbol caducifolio de crecimiento rápido y follaje compuesto, a veces variegado. Muy usado para sombra rápida en parques.",
+    "uses": [
+      "arbol",
+      "parques",
+      "sombra"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Árbol",
+    "flower_colors": [],
+    "design_compatibility": [
+      "parques",
+      "formal",
+      "rural"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana / Patagonia",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "arbol",
+      "parques",
+      "sombra"
+    ],
+    "slug": "arce-negundo",
+    "published": true
+  },
+  {
+    "scientific_name": "Fraxinus americana",
+    "common_name": "Fresno americano",
+    "common_names": [
+      "Fresno americano"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Árbol caducifolio de copa amplia y follaje que dora en otoño. Muy difundido en veredas y plazas por su sombra densa.",
+    "uses": [
+      "arbol",
+      "parques",
+      "sombra"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": false,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Árbol",
+    "flower_colors": [],
+    "design_compatibility": [
+      "parques",
+      "formal",
+      "rural"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Pampeana",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "arbol",
+      "parques",
+      "sombra"
+    ],
+    "slug": "fresno-americano",
+    "published": true
+  },
+  {
+    "scientific_name": "Echeveria gibbiflora",
+    "common_name": "Echeveria grande",
+    "common_names": [
+      "Echeveria grande"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Suculenta de grandes rosetas con hojas onduladas y tonos rosados o grisáceos. Aporta volumen escultural a composiciones secas.",
+    "uses": [
+      "maceta",
+      "xeriscape",
+      "borde"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "biweekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": true,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Interior / Exterior",
+    "plant_type": "Suculenta",
+    "flower_colors": [
+      "rosa",
+      "naranja"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "maceta",
+      "mediterraneo"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "maceta",
+      "xeriscape",
+      "borde"
+    ],
+    "slug": "echeveria-grande",
+    "published": true
+  },
+  {
+    "scientific_name": "Echinopsis candicans",
+    "common_name": "Cardón blanco",
+    "common_names": [
+      "Cardón blanco"
+    ],
+    "family": null,
+    "origin": [
+      "Argentina"
+    ],
+    "description": "Cactus columnar nativo de Cuyo que forma matas y luce grandes flores blancas perfumadas en verano. Muy rústico y ornamental.",
+    "uses": [
+      "xeriscape",
+      "nativo",
+      "floral"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "monthly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Cactus",
+    "flower_colors": [
+      "blanco"
+    ],
+    "design_compatibility": [
+      "xeriscape",
+      "nativo",
+      "rural"
+    ],
+    "sowing_season": "Primavera",
+    "region": "NOA / Cuyo",
+    "is_native": true,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "xeriscape",
+      "nativo",
+      "floral"
+    ],
+    "slug": "cardon-blanco",
+    "published": true
+  },
+  {
+    "scientific_name": "Sparaxis tricolor",
+    "common_name": "Esparaxis",
+    "common_names": [
+      "Esparaxis"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Bulbosa de primavera con flores brillantes de centros contrastantes en varios colores. Ideal para bordes soleados y macetas.",
+    "uses": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "full_sun",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": false,
+    "flowering": true,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Bulbosa",
+    "flower_colors": [
+      "naranja",
+      "amarillo",
+      "rosa",
+      "rojo",
+      "multicolor"
+    ],
+    "design_compatibility": [
+      "borde",
+      "maceta",
+      "naturalista"
+    ],
+    "sowing_season": "Otoño",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "floral",
+      "borde",
+      "maceta"
+    ],
+    "slug": "esparaxis",
+    "published": true
+  },
+  {
+    "scientific_name": "Livistona chinensis",
+    "common_name": "Palmera de abanico china",
+    "common_names": [
+      "Palmera de abanico china"
+    ],
+    "family": null,
+    "origin": [
+      "Introducida"
+    ],
+    "description": "Palmera de hojas grandes en abanico con puntas péndulas que forma una copa elegante. Apta para jardines amplios y macetas grandes.",
+    "uses": [
+      "palmera",
+      "parques",
+      "maceta"
+    ],
+    "care_level": "easy",
+    "light": "partial_shade",
+    "water": "weekly",
+    "humidity_min": null,
+    "humidity_max": null,
+    "temp_min_c": null,
+    "temp_max_c": null,
+    "height_min_cm": null,
+    "height_max_cm": null,
+    "growth_speed": null,
+    "evergreen": true,
+    "flowering": false,
+    "flowering_months": [],
+    "indoor": false,
+    "outdoor": true,
+    "pot_suitable": true,
+    "soil_types": [],
+    "hardiness_zones": [],
+    "garden_styles": [],
+    "ubicacion": "Exterior",
+    "plant_type": "Palmera",
+    "flower_colors": [],
+    "design_compatibility": [
+      "parques",
+      "tropical",
+      "maceta"
+    ],
+    "sowing_season": "Primavera",
+    "region": "Todo Argentina",
+    "is_native": false,
+    "companion_plants": null,
+    "cover_image": null,
+    "images": [],
+    "tags": [
+      "palmera",
+      "parques",
+      "maceta"
+    ],
+    "slug": "palmera-de-abanico-china",
+    "published": true
   }
 ]
