@@ -53,16 +53,16 @@ export async function POST(request: NextRequest) {
   const fileName = `${user.id}/${Date.now()}-${imageFile.name}`
   const imageBuffer = await imageFile.arrayBuffer()
 
+  // Guardar la imagen es opcional: si falla (bucket inexistente, etc.) seguimos igual
+  let publicUrl = ''
   const { data: storageData, error: storageError } = await admin.storage
     .from('identifications')
     .upload(fileName, imageBuffer, { contentType: imageFile.type, upsert: false })
 
-  if (storageError) {
-    return NextResponse.json({ error: 'Error subiendo imagen' }, { status: 500 })
+  if (!storageError && storageData) {
+    const { data: urlData } = admin.storage.from('identifications').getPublicUrl(storageData.path)
+    publicUrl = urlData.publicUrl
   }
-
-  const { data: urlData } = admin.storage.from('identifications').getPublicUrl(storageData.path)
-  const publicUrl = urlData.publicUrl
 
   const base64Image = Buffer.from(imageBuffer).toString('base64')
 
