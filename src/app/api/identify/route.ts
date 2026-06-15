@@ -66,26 +66,67 @@ export async function POST(request: NextRequest) {
 
   const base64Image = Buffer.from(imageBuffer).toString('base64')
 
-  const plantIdResponse = await fetch('https://plant.id/api/v3/identification', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Api-Key': process.env.PLANT_ID_API_KEY ?? '',
-    },
-    body: JSON.stringify({
-      images: [`data:${imageFile.type};base64,${base64Image}`],
-      details: ['common_names', 'taxonomy', 'url', 'description', 'watering'],
-      similar_images: true,
-    }),
-  })
+  const geminiRes = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            {
+              text: `Identificá la planta en esta foto. Respondé SOLO con un JSON válido, sin markdown, con este formato exacto:
+{
+  "is_plant": true,
+  "suggestions": [
+    {
+      "name": "Nombre científico completo",
+      "probability": 0.95,
+      "common_names": ["nombre común en español"],
+      "description": "Descripción breve de la planta en español (2-3 oraciones).",
+      "watering": { "min": 1, "max": 7 }
+    }
+  ]
+}
+Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, devolvé is_plant: false y suggestions vacío.`
+            },
+            {
+              inline_data: {
+                mime_type: imageFile.type,
+                data: base64Image,
+              }
+            }
+          ]
+        }],
+        generationConfig: { temperature: 0.1 }
+      })
+    }
+  )
 
-  if (!plantIdResponse.ok) {
+  if (!geminiRes.ok) {
     return NextResponse.json({ error: 'Error en la API de identificación' }, { status: 502 })
   }
 
-  const plantIdData = await plantIdResponse.json()
-  const suggestions = plantIdData.result?.classification?.suggestions ?? []
+  const geminiData = await geminiRes.json()
+  const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text ?? '{}'
+  let parsed: { is_plant: boolean; suggestions: {name:string;probability:number;common_names:string[];description:string;watering:{min:number;max:number}}[] }
+  try {
+    parsed = JSON.parse(rawText.replace(/```json\n?|\n?```/g, '').trim())
+  } catch {
+    return NextResponse.json({ error: 'Respuesta inválida de la IA' }, { status: 502 })
+  }
+
+  const suggestions = (parsed.suggestions ?? []).map(s => ({
+    name: s.name,
+    probability: s.probability,
+    details: {
+      common_names: s.common_names ?? [],
+      description: { value: s.description ?? '' },
+      watering: s.watering ?? null,
+    }
+  }))
   const topSuggestion = suggestions[0]
+  const plantIdData = { result: { is_plant: { binary: parsed.is_plant }, classification: { suggestions } } }
 
   let matchedPlantId: string | null = null
   let confidence: number | null = null
