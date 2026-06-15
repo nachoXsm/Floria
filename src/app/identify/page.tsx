@@ -1,5 +1,5 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useDropzone } from 'react-dropzone'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
@@ -28,15 +28,19 @@ export default function IdentifyPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<IdentificationResult | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const cameraInputRef = useRef<HTMLInputElement>(null)
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const f = acceptedFiles[0]
+  const loadFile = useCallback((f: File | null | undefined) => {
     if (!f) return
     setFile(f)
     setPreview(URL.createObjectURL(f))
     setResult(null)
     setError(null)
   }, [])
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    loadFile(acceptedFiles[0])
+  }, [loadFile])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -80,7 +84,36 @@ export default function IdentifyPage() {
       <div className="max-w-2xl mx-auto px-4 pb-10">
         <div className="mb-10 text-center">
           <h1 className="font-serif text-4xl text-floria-900 mb-3">Reconocé una planta</h1>
-          <p className="font-sans text-floria-600">Subí una foto y la IA identificará la especie al instante</p>
+          <p className="font-sans text-floria-600">Sacá una foto o subí una imagen y la IA identificará la especie al instante</p>
+        </div>
+
+        {/* INPUT CÁMARA (oculto) */}
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={(e) => loadFile(e.target.files?.[0])}
+        />
+
+        {/* BOTÓN CÁMARA */}
+        <button
+          onClick={() => cameraInputRef.current?.click()}
+          className="w-full mb-4 btn-primary py-4 text-base flex items-center justify-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <circle cx="12" cy="13" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} />
+          </svg>
+          Sacar foto con la cámara
+        </button>
+
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex-1 h-px bg-floria-200" />
+          <span className="font-sans text-xs text-floria-400">o subí una imagen</span>
+          <div className="flex-1 h-px bg-floria-200" />
         </div>
 
         {/* DROPZONE */}
