@@ -104,7 +104,13 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
   )
 
   if (!geminiRes.ok) {
-    return NextResponse.json({ error: 'Error en la API de identificación' }, { status: 502 })
+    const detail = await geminiRes.text()
+    return NextResponse.json({
+      error: 'Error en la API de identificación',
+      status: geminiRes.status,
+      detail: detail.slice(0, 500),
+      has_key: !!process.env.GEMINI_API_KEY,
+    }, { status: 502 })
   }
 
   const geminiData = await geminiRes.json()

@@ -65,7 +65,8 @@ export default function IdentifyPage() {
         if (data.code === 'FREE_LIMIT_REACHED') {
           setError(`Alcanzaste tu límite de identificaciones gratuitas. Activá Floria Pro para continuar.`)
         } else {
-          setError(data.error || 'Error al identificar la planta')
+          const extra = data.detail ? ` [${data.status} · key:${data.has_key} · ${data.detail}]` : ''
+          setError((data.error || 'Error al identificar la planta') + extra)
         }
         return
       }
