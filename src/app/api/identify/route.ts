@@ -105,7 +105,7 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
     if (res.ok) { geminiRes = res; break }
     lastStatus = res.status
     lastDetail = await res.text()
-    // Solo tiene sentido reintentar con otro modelo si el problema es cuota; otros errores cortan.
+    // Solo reintentamos con otro modelo si el problema es cuota; otros errores cortan.
     if (res.status !== 429) break
   }
 
