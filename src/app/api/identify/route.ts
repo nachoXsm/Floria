@@ -148,16 +148,20 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
   const plantIdData = { result: { is_plant: { binary: parsed.is_plant }, classification: { suggestions } } }
 
   let matchedPlantId: string | null = null
+  let matchedPlantSlug: string | null = null
   let confidence: number | null = null
 
   if (topSuggestion) {
     confidence = topSuggestion.probability
     const { data: existingPlant } = await supabase
       .from('plants')
-      .select('id')
+      .select('id, slug')
       .ilike('scientific_name', `%${topSuggestion.name}%`)
       .single()
-    if (existingPlant) matchedPlantId = existingPlant.id
+    if (existingPlant) {
+      matchedPlantId = existingPlant.id
+      matchedPlantSlug = existingPlant.slug
+    }
   }
 
   const { data: identification } = await admin.from('identifications').insert({
@@ -178,6 +182,7 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
     image_url: publicUrl,
     suggestions: suggestions.slice(0, 5),
     matched_plant_id: matchedPlantId,
+    matched_plant_slug: matchedPlantSlug,
     confidence,
     is_plant: plantIdData.result?.is_plant?.binary ?? false,
   })

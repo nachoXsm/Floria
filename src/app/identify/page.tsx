@@ -11,6 +11,7 @@ interface IdentificationResult {
   confidence: number | null
   is_plant: boolean
   matched_plant_id: string | null
+  matched_plant_slug: string | null
   suggestions: Array<{
     name: string
     probability: number
@@ -225,9 +226,9 @@ export default function IdentifyPage() {
                           {s.details.description.value}
                         </p>
                       )}
-                      {result.matched_plant_id && i === 0 && (
+                      {result.matched_plant_slug && i === 0 && (
                         <Link
-                          href={`/plant/${result.matched_plant_id}`}
+                          href={`/plant/${result.matched_plant_slug}`}
                           className="inline-block mt-2 text-xs font-sans text-floria-700 underline underline-offset-2 hover:text-floria-900"
                         >
                           Ver ficha completa →
