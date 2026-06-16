@@ -66,16 +66,7 @@ export async function POST(request: NextRequest) {
 
   const base64Image = Buffer.from(imageBuffer).toString('base64')
 
-  const geminiRes = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            {
-              text: `Identificá la planta en esta foto. Respondé SOLO con un JSON válido, sin markdown, con este formato exacto:
+  const promptText = `Identificá la planta en esta foto. Respondé SOLO con un JSON válido, sin markdown, con este formato exacto:
 {
   "is_plant": true,
   "suggestions": [
@@ -89,26 +80,40 @@ export async function POST(request: NextRequest) {
   ]
 }
 Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, devolvé is_plant: false y suggestions vacío.`
-            },
-            {
-              inline_data: {
-                mime_type: imageFile.type,
-                data: base64Image,
-              }
-            }
-          ]
-        }],
-        generationConfig: { temperature: 0.1 }
-      })
-    }
-  )
 
-  if (!geminiRes.ok) {
-    const detail = await geminiRes.text()
+  const requestBody = JSON.stringify({
+    contents: [{
+      parts: [
+        { text: promptText },
+        { inline_data: { mime_type: imageFile.type, data: base64Image } }
+      ]
+    }],
+    generationConfig: { temperature: 0.1 }
+  })
+
+  // Probamos varios modelos en cadena: si uno devuelve cuota 0 (429), seguimos con el próximo.
+  const MODELS = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-flash-latest', 'gemini-1.5-flash']
+  let geminiRes: Response | null = null
+  let lastDetail = ''
+  let lastStatus = 0
+
+  for (const model of MODELS) {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: requestBody }
+    )
+    if (res.ok) { geminiRes = res; break }
+    lastStatus = res.status
+    lastDetail = await res.text()
+    // Solo reintentamos con otro modelo si el problema es cuota; otros errores cortan.
+    if (res.status !== 429) break
+  }
+
+  if (!geminiRes) {
     return NextResponse.json({
       error: 'Error en la API de identificación',
-      status: geminiRes.status,
-      detail: detail.slice(0, 500),
+      status: lastStatus,
+      detail: lastDetail.slice(0, 500),
       has_key: !!process.env.GEMINI_API_KEY,
     }, { status: 502 })
   }
