@@ -92,7 +92,7 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
   })
 
   // Probamos varios modelos en cadena: si uno devuelve cuota 0 (429), seguimos con el próximo.
-  const MODELS = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-flash-latest', 'gemini-1.5-flash']
+  const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-flash']
   let geminiRes: Response | null = null
   let lastDetail = ''
   let lastStatus = 0
@@ -105,8 +105,8 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
     if (res.ok) { geminiRes = res; break }
     lastStatus = res.status
     lastDetail = await res.text()
-    // Solo reintentamos con otro modelo si el problema es cuota; otros errores cortan.
-    if (res.status !== 429) break
+    // Reintentamos con otro modelo si hay cuota (429) o sobrecarga (503).
+    if (res.status !== 429 && res.status !== 503) break
   }
 
   if (!geminiRes) {
