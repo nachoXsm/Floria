@@ -91,8 +91,9 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
     generationConfig: { temperature: 0.1 }
   })
 
-  // Probamos varios modelos en cadena: si uno devuelve cuota 0 (429), seguimos con el próximo.
-  const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-flash']
+  // Probamos modelos vigentes en cadena: si uno falla (cuota, sobrecarga, inexistente),
+  // seguimos con el próximo. Solo usamos el resultado del primero que responda OK.
+  const MODELS = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash-lite']
   let geminiRes: Response | null = null
   let lastDetail = ''
   let lastStatus = 0
@@ -105,8 +106,7 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
     if (res.ok) { geminiRes = res; break }
     lastStatus = res.status
     lastDetail = await res.text()
-    // Reintentamos con otro modelo si hay cuota (429) o sobrecarga (503).
-    if (res.status !== 429 && res.status !== 503) break
+    // Cualquier error: probamos el siguiente modelo de la lista.
   }
 
   if (!geminiRes) {
