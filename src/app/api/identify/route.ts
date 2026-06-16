@@ -81,45 +81,53 @@ export async function POST(request: NextRequest) {
 }
 Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, devolvé is_plant: false y suggestions vacío.`
 
-  const requestBody = JSON.stringify({
-    contents: [{
-      parts: [
-        { text: promptText },
-        { inline_data: { mime_type: imageFile.type, data: base64Image } }
-      ]
+  // Groq (gratis, sin tarjeta) con modelos Llama 4 multimodales que leen imágenes.
+  const dataUrl = `data:${imageFile.type};base64,${base64Image}`
+  const buildBody = (model: string) => JSON.stringify({
+    model,
+    messages: [{
+      role: 'user',
+      content: [
+        { type: 'text', text: promptText },
+        { type: 'image_url', image_url: { url: dataUrl } },
+      ],
     }],
-    generationConfig: { temperature: 0.1 }
+    temperature: 0.1,
+    response_format: { type: 'json_object' },
   })
 
-  // Probamos modelos vigentes en cadena: si uno falla (cuota, sobrecarga, inexistente),
-  // seguimos con el próximo. Solo usamos el resultado del primero que responda OK.
-  const MODELS = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash-lite']
-  let geminiRes: Response | null = null
+  // Probamos modelos en cadena: si uno falla (cuota, sobrecarga), seguimos con el próximo.
+  const MODELS = ['meta-llama/llama-4-scout-17b-16e-instruct', 'meta-llama/llama-4-maverick-17b-128e-instruct']
+  let aiRes: Response | null = null
   let lastDetail = ''
   let lastStatus = 0
 
   for (const model of MODELS) {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: requestBody }
-    )
-    if (res.ok) { geminiRes = res; break }
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: buildBody(model),
+    })
+    if (res.ok) { aiRes = res; break }
     lastStatus = res.status
     lastDetail = await res.text()
     // Cualquier error: probamos el siguiente modelo de la lista.
   }
 
-  if (!geminiRes) {
+  if (!aiRes) {
     return NextResponse.json({
       error: 'Error en la API de identificación',
       status: lastStatus,
       detail: lastDetail.slice(0, 500),
-      has_key: !!process.env.GEMINI_API_KEY,
+      has_key: !!process.env.GROQ_API_KEY,
     }, { status: 502 })
   }
 
-  const geminiData = await geminiRes.json()
-  const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text ?? '{}'
+  const aiData = await aiRes.json()
+  const rawText = aiData.choices?.[0]?.message?.content ?? '{}'
   let parsed: { is_plant: boolean; suggestions: {name:string;probability:number;common_names:string[];description:string;watering:{min:number;max:number}}[] }
   try {
     parsed = JSON.parse(rawText.replace(/```json\n?|\n?```/g, '').trim())
