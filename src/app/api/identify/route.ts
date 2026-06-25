@@ -64,88 +64,43 @@ export async function POST(request: NextRequest) {
     publicUrl = urlData.publicUrl
   }
 
-  const base64Image = Buffer.from(imageBuffer).toString('base64')
+  // Pl@ntNet: modelo especializado en botánica, 500 req/día gratis sin tarjeta.
+  const plantnetForm = new FormData()
+  plantnetForm.append('images', new Blob([imageBuffer], { type: imageFile.type }), imageFile.name)
 
-  const promptText = `Identificá la planta en esta foto. Respondé SOLO con un JSON válido, sin markdown, con este formato exacto:
-{
-  "is_plant": true,
-  "suggestions": [
-    {
-      "name": "Nombre científico completo",
-      "probability": 0.95,
-      "common_names": ["nombre común en español"],
-      "description": "Descripción breve de la planta en español (2-3 oraciones).",
-      "watering": { "min": 1, "max": 7 }
-    }
-  ]
-}
-Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, devolvé is_plant: false y suggestions vacío.`
+  const plantnetRes = await fetch(
+    `https://my-api.plantnet.org/v2/identify/all?include-related-images=false&lang=es&api-key=${process.env.PLANTNET_API_KEY}`,
+    { method: 'POST', body: plantnetForm }
+  )
 
-  // Groq (gratis, sin tarjeta) con modelos Llama 4 multimodales que leen imágenes.
-  const dataUrl = `data:${imageFile.type};base64,${base64Image}`
-  const buildBody = (model: string) => JSON.stringify({
-    model,
-    messages: [{
-      role: 'user',
-      content: [
-        { type: 'text', text: promptText },
-        { type: 'image_url', image_url: { url: dataUrl } },
-      ],
-    }],
-    temperature: 0.1,
-    response_format: { type: 'json_object' },
-  })
-
-  // Probamos modelos en cadena: si uno falla (cuota, sobrecarga), seguimos con el próximo.
-  const MODELS = ['meta-llama/llama-4-scout-17b-16e-instruct', 'meta-llama/llama-4-maverick-17b-128e-instruct']
-  let aiRes: Response | null = null
-  let lastDetail = ''
-  let lastStatus = 0
-
-  for (const model of MODELS) {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
-      },
-      body: buildBody(model),
-    })
-    if (res.ok) { aiRes = res; break }
-    lastStatus = res.status
-    lastDetail = await res.text()
-    // Cualquier error: probamos el siguiente modelo de la lista.
-  }
-
-  if (!aiRes) {
+  if (!plantnetRes.ok) {
+    const detail = await plantnetRes.text()
     return NextResponse.json({
       error: 'Error en la API de identificación',
-      status: lastStatus,
-      detail: lastDetail.slice(0, 500),
-      has_key: !!process.env.GROQ_API_KEY,
+      status: plantnetRes.status,
+      detail: detail.slice(0, 500),
+      has_key: !!process.env.PLANTNET_API_KEY,
     }, { status: 502 })
   }
 
-  const aiData = await aiRes.json()
-  const rawText = aiData.choices?.[0]?.message?.content ?? '{}'
-  let parsed: { is_plant: boolean; suggestions: {name:string;probability:number;common_names:string[];description:string;watering:{min:number;max:number}}[] }
-  try {
-    parsed = JSON.parse(rawText.replace(/```json\n?|\n?```/g, '').trim())
-  } catch {
-    return NextResponse.json({ error: 'Respuesta inválida de la IA' }, { status: 502 })
-  }
+  const plantnetData = await plantnetRes.json()
 
-  const suggestions = (parsed.suggestions ?? []).map(s => ({
-    name: s.name,
-    probability: s.probability,
+  // Pl@ntNet devuelve null si no es planta (score muy bajo) o resultados vacíos
+  const isPlant = (plantnetData.results?.length ?? 0) > 0
+  const suggestions = (plantnetData.results ?? []).slice(0, 3).map((r: {
+    species: { scientificName: string; commonNames?: string[] }
+    score: number
+  }) => ({
+    name: r.species.scientificName,
+    probability: r.score,
     details: {
-      common_names: s.common_names ?? [],
-      description: { value: s.description ?? '' },
-      watering: s.watering ?? null,
+      common_names: r.species.commonNames ?? [],
+      description: { value: '' },
+      watering: null,
     }
   }))
   const topSuggestion = suggestions[0]
-  const plantIdData = { result: { is_plant: { binary: parsed.is_plant }, classification: { suggestions } } }
+  const plantIdData = { result: { is_plant: { binary: isPlant }, classification: { suggestions } } }
 
   let matchedPlantId: string | null = null
   let matchedPlantSlug: string | null = null
@@ -184,6 +139,6 @@ Incluí hasta 3 sugerencias ordenadas por probabilidad. Si no es una planta, dev
     matched_plant_id: matchedPlantId,
     matched_plant_slug: matchedPlantSlug,
     confidence,
-    is_plant: plantIdData.result?.is_plant?.binary ?? false,
+    is_plant: isPlant,
   })
 }
