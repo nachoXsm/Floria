@@ -9,9 +9,128 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const features = [
-    { icon: '◎', title: 'Reconocé especies', desc: 'Subí una foto y obtené una identificación clara para empezar a cuidar mejor.' },
-    { icon: '⌕', title: 'Explorá plantas', desc: 'Filtrá por luz, riego, ubicación, floración, maceta y estilo paisajístico.' },
-    { icon: '✧', title: 'Diseñá tu espacio', desc: 'Encontrá combinaciones estéticas para jardines, balcones e interiores.' },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="M21 21l-4-4"/>
+          <path d="M11 8v6M8 11h6"/>
+        </svg>
+      ),
+      title: 'Reconocé especies', desc: 'Subí una foto y obtené una identificación clara para empezar a cuidar mejor.'
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2C9 2 6 5 6 9c0 2.5 1.5 4.5 3 6l1 1h4l1-1c1.5-1.5 3-3.5 3-6 0-4-3-7-6-7z"/>
+          <path d="M9 17v1a3 3 0 0 0 6 0v-1"/>
+          <path d="M9 12c1-1 3-1 3 1s2 2 3 1"/>
+        </svg>
+      ),
+      title: 'Explorá plantas', desc: 'Filtrá por luz, riego, ubicación, floración, maceta y estilo paisajístico.'
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="2"/>
+          <rect x="14" y="3" width="7" height="7" rx="2"/>
+          <rect x="3" y="14" width="7" height="7" rx="2"/>
+          <path d="M14 17.5h7M17.5 14v7"/>
+        </svg>
+      ),
+      title: 'Diseñá tu espacio', desc: 'Encontrá combinaciones estéticas para jardines, balcones e interiores.'
+    },
+  ]
+
+  const sections = [
+    {
+      href: '/explore',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+      ),
+      label: 'Explorar plantas', color: '#E7EFE6', textColor: '#1E3D2B',
+    },
+    {
+      href: '/identify',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      ),
+      label: 'Identificar', color: '#E7EFE6', textColor: '#1E3D2B',
+    },
+    {
+      href: '/jardinero',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V12l3 3-3 3v1a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-1l-3-3 3-3V9.5C8.8 8.8 8 7.5 8 6a4 4 0 0 1 4-4z"/>
+        </svg>
+      ),
+      label: 'Jardinero IA', color: '#1E3D2B', textColor: '#F9FCF8',
+    },
+    {
+      href: '/huerta',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2a10 10 0 0 1 0 20"/>
+          <path d="M12 2C6.5 2 4 7 4 12s2.5 10 8 10"/>
+          <path d="M12 22V12"/>
+          <path d="M12 12C8 8 4 9 2 12"/>
+          <path d="M12 12c4-4 8-3 10 0"/>
+        </svg>
+      ),
+      label: 'Mi Huerta', color: '#E7EFE6', textColor: '#1E3D2B',
+    },
+    {
+      href: '/luna',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      ),
+      label: 'Calendario lunar', color: '#0D1E15', textColor: '#F9FCF8',
+    },
+    {
+      href: '/plagas',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <ellipse cx="12" cy="13" rx="4" ry="5"/>
+          <path d="M12 8V5"/>
+          <path d="M8 13H4M20 13h-4"/>
+          <path d="M5.5 8.5l2.5 2.5M16 11l2.5-2.5"/>
+          <path d="M5.5 17.5l2.5-2M16 15.5l2.5 2"/>
+          <circle cx="12" cy="4" r="1.2"/>
+        </svg>
+      ),
+      label: 'Plagas y enfermedades', color: '#FEF0EE', textColor: '#8B3A2F',
+    },
+    {
+      href: '/viveros',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22V13"/>
+          <path d="M12 13C12 13 7 11 5 7c3 0 5.5 1.5 7 6z"/>
+          <path d="M12 13c0 0 5-2 7-6-3 0-5.5 1.5-7 6z"/>
+          <path d="M5 17h14"/>
+          <path d="M3 22h18"/>
+        </svg>
+      ),
+      label: 'Viveros', color: '#FDF3E3', textColor: '#7A5C1E',
+    },
+    {
+      href: '/perfil',
+      icon: (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      ),
+      label: 'Mi Perfil', color: '#E7EFE6', textColor: '#1E3D2B',
+    },
   ]
 
   return (
@@ -193,7 +312,6 @@ export default function HomePage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '24px',
                   marginBottom: '22px',
                 }}>{f.icon}</div>
                 <h3 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '26px', color: '#1E3D2B', margin: '0 0 8px' }}>{f.title}</h3>
@@ -212,16 +330,7 @@ export default function HomePage() {
             Explorá Floria
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
-            {[
-              { href: '/explore',   emoji: '🔍', label: 'Explorar plantas',    color: '#E7EFE6', textColor: '#1E3D2B' },
-              { href: '/identify',  emoji: '📷', label: 'Identificar',         color: '#E7EFE6', textColor: '#1E3D2B' },
-              { href: '/jardinero', emoji: '🌿', label: 'Jardinero IA',        color: '#1E3D2B', textColor: '#F9FCF8' },
-              { href: '/huerta',    emoji: '🥕', label: 'Mi Huerta',           color: '#E7EFE6', textColor: '#1E3D2B' },
-              { href: '/luna',      emoji: '🌙', label: 'Calendario lunar',    color: '#0D1E15', textColor: '#F9FCF8' },
-              { href: '/plagas',    emoji: '🐛', label: 'Plagas y enfermedades', color: '#FEF0EE', textColor: '#8B3A2F' },
-              { href: '/viveros',   emoji: '🪴', label: 'Viveros',             color: '#FDF3E3', textColor: '#7A5C1E' },
-              { href: '/perfil',    emoji: '👤', label: 'Mi Perfil',           color: '#E7EFE6', textColor: '#1E3D2B' },
-            ].map(s => (
+            {sections.map(s => (
               <a key={s.href} href={s.href} style={{
                 display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
                 justifyContent: 'space-between',
@@ -231,7 +340,7 @@ export default function HomePage() {
                 border: '1px solid rgba(0,0,0,0.04)',
                 transition: 'transform 0.15s, box-shadow 0.15s',
               }}>
-                <span style={{ fontSize: '28px' }}>{s.emoji}</span>
+                <span style={{ color: s.textColor, opacity: 0.85 }}>{s.icon}</span>
                 <span style={{ fontSize: '13px', fontWeight: 700, color: s.textColor, lineHeight: 1.3, marginTop: '12px' }}>{s.label}</span>
               </a>
             ))}
