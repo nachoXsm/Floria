@@ -1,12 +1,33 @@
 import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
+import { getFeaturedPlants } from '@/lib/queries/plants'
 
 export const metadata: Metadata = {
   title: 'Floria — Tu espacio, tu naturaleza',
 }
 
-export default function HomePage() {
+const TAG_COLORS = ['#C5D9C2', '#E8C4B8', '#D4E8D0', '#F2E9DD']
+
+export default async function HomePage() {
+  // Plantas reales de la base (con foto real); si falla, queda vacío
+  let plants: { name: string; scientific: string; tag: string; color: string; img: string; slug: string }[] = []
+  let heroImg = ''
+  try {
+    const featuredRaw = await getFeaturedPlants(8)
+    const withImg = featuredRaw.filter(p => p.cover_image)
+    heroImg = withImg[0]?.cover_image ?? ''
+    plants = withImg.slice(1, 7).map((p, i) => ({
+      name: p.common_name ?? '',
+      scientific: p.scientific_name ?? '',
+      tag: p.indoor ? 'Interior' : p.outdoor ? 'Exterior' : 'Planta',
+      color: TAG_COLORS[i % TAG_COLORS.length],
+      img: p.cover_image ?? '',
+      slug: p.slug ?? '',
+    }))
+  } catch {
+    plants = []
+  }
   const filters = [
     // Sol pleno — sol con rayos
     { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M3.5 12H1M23 12h-2.5M5.6 5.6L3.9 3.9M20.1 20.1l-1.7-1.7M18.4 5.6l1.7-1.7M3.9 20.1l1.7-1.7"/></svg>), label: 'Sol pleno' },
@@ -22,11 +43,6 @@ export default function HomePage() {
     { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21V9"/><path d="M12 12C12 8 9 5 4 5c0 5 3 7 8 7z"/><path d="M12 14c0-3.3 2.5-6 6.5-6 0 4-2.5 6-6.5 6z"/></svg>), label: 'Huerta' },
   ]
 
-  const featured = [
-    { name: 'Lavanda', scientific: 'Lavandula angustifolia', tag: 'Bajo mantenimiento', color: '#E8C4B8', img: 'https://images.unsplash.com/photo-1468581264429-2548ef9eb732?w=400&q=80' },
-    { name: 'Strelitzia', scientific: 'Strelitzia reginae', tag: 'Sol pleno', color: '#C5D9C2', img: 'https://images.unsplash.com/photo-1594912772571-5d4da9be4ff6?w=400&q=80' },
-    { name: 'Helecho', scientific: 'Nephrolepis exaltata', tag: 'Media sombra', color: '#D4E8D0', img: 'https://images.unsplash.com/photo-1597305877032-0668a3702419?w=400&q=80' },
-  ]
 
   const quickActions = [
     // Identificar — cámara dentro de marco de escaneo (igual a la referencia)
@@ -127,16 +143,21 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Imagen hero desbordante */}
-        <div style={{ position: 'relative', width: '100%', height: '280px', overflow: 'hidden' }}>
-          <img
-            src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=80"
-            alt="Plantas"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }}
-          />
+        {/* Imagen hero */}
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden', borderRadius: '24px' }}>
+          {heroImg ? (
+            <img
+              src={heroImg}
+              alt="Plantas"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+            />
+          ) : (
+            <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #4C7F5B 0%, #1E3D2B 100%)' }}/>
+          )}
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to bottom, rgba(242,233,221,0.5) 0%, transparent 30%, transparent 60%, rgba(242,233,221,0.8) 100%)',
+            background: 'linear-gradient(to bottom, transparent 50%, rgba(13,30,21,0.45) 100%)',
           }}/>
           {/* Chip flotante */}
           <div style={{
@@ -154,6 +175,7 @@ export default function HomePage() {
               <p style={{ margin: 0, fontSize: '11px', color: '#4C7F5B' }}>identificadas con IA</p>
             </div>
           </div>
+        </div>
         </div>
       </section>
 
@@ -184,6 +206,7 @@ export default function HomePage() {
       </section>
 
       {/* RECOMENDADAS */}
+      {plants.length > 0 && (
       <section style={{ backgroundColor: '#F2E9DD', padding: '32px 20px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
@@ -191,8 +214,8 @@ export default function HomePage() {
             <a href="/explore" style={{ fontSize: '12px', color: '#4C7F5B', fontWeight: 600, textDecoration: 'none' }}>Ver todo</a>
           </div>
           <div style={{ display: 'flex', gap: '14px', overflowX: 'auto', paddingBottom: '8px', scrollbarWidth: 'none' }}>
-            {featured.map(p => (
-              <a key={p.name} href="/explore" className="tap-card" style={{
+            {plants.map(p => (
+              <a key={p.slug} href={`/plant/${p.slug}`} className="tap-card" style={{
                 minWidth: '160px', maxWidth: '160px', borderRadius: '20px',
                 overflow: 'hidden', textDecoration: 'none',
                 backgroundColor: 'white',
@@ -200,12 +223,12 @@ export default function HomePage() {
                 border: '1px solid rgba(30,61,43,0.06)',
                 transition: 'transform 0.15s',
               }}>
-                <div style={{ height: '140px', overflow: 'hidden' }}>
+                <div style={{ height: '140px', overflow: 'hidden', backgroundColor: '#E7EFE6' }}>
                   <img src={p.img} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
                 </div>
                 <div style={{ padding: '12px' }}>
-                  <p style={{ margin: '0 0 2px', fontSize: '14px', fontWeight: 700, color: '#1E3D2B' }}>{p.name}</p>
-                  <p style={{ margin: '0 0 8px', fontSize: '11px', color: '#4C7F5B', fontStyle: 'italic' }}>{p.scientific}</p>
+                  <p style={{ margin: '0 0 2px', fontSize: '14px', fontWeight: 700, color: '#1E3D2B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</p>
+                  <p style={{ margin: '0 0 8px', fontSize: '11px', color: '#4C7F5B', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.scientific}</p>
                   <span style={{ fontSize: '10px', fontWeight: 700, backgroundColor: p.color, color: '#1E3D2B', borderRadius: '999px', padding: '4px 10px' }}>{p.tag}</span>
                 </div>
               </a>
@@ -213,6 +236,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* BANNER PRO */}
       <section style={{ padding: '0 20px 32px' }}>
