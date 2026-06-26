@@ -8,12 +8,18 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const filters = [
-    { icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>), label: 'Sol pleno' },
-    { icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10a6 6 0 1 0-12 0"/><path d="M3 10h18"/><path d="M12 2v2"/></svg>), label: 'Media sombra' },
-    { icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v6M12 16v6M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M16 12h6M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>), label: 'Bajo riego' },
-    { icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V13M12 13C12 13 7 11 5 7c3 0 5.5 1.5 7 6zM12 13c0 0 5-2 7-6-3 0-5.5 1.5-7 6z"/><path d="M5 17h14"/></svg>), label: 'Maceta' },
-    { icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>), label: 'Interior' },
-    { icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 0 1 0 20"/><path d="M12 2C6.5 2 4 7 4 12s2.5 10 8 10"/><path d="M12 22V12M12 12C8 8 4 9 2 12M12 12c4-4 8-3 10 0"/></svg>), label: 'Huerta' },
+    // Sol pleno — sol con rayos
+    { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M3.5 12H1M23 12h-2.5M5.6 5.6L3.9 3.9M20.1 20.1l-1.7-1.7M18.4 5.6l1.7-1.7M3.9 20.1l1.7-1.7"/></svg>), label: 'Sol pleno' },
+    // Media sombra — sol asomando detrás de una nube
+    { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="3"/><path d="M8 1.5V3M3.2 3.2l1 1M1.5 8H3M13 8h-1.2"/><path d="M17.5 13a3.5 3.5 0 0 1 0 7H7a4 4 0 0 1-.5-7.96A5 5 0 0 1 16 11.5a3.5 3.5 0 0 1 1.5 1.5z"/></svg>), label: 'Media sombra' },
+    // Bajo riego — gota de agua
+    { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.5c0 0 6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 3 3"/></svg>), label: 'Bajo riego' },
+    // Apto maceta — planta en maceta
+    { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 9h14l-1.3 9.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8L5 9z"/><path d="M4 9h16"/><path d="M12 9V6M12 6c0-1.5 1.2-2.8 2.8-2.8C14.8 4.8 13.5 6 12 6zM12 6c0-1.5-1.2-2.8-2.8-2.8C9.2 4.8 10.5 6 12 6z"/></svg>), label: 'Maceta' },
+    // Interior — casa
+    { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>), label: 'Interior' },
+    // Huerta — brote/dos hojas
+    { icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21V9"/><path d="M12 12C12 8 9 5 4 5c0 5 3 7 8 7z"/><path d="M12 14c0-3.3 2.5-6 6.5-6 0 4-2.5 6-6.5 6z"/></svg>), label: 'Huerta' },
   ]
 
   const featured = [
@@ -23,10 +29,14 @@ export default function HomePage() {
   ]
 
   const quickActions = [
-    { href: '/identify', label: 'Identificar\npor foto', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>) },
-    { href: '/explore', label: 'Explorar\nplantas', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>) },
-    { href: '/explore?filter=true', label: 'Filtrar por\nnecesidades', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>) },
-    { href: '/diseno', label: 'Combinar\nplantas', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7M17.5 14v7"/></svg>) },
+    // Identificar — cámara dentro de marco de escaneo (igual a la referencia)
+    { href: '/identify', label: 'Identificar\npor foto', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><path d="M9 9.5l.6-.9a1 1 0 0 1 .8-.5h3.2a1 1 0 0 1 .8.5l.6.9"/></svg>) },
+    // Explorar — brote de dos hojas (igual a la referencia)
+    { href: '/explore', label: 'Explorar\nplantas', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21V8"/><path d="M12 11C12 7 9 4 4 4c0 5 3 7 8 7z"/><path d="M12 13c0-3.3 2.5-6 6.5-6 0 4-2.5 6-6.5 6z"/></svg>) },
+    // Filtrar — sliders horizontales (igual a la referencia)
+    { href: '/explore?filter=true', label: 'Filtrar por\nnecesidades', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2.2" fill="white"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2.2" fill="white"/></svg>) },
+    // Combinar — planta en maceta (igual a la referencia)
+    { href: '/diseno', label: 'Combinar\nplantas', icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 13h12l-1 7a1.5 1.5 0 0 1-1.5 1.3H8.5A1.5 1.5 0 0 1 7 20l-1-7z"/><path d="M5 13h14"/><path d="M12 13V8M12 8c0-2 1.5-3.5 3.5-3.5C15.5 6.5 14 8 12 8zM12 8c0-2-1.5-3.5-3.5-3.5C8.5 6.5 10 8 12 8z"/></svg>) },
   ]
 
   return (
