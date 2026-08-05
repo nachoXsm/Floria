@@ -81,7 +81,14 @@ export default async function HomePage() {
         {heroImg ? (
           <img className="heroImg" src={heroImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
         ) : (
-          <div style={{ width: '100%', height: '100%', background: `linear-gradient(160deg, ${color.green}, ${color.ink})` }} />
+          <div style={{ width: '100%', height: '100%', position: 'relative', background: `radial-gradient(120% 90% at 75% 15%, #5B8A66 0%, ${color.green} 38%, ${color.ink} 78%, #12281B 100%)` }}>
+            <svg width="100%" height="100%" viewBox="0 0 390 480" preserveAspectRatio="xMidYMid slice" style={{ position: 'absolute', inset: 0, opacity: 0.16 }}>
+              <g fill="none" stroke="#F2E9DD" strokeWidth="1.3" strokeLinecap="round">
+                <path d="M300 120c-40 10-70 45-80 95M300 120c10 40-5 80-45 105M300 120c-30 30-50 65-55 105" />
+                <path d="M90 360c30-8 55-35 62-75M90 360c-8-32 5-62 38-82M90 360c24-24 40-52 44-82" />
+              </g>
+            </svg>
+          </div>
         )}
         {/* Scrim editorial */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(15,30,20,0.28) 0%, transparent 26%, transparent 42%, rgba(15,30,20,0.55) 82%, rgba(15,30,20,0.72) 100%)' }} />
