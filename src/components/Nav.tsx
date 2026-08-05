@@ -44,6 +44,7 @@ export default function Nav({ dark }: NavProps) {
           { href: '/jardinero', label: '🌿 Jardinero IA' },
           { href: '/explore', label: 'Explorar' },
           { href: '/huerta', label: 'Huerta' },
+          { href: '/bitacora', label: 'Bitácora' },
           { href: '/luna', label: 'Luna' },
           { href: '/plagas', label: 'Plagas' },
           { href: '/viveros', label: 'Viveros' },
