@@ -6,6 +6,7 @@ import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
 import FichaContent from './FichaContent'
 import { enrichPlant } from '@/lib/enrich'
+import { color, font } from '@/lib/ui'
 
 type Props = { params: { slug: string } }
 
@@ -39,10 +40,10 @@ export default async function PlantPage({ params }: Props) {
   return (
     <main style={{
       minHeight: '100vh',
-      backgroundColor: '#F2E9DD',
-      fontFamily: 'Montserrat, system-ui, sans-serif',
-      color: '#1E3D2B',
-      paddingBottom: '90px',
+      backgroundColor: color.bg,
+      fontFamily: font.sans,
+      color: color.ink,
+      paddingBottom: '110px',
     }}>
       <Nav />
       <FichaContent plant={plant as Plant} enrichment={enrichment} combinations={combinations} />

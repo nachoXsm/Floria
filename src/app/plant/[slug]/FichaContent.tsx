@@ -3,23 +3,17 @@ import Link from 'next/link'
 import type { Plant } from '@/types'
 import type { Enrichment } from '@/lib/enrich'
 import { lightShort } from '@/lib/enrich'
+import { color, font, shadow, radius } from '@/lib/ui'
+import { Drop, Sun, Thermometer, ShieldCheck, MapPin, Ruler, Mountains, Warning, Leaf } from '@phosphor-icons/react/dist/ssr'
 
 const CARE_LABELS: Record<string, string> = { easy: 'Fácil', moderate: 'Moderado', expert: 'Experto' }
-const CARE_COLORS: Record<string, string> = { easy: '#16a34a', moderate: '#d97706', expert: '#dc2626' }
-
-// Íconos line-art
-const IconDrop = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.5c0 0 6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>)
-const IconSun = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M3.5 12H1M23 12h-2.5M5.6 5.6L3.9 3.9M20.1 20.1l-1.7-1.7M18.4 5.6l1.7-1.7M3.9 20.1l1.7-1.7"/></svg>)
-const IconTemp = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>)
-const IconShield = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8-8 11-4.5-3-8-6-8-11V5z"/></svg>)
-const IconSoil = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#92400E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 15h18M5 15l1-4h12l1 4M9 11V8M12 11V7M15 11V8"/></svg>)
-const IconPin = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>)
+const CARE_COLORS: Record<string, string> = { easy: '#2E7D46', moderate: '#B57A1E', expert: '#C0453A' }
 
 function CareRow({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', backgroundColor: '#F6F3EC', borderRadius: '16px', padding: '14px 16px' }}>
-      <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 6px rgba(0,0,0,0.06)' }}>{icon}</div>
-      <div><p style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#1E3D2B' }}>{title}</p><p style={{ margin: 0, fontSize: '13px', color: '#4C7F5B' }}>{text}</p></div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', backgroundColor: color.paper, borderRadius: `${radius.md}px`, padding: '15px 16px', border: `1px solid ${color.line}`, boxShadow: shadow.soft }}>
+      <div style={{ width: '44px', height: '44px', borderRadius: '13px', backgroundColor: color.mist, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</div>
+      <div><p style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: color.ink }}>{title}</p><p style={{ margin: 0, fontSize: '13px', color: color.inkSoft }}>{text}</p></div>
     </div>
   )
 }
@@ -37,123 +31,125 @@ export default function FichaContent({ plant, enrichment, combinations }: {
 
   return (
     <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 0 40px' }}>
-      {/* HERO imagen full-bleed */}
-      <div style={{ position: 'relative', width: '100%', height: '340px', backgroundColor: '#E7EFE6' }}>
+      {/* HERO — portada de la planta */}
+      <div style={{ position: 'relative', width: '100%', height: '440px', backgroundColor: color.mist }}>
         {plant.cover_image ? (
           <Image src={plant.cover_image} alt={plant.common_name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         ) : (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: '80px' }}>🌿</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}><Leaf size={90} weight="light" color={color.sage} /></div>
         )}
-      </div>
-
-      <div style={{ padding: '0 20px', marginTop: '-24px', position: 'relative' }}>
-        {/* Encabezado sobre tarjeta */}
-        <div style={{ backgroundColor: '#F2E9DD', borderRadius: '28px 28px 0 0', padding: '24px 4px 0' }}>
-          <h1 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '38px', fontWeight: 700, margin: '0 0 2px', lineHeight: 1.05, letterSpacing: '-0.5px' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(15,30,20,0.18) 0%, transparent 30%, transparent 55%, rgba(15,30,20,0.62) 90%, rgba(15,30,20,0.75) 100%)' }} />
+        <div style={{ position: 'absolute', left: '22px', right: '22px', bottom: '46px', maxWidth: '760px', margin: '0 auto' }}>
+          <h1 style={{ fontFamily: font.serif, fontSize: '42px', fontWeight: 500, color: '#FBF7F0', margin: '0 0 4px', lineHeight: 0.98, letterSpacing: '-0.6px', textShadow: '0 2px 24px rgba(0,0,0,0.3)' }}>
             {plant.common_name}
           </h1>
-          <p style={{ fontSize: '15px', fontStyle: 'italic', color: '#4C7F5B', margin: '0 0 16px' }}>{plant.scientific_name}</p>
+          <p style={{ fontSize: '15px', fontStyle: 'italic', color: 'rgba(251,247,240,0.85)', margin: 0 }}>{plant.scientific_name}</p>
+        </div>
+      </div>
 
+      {/* HOJA DE CONTENIDO superpuesta */}
+      <div style={{ position: 'relative', marginTop: '-28px', backgroundColor: color.bg, borderRadius: '30px 30px 0 0', padding: '26px 20px 0' }}>
+        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           {/* Chips */}
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '18px' }}>
             {plant.indoor && <span style={chip}>Interior</span>}
             {plant.outdoor && <span style={chip}>Exterior</span>}
-            {plant.pot_suitable && <span style={{ ...chip, backgroundColor: '#E7EFE6' }}>Apto maceta</span>}
-            {plant.is_native && <span style={{ ...chip, backgroundColor: '#ECFDF5', color: '#047857' }}>Nativa</span>}
+            {plant.pot_suitable && <span style={chip}>Apto maceta</span>}
+            {plant.is_native && <span style={{ ...chip, backgroundColor: '#E6F4EA', color: '#2E7D46' }}>Nativa</span>}
             <span style={{ ...chip, backgroundColor: `${CARE_COLORS[plant.care_level]}18`, color: CARE_COLORS[plant.care_level] }}>
               Cuidado {CARE_LABELS[plant.care_level]}
             </span>
           </div>
 
           {/* Aviso toxicidad */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', backgroundColor: '#FEF7EE', border: '1px solid #F6E0C8', borderRadius: '16px', padding: '12px 14px', marginBottom: '24px' }}>
-            <span style={{ fontSize: '18px' }}>⚠️</span>
-            <p style={{ margin: 0, fontSize: '12px', color: '#92400E', lineHeight: 1.5 }}>{care.toxicidad}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', backgroundColor: '#FBF2E6', border: '1px solid #F0DFC2', borderRadius: `${radius.md}px`, padding: '13px 15px', marginBottom: '6px' }}>
+            <Warning size={20} weight="fill" color="#B57A1E" style={{ flexShrink: 0 }} />
+            <p style={{ margin: 0, fontSize: '12px', color: '#8A6A1E', lineHeight: 1.5 }}>{care.toxicidad}</p>
           </div>
-        </div>
 
-        {/* DESCRIPCIÓN */}
-        {plant.description && (
-          <Section title="Descripción">
-            <p style={{ fontSize: '14px', color: '#345E43', lineHeight: 1.8, margin: 0 }}>{plant.description}</p>
-          </Section>
-        )}
+          {/* DESCRIPCIÓN */}
+          {plant.description && (
+            <Section title="Descripción">
+              <p style={{ fontSize: '15px', color: color.inkSoft, lineHeight: 1.75, margin: 0 }}>{plant.description}</p>
+            </Section>
+          )}
 
-        {/* CUIDADOS (Agua / Luz) */}
-        <Section title="Cuidados">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <div style={careIconBox}><IconDrop /></div>
-              <div><p style={careH}>Agua</p><p style={careP}>{care.agua}</p></div>
-            </div>
-            <div style={{ height: '1px', backgroundColor: '#EDE5D6' }} />
-            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <div style={careIconBox}><IconSun /></div>
-              <div><p style={careH}>Luz solar</p><p style={careP}>{care.luz}</p></div>
-            </div>
-          </div>
-        </Section>
-
-        {/* REQUISITOS DE CUIDADO */}
-        <Section title="Requisitos de cuidado">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px' }}>
-            <div style={statBox}><p style={statLabel}>Temperatura</p><p style={statVal}>{care.temperatura}</p></div>
-            <div style={statBox}><p style={statLabel}>Zona de resistencia</p><p style={statVal}>{care.zona}</p></div>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <CareRow icon={<IconSun />} title="Luz solar" text={lightShort(plant.light)} />
-            <CareRow icon={<IconSoil />} title="Suelo" text={care.suelo} />
-            <CareRow icon={<IconPin />} title="Ubicación" text={care.ubicacion} />
-            {(plant.height_min_cm || plant.height_max_cm) && (
-              <CareRow icon={<IconTemp />} title="Altura" text={`${((plant.height_min_cm ?? 0) / 100).toFixed(1)}–${((plant.height_max_cm ?? plant.height_min_cm ?? 0) / 100).toFixed(1)} m`} />
-            )}
-          </div>
-        </Section>
-
-        {/* CLASIFICACIÓN CIENTÍFICA */}
-        <Section title="Clasificaciones científicas">
-          <div style={{ backgroundColor: '#F6F3EC', borderRadius: '18px', padding: '4px 18px' }}>
-            {taxRows.filter(([, v]) => v).map(([k, v], i, arr) => (
-              <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', borderBottom: i < arr.length - 1 ? '1px solid #EAE1D0' : 'none' }}>
-                <span style={{ fontSize: '15px', color: '#4C7F5B' }}>{k}</span>
-                <span style={{ fontSize: '15px', fontWeight: 600, color: '#1E3D2B', fontStyle: k === 'Género' ? 'italic' : 'normal' }}>{v}</span>
+          {/* CUIDADOS */}
+          <Section title="Cuidados">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                <div style={careIconBox}><Drop size={24} weight="light" color="#2563EB" /></div>
+                <div><p style={careH}>Agua</p><p style={careP}>{care.agua}</p></div>
               </div>
-            ))}
-          </div>
-        </Section>
+              <div style={{ height: '1px', backgroundColor: color.line }} />
+              <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                <div style={careIconBox}><Sun size={24} weight="light" color="#E0912F" /></div>
+                <div><p style={careH}>Luz solar</p><p style={careP}>{care.luz}</p></div>
+              </div>
+            </div>
+          </Section>
 
-        {/* COMBINACIONES */}
-        {combinations.length > 0 && (
-          <Section title="Combina con">
-            <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '6px' }}>
-              {combinations.slice(0, 8).map(c => (
-                <Link key={c.id} href={`/plant/${c.slug}`} style={{ minWidth: '130px', maxWidth: '130px', textDecoration: 'none' }}>
-                  <div style={{ height: '110px', borderRadius: '16px', overflow: 'hidden', backgroundColor: '#E7EFE6', marginBottom: '8px', position: 'relative' }}>
-                    {c.cover_image && <Image src={c.cover_image} alt={c.common_name ?? ''} fill sizes="130px" style={{ objectFit: 'cover' }} />}
-                  </div>
-                  <p style={{ margin: 0, fontSize: '13px', fontWeight: 600, color: '#1E3D2B' }}>{c.common_name}</p>
-                </Link>
+          {/* REQUISITOS */}
+          <Section title="Requisitos de cuidado">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px' }}>
+              <div style={statBox}><Thermometer size={22} weight="light" color="#C0453A" /><p style={statLabel}>Temperatura</p><p style={statVal}>{care.temperatura}</p></div>
+              <div style={statBox}><ShieldCheck size={22} weight="light" color={color.green} /><p style={statLabel}>Zona de resistencia</p><p style={statVal}>{care.zona}</p></div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <CareRow icon={<Sun size={22} weight="light" color="#E0912F" />} title="Luz solar" text={lightShort(plant.light)} />
+              <CareRow icon={<Mountains size={22} weight="light" color="#8A6A3E" />} title="Suelo" text={care.suelo} />
+              <CareRow icon={<MapPin size={22} weight="light" color="#2563EB" />} title="Ubicación" text={care.ubicacion} />
+              {(plant.height_min_cm || plant.height_max_cm) && (
+                <CareRow icon={<Ruler size={22} weight="light" color={color.green} />} title="Altura" text={`${((plant.height_min_cm ?? 0) / 100).toFixed(1)}–${((plant.height_max_cm ?? plant.height_min_cm ?? 0) / 100).toFixed(1)} m`} />
+              )}
+            </div>
+          </Section>
+
+          {/* CLASIFICACIÓN CIENTÍFICA */}
+          <Section title="Clasificaciones científicas">
+            <div style={{ backgroundColor: color.paper, borderRadius: `${radius.md}px`, padding: '4px 18px', border: `1px solid ${color.line}`, boxShadow: shadow.soft }}>
+              {taxRows.filter(([, v]) => v).map(([k, v], i, arr) => (
+                <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 0', borderBottom: i < arr.length - 1 ? `1px solid ${color.line}` : 'none' }}>
+                  <span style={{ fontSize: '14.5px', color: color.inkSoft }}>{k}</span>
+                  <span style={{ fontSize: '14.5px', fontWeight: 600, color: color.ink, fontStyle: k === 'Género' ? 'italic' : 'normal' }}>{v}</span>
+                </div>
               ))}
             </div>
           </Section>
-        )}
+
+          {/* COMBINACIONES */}
+          {combinations.length > 0 && (
+            <Section title="Combina con">
+              <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '6px' }}>
+                {combinations.slice(0, 8).map(c => (
+                  <Link key={c.id} href={`/plant/${c.slug}`} style={{ minWidth: '140px', maxWidth: '140px', textDecoration: 'none' }}>
+                    <div style={{ height: '150px', borderRadius: `${radius.md}px`, overflow: 'hidden', backgroundColor: color.mist, marginBottom: '9px', position: 'relative', boxShadow: shadow.soft }}>
+                      {c.cover_image && <Image src={c.cover_image} alt={c.common_name ?? ''} fill sizes="140px" style={{ objectFit: 'cover' }} />}
+                    </div>
+                    <p style={{ margin: 0, fontSize: '13.5px', fontWeight: 600, color: color.ink }}>{c.common_name}</p>
+                  </Link>
+                ))}
+              </div>
+            </Section>
+          )}
+        </div>
       </div>
     </div>
   )
 }
 
-const chip: React.CSSProperties = { fontSize: '11px', padding: '5px 12px', borderRadius: '999px', backgroundColor: '#E7EFE6', color: '#1E3D2B', fontWeight: 600 }
-const careIconBox: React.CSSProperties = { width: '38px', height: '38px', borderRadius: '11px', backgroundColor: '#F6F3EC', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }
-const careH: React.CSSProperties = { margin: '0 0 4px', fontSize: '16px', fontWeight: 700, color: '#1E3D2B' }
-const careP: React.CSSProperties = { margin: 0, fontSize: '13px', color: '#4C7F5B', lineHeight: 1.7 }
-const statBox: React.CSSProperties = { backgroundColor: '#F6F3EC', borderRadius: '16px', padding: '16px', textAlign: 'center' }
-const statLabel: React.CSSProperties = { margin: '0 0 4px', fontSize: '13px', fontWeight: 700, color: '#1E3D2B' }
-const statVal: React.CSSProperties = { margin: 0, fontSize: '14px', color: '#4C7F5B' }
+const chip: React.CSSProperties = { fontSize: '11px', padding: '6px 13px', borderRadius: '999px', backgroundColor: color.mist, color: color.ink, fontWeight: 700, letterSpacing: '0.2px' }
+const careIconBox: React.CSSProperties = { width: '46px', height: '46px', borderRadius: '14px', backgroundColor: color.paper, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: `1px solid ${color.line}`, boxShadow: shadow.soft }
+const careH: React.CSSProperties = { margin: '0 0 4px', fontSize: '16px', fontWeight: 700, color: color.ink }
+const careP: React.CSSProperties = { margin: 0, fontSize: '13.5px', color: color.inkSoft, lineHeight: 1.7 }
+const statBox: React.CSSProperties = { backgroundColor: color.paper, borderRadius: `${radius.md}px`, padding: '18px 16px', textAlign: 'center', border: `1px solid ${color.line}`, boxShadow: shadow.soft, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }
+const statLabel: React.CSSProperties = { margin: '6px 0 0', fontSize: '12.5px', fontWeight: 700, color: color.ink }
+const statVal: React.CSSProperties = { margin: 0, fontSize: '14px', color: color.inkSoft }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section style={{ marginTop: '28px' }}>
-      <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '24px', fontWeight: 600, margin: '0 0 14px', color: '#1E3D2B' }}>{title}</h2>
+    <section style={{ marginTop: '30px' }}>
+      <h2 style={{ fontFamily: font.serif, fontSize: '26px', fontWeight: 500, margin: '0 0 15px', color: color.ink, letterSpacing: '-0.3px' }}>{title}</h2>
       {children}
     </section>
   )
