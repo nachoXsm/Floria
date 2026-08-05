@@ -4,6 +4,7 @@ import BottomNav from '@/components/BottomNav'
 import { getFeaturedPlants } from '@/lib/queries/plants'
 import { createClient } from '@/lib/supabase/server'
 import { color, font, shadow, radius } from '@/lib/ui'
+import { Camera, Leaf, Flower, PottedPlant, MagnifyingGlass, Notebook, CaretRight, CheckCircle, ArrowRight } from '@phosphor-icons/react/dist/ssr'
 
 export const metadata: Metadata = {
   title: 'Floria — Tu espacio, tu naturaleza',
@@ -43,19 +44,11 @@ export default async function HomePage() {
 
   const mesActual = MESES[new Date().getMonth()]
 
-  // Íconos premium — recreados fieles al brand kit (trazo fino, redondeado, con detalle)
-  const Icon = {
-    reconocer: (<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 8V6.2A2.2 2.2 0 0 1 6.2 4H8"/><path d="M16 4h1.8A2.2 2.2 0 0 1 20 6.2V8"/><path d="M20 16v1.8a2.2 2.2 0 0 1-2.2 2.2H16"/><path d="M8 20H6.2A2.2 2.2 0 0 1 4 17.8V16"/><path d="M12 15.5c1.8 0 3-1.5 3-3.2 0-1.8-1.4-3.3-3-3.3"/><path d="M12 9c-1.7 0-3 1.6-3 3.3 0 .9.3 1.7.9 2.3"/><path d="M12 9c1.6-.6 2-2 1.6-3.4C12.2 6 11.6 7.5 12 9z"/></svg>),
-    explorar: (<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20.5V11"/><path d="M12 13.5C10.7 9.4 7.4 7 3 7c0 4.6 3.3 7.4 9 6.5z"/><path d="M4.5 9C7.2 10.5 9.8 12 12 13.5"/><path d="M12 11.5c1.1-3.3 4-5.2 8-4.6-.5 4-3.2 5.9-8 4.6z"/><path d="M19 8.2C16.6 9.4 14.2 10.6 12 11.5"/></svg>),
-    floracion: (<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="2.4"/><g><ellipse cx="12" cy="6.4" rx="1.9" ry="3.1"/><ellipse cx="12" cy="6.4" rx="1.9" ry="3.1" transform="rotate(60 12 12)"/><ellipse cx="12" cy="6.4" rx="1.9" ry="3.1" transform="rotate(120 12 12)"/><ellipse cx="12" cy="6.4" rx="1.9" ry="3.1" transform="rotate(180 12 12)"/><ellipse cx="12" cy="6.4" rx="1.9" ry="3.1" transform="rotate(240 12 12)"/><ellipse cx="12" cy="6.4" rx="1.9" ry="3.1" transform="rotate(300 12 12)"/></g></svg>),
-    disenar: (<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6.5 13.5h11l-1.1 6a1.6 1.6 0 0 1-1.55 1.3H9.15A1.6 1.6 0 0 1 7.6 19.5z"/><path d="M5.5 13.5h13"/><path d="M12 13.5V9"/><path d="M12 9c0-2.1 1.6-3.4 3.6-3.4C15.6 7.7 14 9 12 9z"/><path d="M12 9c0-2.1-1.6-3.4-3.6-3.4C8.4 7.7 10 9 12 9z"/></svg>),
-  }
-
   const cards = [
-    { href: '/identify', label: 'Reconocer planta', desc: 'Sacá una foto', icon: Icon.reconocer },
-    { href: '/explore', label: 'Explorar especies', desc: '1000+ plantas', icon: Icon.explorar },
-    { href: '/bitacora', label: 'Floración del mes', desc: `Qué florece en ${mesActual}`, icon: Icon.floracion },
-    { href: '/diseno', label: 'Diseñar cantero', desc: 'Combiná con IA', icon: Icon.disenar },
+    { href: '/identify', label: 'Reconocer planta', desc: 'Sacá una foto', icon: <Camera size={27} weight="light" /> },
+    { href: '/explore', label: 'Explorar especies', desc: '1000+ plantas', icon: <Leaf size={27} weight="light" /> },
+    { href: '/bitacora', label: 'Floración del mes', desc: `Qué florece en ${mesActual}`, icon: <Flower size={27} weight="light" /> },
+    { href: '/diseno', label: 'Diseñar cantero', desc: 'Combiná con IA', icon: <PottedPlant size={27} weight="light" /> },
   ]
 
   return (
@@ -119,7 +112,7 @@ export default async function HomePage() {
             padding: '16px 20px', border: `1px solid ${color.line}`, marginBottom: '26px',
             boxShadow: shadow.soft,
           }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color.inkFaint} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <MagnifyingGlass size={19} weight="regular" color={color.inkFaint} />
             <span style={{ color: color.inkFaint, fontSize: '15px' }}>Buscar plantas, estilos, cuidados…</span>
           </a>
 
@@ -150,14 +143,14 @@ export default async function HomePage() {
             boxShadow: shadow.card,
           }}>
             <div style={{ width: '52px', height: '52px', borderRadius: '15px', backgroundColor: 'rgba(242,233,221,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={color.blush} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="2.5"/><path d="M8.5 3.5v17"/><path d="M13.6 9.2c-1.4 0-2.5 1.1-2.5 2.5 1.4 0 2.5-1.1 2.5-2.5z"/><path d="M14 9.2c1.4 0 2.5 1.1 2.5 2.5-1.4 0-2.5-1.1-2.5-2.5z"/><path d="M13.8 8.6v6"/></svg>
+              <Notebook size={27} weight="light" color={color.blush} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ margin: '0 0 3px', fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: color.blush }}>Nuevo</p>
               <p style={{ margin: 0, fontSize: '20px', fontWeight: 500, color: '#F2E9DD', fontFamily: font.serif, letterSpacing: '-0.2px' }}>Bitácora de jardín</p>
               <p style={{ margin: '2px 0 0', fontSize: '12.5px', color: 'rgba(242,233,221,0.65)' }}>Planificá tus tareas mes a mes</p>
             </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color.sage} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M9 18l6-6-6-6"/></svg>
+            <CaretRight size={20} weight="bold" color={color.sage} style={{ flexShrink: 0 }} />
           </a>
 
           {/* Inspirate */}
@@ -203,14 +196,14 @@ export default async function HomePage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '26px' }}>
                 {['IA ilimitada para tus plantas', 'Renders de canteros con IA', 'Recomendaciones para tu clima'].map(item => (
                   <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '11px', fontSize: '14px', color: 'rgba(242,233,221,0.82)' }}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={color.blush} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                    <CheckCircle size={17} weight="fill" color={color.blush} style={{ flexShrink: 0 }} />
                     {item}
                   </div>
                 ))}
               </div>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', backgroundColor: '#F2E9DD', color: color.ink, padding: '14px 26px', borderRadius: '999px', fontSize: '14px', fontWeight: 700 }}>
                 Activar Pro — $9.99/mes
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={color.ink} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                <ArrowRight size={16} weight="bold" color={color.ink} />
               </span>
             </div>
           </a>
