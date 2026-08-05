@@ -1,5 +1,5 @@
 'use client'
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
@@ -30,6 +30,27 @@ export default function IdentifyPage() {
   const [result, setResult] = useState<IdentificationResult | null>(null)
   const [error, setError] = useState<string | null>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
+
+  // Resumen de resultados: normaliza porcentajes y detecta género común
+  const summary = useMemo(() => {
+    const sugg = result?.suggestions?.slice(0, 3) ?? []
+    if (!sugg.length) return null
+    const genusOf = (n: string) => n.replace(/^×\s*/, '').split(' ')[0].toLowerCase()
+    const total = sugg.reduce((a, s) => a + (s.probability || 0), 0) || 1
+    const items = sugg.map(s => ({ ...s, norm: (s.probability || 0) / total }))
+    const topGenus = genusOf(sugg[0].name)
+    const sameGenus = sugg.filter(s => genusOf(s.name) === topGenus).length >= 2
+    const topCommon = sugg[0].details?.common_names?.[0] || ''
+    const topProb = sugg[0].probability || 0
+    // Nombre del género con mayúscula inicial para el cartel
+    const genusLabel = sugg[0].name.replace(/^×\s*/, '').split(' ')[0]
+    return { items, sameGenus, genusLabel, topCommon, topProb }
+  }, [result])
+
+  const confLabel = (p: number) =>
+    p >= 0.5 ? { t: 'Coincidencia alta', bg: 'bg-green-100', tx: 'text-green-800' } :
+    p >= 0.2 ? { t: 'Coincidencia media', bg: 'bg-yellow-100', tx: 'text-yellow-800' } :
+               { t: 'Coincidencia baja', bg: 'bg-floria-100', tx: 'text-floria-700' }
 
   const loadFile = useCallback((f: File | null | undefined) => {
     if (!f) return
@@ -193,7 +214,29 @@ export default function IdentifyPage() {
             ) : (
               <>
                 <h2 className="font-serif text-2xl text-floria-900">Resultados</h2>
-                {result.suggestions.slice(0, 3).map((s, i) => (
+
+                {/* Cartel de resumen: identificación principal */}
+                {summary && (
+                  <div className="p-4 rounded-2xl bg-floria-50 border border-floria-200">
+                    <p className="font-sans text-xs text-floria-500 mb-1">
+                      {summary.topProb >= 0.5 ? 'Identificación probable' : 'Mejor coincidencia'}
+                    </p>
+                    <p className="font-serif text-xl text-floria-900">
+                      {summary.sameGenus
+                        ? <>Muy probablemente una <span className="italic">{summary.genusLabel}</span></>
+                        : (summary.topCommon || summary.items[0].name)}
+                    </p>
+                    <p className="font-sans text-sm text-floria-600 mt-0.5">
+                      {summary.sameGenus
+                        ? 'La foto coincide con varias especies de este género. Abajo, las más probables.'
+                        : summary.items[0].name}
+                    </p>
+                  </div>
+                )}
+
+                {summary?.items.map((s, i) => {
+                  const cl = confLabel(s.probability)
+                  return (
                   <div
                     key={i}
                     className={`plant-card p-5 flex items-start gap-4 ${i === 0 ? 'border-floria-500 border-2' : ''}`}
@@ -213,13 +256,14 @@ export default function IdentifyPage() {
                             <p className="font-sans text-sm text-floria-600">{s.details.common_names[0]}</p>
                           )}
                         </div>
-                        <span className={`text-sm font-medium px-2.5 py-1 rounded-full flex-shrink-0 ${
-                          s.probability > 0.7 ? 'bg-green-100 text-green-800' :
-                          s.probability > 0.4 ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-floria-100 text-floria-700'
-                        }`}>
-                          {Math.round(s.probability * 100)}%
-                        </span>
+                        <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                          <span className="text-base font-semibold text-floria-800">
+                            {Math.round(s.norm * 100)}%
+                          </span>
+                          <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${cl.bg} ${cl.tx}`}>
+                            {cl.t}
+                          </span>
+                        </div>
                       </div>
                       {s.details?.description?.value && (
                         <p className="font-sans text-xs text-floria-500 mt-2 line-clamp-2">
@@ -236,7 +280,12 @@ export default function IdentifyPage() {
                       )}
                     </div>
                   </div>
-                ))}
+                  )
+                })}
+
+                <p className="font-sans text-[11px] text-floria-400 text-center px-4">
+                  El porcentaje indica cuánto se parece tu foto a cada especie. Una foto con flor o fruto mejora la precisión.
+                </p>
               </>
             )}
 
