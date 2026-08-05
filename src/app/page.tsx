@@ -141,6 +141,32 @@ export default async function HomePage() {
               </a>
             ))}
           </div>
+
+          {/* Card destacada — Bitácora de jardín */}
+          <a href="/bitacora" className="tap-card fade4" style={{
+            display: 'flex', alignItems: 'center', gap: '16px',
+            background: 'linear-gradient(135deg, #1E3D2B 0%, #14301F 100%)',
+            borderRadius: '22px', padding: '18px 20px', textDecoration: 'none',
+            marginBottom: '36px', position: 'relative', overflow: 'hidden',
+            boxShadow: '0 8px 26px rgba(30,61,43,0.22)', transition: 'transform 0.15s',
+          }}>
+            <div style={{ position: 'absolute', right: '-24px', top: '-24px', width: '120px', height: '120px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(167,196,161,0.18), transparent 70%)', pointerEvents: 'none' }} />
+            <div style={{ width: '48px', height: '48px', borderRadius: '14px', backgroundColor: 'rgba(242,233,221,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F2E9DD" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4.5" y="3.5" width="15" height="17" rx="2.5"/>
+                <path d="M8.5 3.5v17"/>
+                <path d="M13.6 9.2c-1.4 0-2.5 1.1-2.5 2.5 1.4 0 2.5-1.1 2.5-2.5z"/>
+                <path d="M14 9.2c1.4 0 2.5 1.1 2.5 2.5-1.4 0-2.5-1.1-2.5-2.5z"/>
+                <path d="M13.8 8.6v6"/>
+              </svg>
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ margin: '0 0 2px', fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#A7C4A1' }}>Nuevo</p>
+              <p style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#F2E9DD', fontFamily: 'Cormorant Garamond, serif' }}>Bitácora de jardín</p>
+              <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#A7C4A1', lineHeight: 1.4 }}>Planificá y registrá tus tareas mes a mes</p>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A7C4A1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M9 18l6-6-6-6"/></svg>
+          </a>
         </div>
 
         {/* Imagen hero */}

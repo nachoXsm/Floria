@@ -55,6 +55,19 @@ const tabs = [
     ),
   },
   {
+    href: '/bitacora',
+    label: 'Bitácora',
+    icon: (active: boolean) => (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#1E3D2B' : '#4C7F5B'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="4.5" y="3.5" width="15" height="17" rx="2.5" fill={active ? '#1E3D2B' : 'none'}/>
+        <path d="M8.5 3.5v17" stroke={active ? '#F2E9DD' : '#4C7F5B'}/>
+        <path d="M13.6 9.2c-1.4 0-2.5 1.1-2.5 2.5 1.4 0 2.5-1.1 2.5-2.5z" stroke={active ? '#F2E9DD' : '#4C7F5B'}/>
+        <path d="M14 9.2c1.4 0 2.5 1.1 2.5 2.5-1.4 0-2.5-1.1-2.5-2.5z" stroke={active ? '#F2E9DD' : '#4C7F5B'}/>
+        <path d="M13.8 8.6v6" stroke={active ? '#F2E9DD' : '#4C7F5B'}/>
+      </svg>
+    ),
+  },
+  {
     href: '/identify',
     label: 'Identificar',
     icon: (active: boolean) => (
@@ -90,9 +103,11 @@ export default function BottomNav() {
       backdropFilter: 'blur(20px)',
       borderTop: '1px solid rgba(231,239,230,0.9)',
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       alignItems: 'center',
       paddingBottom: 'env(safe-area-inset-bottom)',
+      paddingLeft: '4px',
+      paddingRight: '4px',
       height: 'calc(64px + env(safe-area-inset-bottom))',
     }}>
       {tabs.map(tab => {
@@ -104,18 +119,20 @@ export default function BottomNav() {
             alignItems: 'center',
             gap: '3px',
             textDecoration: 'none',
-            padding: '8px 16px',
-            borderRadius: '16px',
+            padding: '7px 2px',
+            borderRadius: '14px',
             backgroundColor: active ? 'rgba(30,61,43,0.07)' : 'transparent',
             transition: 'background 0.15s',
-            minWidth: '60px',
+            flex: 1,
+            minWidth: 0,
           }}>
             {tab.icon(active)}
             <span style={{
-              fontSize: '10px',
+              fontSize: '9.5px',
               fontWeight: active ? 700 : 500,
               color: active ? '#1E3D2B' : '#4C7F5B',
-              letterSpacing: '0.2px',
+              letterSpacing: '0.1px',
+              whiteSpace: 'nowrap',
             }}>{tab.label}</span>
           </a>
         )
