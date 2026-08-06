@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
+import { color, font, shadow, radius } from '@/lib/ui'
+import { MagnifyingGlass, Leaf } from '@phosphor-icons/react'
 
 type Plant = {
   id: string
@@ -197,53 +199,49 @@ export default function ExplorePage() {
   }
 
   return (
-    <main className="mobile-page-pb" style={{ minHeight: '100vh', backgroundColor: '#F9FCF8', fontFamily: 'Montserrat, system-ui, sans-serif' }}>
+    <main style={{ minHeight: '100vh', backgroundColor: color.bg, fontFamily: font.sans, paddingBottom: '110px', color: color.ink }}>
       <Nav />
 
-      <div style={{ padding: '88px 16px 40px', maxWidth: '1120px', margin: '0 auto' }}>
+      <div style={{ padding: '100px 20px 40px', maxWidth: '1120px', margin: '0 auto' }}>
 
         {/* TÍTULO */}
-        <div style={{ marginBottom: '28px' }}>
-          <h1 style={{
-            fontFamily: 'Cormorant Garamond, Georgia, serif',
-            fontSize: 'clamp(36px, 5vw, 54px)',
-            color: '#1E3D2B', margin: '0 0 8px', fontWeight: 500, letterSpacing: '-1px',
-          }}>
-            Explorá el catálogo
+        <div style={{ marginBottom: '24px' }}>
+          <p style={{ margin: '0 0 8px', fontSize: '11px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: color.blushDeep }}>Catálogo botánico</p>
+          <h1 style={{ fontFamily: font.serif, fontSize: 'clamp(40px, 6vw, 58px)', color: color.ink, margin: '0 0 6px', fontWeight: 500, letterSpacing: '-1px', lineHeight: 0.95 }}>
+            Explorá<br />el catálogo
           </h1>
-          <p style={{ color: '#4C7F5B', fontSize: '15px', margin: 0 }}>
-            {total > 0 ? `${total} especies disponibles` : 'Cargando...'}
+          <p style={{ color: color.inkSoft, fontSize: '15px', margin: 0 }}>
+            {total > 0 ? `${total} especies para descubrir` : 'Cargando…'}
           </p>
         </div>
 
         {/* BUSCADOR */}
         <div style={{ position: 'relative', marginBottom: '16px' }}>
-          <svg style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: '#A7C4A1' }}
-            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8" strokeWidth={2} />
-            <path d="m21 21-4.35-4.35" strokeWidth={2} strokeLinecap="round" />
-          </svg>
+          <span style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', display: 'flex' }}>
+            <MagnifyingGlass size={19} weight="regular" color={color.inkFaint} />
+          </span>
           <input
             type="text"
-            placeholder="Buscar por nombre común o científico..."
+            placeholder="Buscar por nombre común o científico…"
             value={search}
             onChange={e => setSearch(e.target.value)}
             style={{
-              width: '100%', padding: '14px 20px 14px 44px', borderRadius: '16px',
-              border: '1px solid #C5D9C2', fontSize: '14px', color: '#1E3D2B',
-              backgroundColor: 'white', outline: 'none', boxSizing: 'border-box',
-              fontFamily: 'Montserrat, system-ui, sans-serif',
+              width: '100%', padding: '16px 20px 16px 46px', borderRadius: `${radius.pill}px`,
+              border: `1px solid ${color.line}`, fontSize: '15px', color: color.ink,
+              backgroundColor: color.paper, outline: 'none', boxSizing: 'border-box',
+              fontFamily: font.sans, boxShadow: shadow.soft,
             }}
           />
         </div>
 
         {/* FILTROS */}
         <div style={{
-          backgroundColor: 'white',
-          border: '1px solid #E7EFE6',
-          borderRadius: '20px',
-          padding: '20px 24px',
+          backgroundColor: color.paper,
+          border: `1px solid ${color.line}`,
+          borderRadius: `${radius.md}px`,
+          padding: '20px 22px',
           marginBottom: '28px',
+          boxShadow: shadow.soft,
           display: 'flex',
           flexDirection: 'column',
           gap: '14px',
@@ -354,9 +352,9 @@ export default function ExplorePage() {
             ))}
           </div>
         ) : plants.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '80px 24px', color: '#4C7F5B' }}>
-            <p style={{ fontSize: '40px', margin: '0 0 16px' }}>🌿</p>
-            <p style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '24px', color: '#1E3D2B', margin: '0 0 8px' }}>
+          <div style={{ textAlign: 'center', padding: '80px 24px', color: color.inkSoft }}>
+            <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}><Leaf size={46} weight="light" color={color.sage} /></div>
+            <p style={{ fontFamily: font.serif, fontSize: '26px', color: color.ink, margin: '0 0 8px', fontWeight: 500 }}>
               Sin resultados
             </p>
             <p style={{ fontSize: '14px' }}>Probá con otros filtros o términos de búsqueda</p>
@@ -372,16 +370,15 @@ export default function ExplorePage() {
             )}
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(168px, 1fr))', gap: '16px' }}>
             {plants.map(plant => (
-              <Link key={plant.id} href={`/plant/${plant.slug ?? plant.id}`} style={{ textDecoration: 'none' }}>
+              <Link key={plant.id} href={`/plant/${plant.slug ?? plant.id}`} className="exp-card" style={{ textDecoration: 'none' }}>
                 <div style={{
-                  backgroundColor: 'white', borderRadius: '20px', overflow: 'hidden',
-                  border: '1px solid #E7EFE6', cursor: 'pointer',
-                  transition: 'all 0.2s', height: '100%',
+                  backgroundColor: color.paper, borderRadius: `${radius.md}px`, overflow: 'hidden',
+                  border: `1px solid ${color.line}`, cursor: 'pointer', boxShadow: shadow.card, height: '100%',
                 }}>
                   <div style={{
-                    height: '150px', backgroundColor: '#E7EFE6',
+                    height: '210px', backgroundColor: color.mist,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     overflow: 'hidden', position: 'relative',
                   }}>
@@ -394,17 +391,16 @@ export default function ExplorePage() {
                         style={{ objectFit: 'cover' }}
                       />
                     ) : (
-                      <span style={{ fontSize: '40px' }}>🌿</span>
+                      <Leaf size={40} weight="light" color={color.sage} />
                     )}
                   </div>
-                  <div style={{ padding: '14px' }}>
+                  <div style={{ padding: '14px 15px 16px' }}>
                     <h3 style={{
-                      fontFamily: 'Cormorant Garamond, Georgia, serif',
-                      fontSize: '16px', color: '#1E3D2B', margin: '0 0 3px', lineHeight: 1.2,
+                      fontFamily: font.serif, fontSize: '18px', color: color.ink, margin: '0 0 2px', lineHeight: 1.1, fontWeight: 500,
                     }}>
                       {plant.common_name}
                     </h3>
-                    <p style={{ fontSize: '11px', color: '#4C7F5B', fontStyle: 'italic', margin: '0 0 10px' }}>
+                    <p style={{ fontSize: '11.5px', color: color.inkSoft, fontStyle: 'italic', margin: '0 0 11px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {plant.scientific_name}
                     </p>
                     <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
@@ -454,15 +450,15 @@ export default function ExplorePage() {
 
         {/* VER MÁS */}
         {!loading && plants.length < total && (
-          <div style={{ textAlign: 'center', marginTop: '28px' }}>
+          <div style={{ textAlign: 'center', marginTop: '32px' }}>
             <button onClick={loadMore} disabled={loadingMore} style={{
-              padding: '12px 32px', borderRadius: '999px', border: '1px solid #1E3D2B',
-              backgroundColor: loadingMore ? '#E7EFE6' : '#1E3D2B',
-              color: loadingMore ? '#1E3D2B' : 'white',
-              fontSize: '14px', fontWeight: 600, cursor: loadingMore ? 'default' : 'pointer',
-              fontFamily: 'Montserrat, system-ui, sans-serif',
+              padding: '15px 34px', borderRadius: '999px', border: 'none',
+              backgroundColor: loadingMore ? color.mist : color.ink,
+              color: loadingMore ? color.ink : '#F2E9DD',
+              fontSize: '14px', fontWeight: 700, cursor: loadingMore ? 'default' : 'pointer',
+              fontFamily: font.sans, boxShadow: shadow.card,
             }}>
-              {loadingMore ? 'Cargando...' : `Ver más (${plants.length} de ${total})`}
+              {loadingMore ? 'Cargando…' : `Ver más · ${plants.length} de ${total}`}
             </button>
           </div>
         )}
