@@ -4,7 +4,7 @@ import BottomNav from '@/components/BottomNav'
 import { getFeaturedPlants } from '@/lib/queries/plants'
 import { createClient } from '@/lib/supabase/server'
 import { color, font, shadow, radius } from '@/lib/ui'
-import { Camera, Leaf, Flower, PottedPlant, MagnifyingGlass, Notebook, CaretRight, CheckCircle, ArrowRight } from '@phosphor-icons/react/dist/ssr'
+import { Camera, Leaf, Flower, PottedPlant, MagnifyingGlass, Notebook, CaretRight, CheckCircle, ArrowRight, Sparkle, Carrot, Moon, Bug, Storefront } from '@phosphor-icons/react/dist/ssr'
 
 export const metadata: Metadata = {
   title: 'Floria — Tu espacio, tu naturaleza',
@@ -49,6 +49,14 @@ export default async function HomePage() {
     { href: '/explore', label: 'Explorar especies', desc: '1000+ plantas', icon: <Leaf size={27} weight="light" /> },
     { href: '/bitacora', label: 'Floración del mes', desc: `Qué florece en ${mesActual}`, icon: <Flower size={27} weight="light" /> },
     { href: '/diseno', label: 'Diseñar cantero', desc: 'Combiná con IA', icon: <PottedPlant size={27} weight="light" /> },
+  ]
+
+  const tools = [
+    { href: '/jardinero', label: 'Jardinero IA', Icon: Sparkle },
+    { href: '/huerta', label: 'Mi Huerta', Icon: Carrot },
+    { href: '/luna', label: 'Calendario lunar', Icon: Moon },
+    { href: '/plagas', label: 'Plagas', Icon: Bug },
+    { href: '/viveros', label: 'Viveros', Icon: Storefront },
   ]
 
   return (
@@ -152,6 +160,26 @@ export default async function HomePage() {
             </div>
             <CaretRight size={20} weight="bold" color={color.sage} style={{ flexShrink: 0 }} />
           </a>
+
+          {/* MÁS EN FLORIA — herramientas */}
+          <section style={{ marginBottom: '46px' }}>
+            <p style={{ margin: '0 0 4px', fontSize: '11px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: color.blushDeep }}>Más en Floria</p>
+            <h2 style={{ fontFamily: font.serif, fontSize: '30px', fontWeight: 500, color: color.ink, margin: '0 0 18px', letterSpacing: '-0.4px', lineHeight: 1 }}>Todas tus herramientas</h2>
+            <div className="no-scrollbar" style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '4px', margin: '0 -22px', paddingLeft: '22px', paddingRight: '22px' }}>
+              {tools.map(t => (
+                <a key={t.href} href={t.href} className="press" style={{
+                  minWidth: '112px', maxWidth: '112px', display: 'flex', flexDirection: 'column', gap: '14px',
+                  textDecoration: 'none', backgroundColor: color.paper, borderRadius: `${radius.md}px`,
+                  padding: '18px 16px', border: `1px solid ${color.line}`, boxShadow: shadow.soft,
+                }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '13px', backgroundColor: color.mist, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <t.Icon size={24} weight="light" color={color.ink} />
+                  </div>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: color.ink, lineHeight: 1.25 }}>{t.label}</span>
+                </a>
+              ))}
+            </div>
+          </section>
 
           {/* Inspirate */}
           {plants.length > 0 && (
