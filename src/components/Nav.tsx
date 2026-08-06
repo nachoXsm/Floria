@@ -29,13 +29,13 @@ export default function Nav({ dark }: NavProps) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 8px 0 16px',
+      padding: '0 8px 0 14px',
       borderRadius: '999px',
-      height: '56px',
+      height: '64px',
     }}>
       {/* Logo — centrado verticalmente */}
-      <a href="/" style={{ display: 'flex', alignItems: 'center', height: '100%', textDecoration: 'none' }}>
-        <FloriaLogo size={44} light={!!dark} />
+      <a href="/" style={{ display: 'flex', alignItems: 'center', height: '100%', textDecoration: 'none', paddingLeft: '2px' }}>
+        <FloriaLogo size={56} light={!!dark} />
       </a>
 
       {/* Desktop links — hidden on mobile via CSS class */}

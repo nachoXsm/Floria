@@ -4,6 +4,8 @@ import { useDropzone } from 'react-dropzone'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
+import { color, font, shadow, radius } from '@/lib/ui'
+import { Camera, ImageSquare, ArrowClockwise, Sparkle, CaretRight, Leaf } from '@phosphor-icons/react'
 
 interface IdentificationResult {
   id: string
@@ -48,9 +50,9 @@ export default function IdentifyPage() {
   }, [result])
 
   const confLabel = (p: number) =>
-    p >= 0.5 ? { t: 'Coincidencia alta', bg: 'bg-green-100', tx: 'text-green-800' } :
-    p >= 0.2 ? { t: 'Coincidencia media', bg: 'bg-yellow-100', tx: 'text-yellow-800' } :
-               { t: 'Coincidencia baja', bg: 'bg-floria-100', tx: 'text-floria-700' }
+    p >= 0.5 ? { t: 'Coincidencia alta', bg: '#DCEEDC', tx: '#1E5631' } :
+    p >= 0.2 ? { t: 'Coincidencia media', bg: '#FBEFD3', tx: '#8A6A1E' } :
+               { t: 'Coincidencia baja', bg: '#E7EFE6', tx: '#4C7F5B' }
 
   const loadFile = useCallback((f: File | null | undefined) => {
     if (!f) return
@@ -102,99 +104,112 @@ export default function IdentifyPage() {
   }
 
   return (
-    <main className="min-h-screen bg-floria-50 mobile-page-pb" style={{ paddingTop: '88px' }}>
+    <main style={{ minHeight: '100vh', backgroundColor: color.bg, color: color.ink, fontFamily: font.sans, paddingBottom: '110px' }}>
       <Nav />
-      <div className="max-w-2xl mx-auto px-4 pb-10">
-        <div className="mb-10 text-center">
-          <h1 className="font-serif text-4xl text-floria-900 mb-3">Reconocé una planta</h1>
-          <p className="font-sans text-floria-600">Sacá una foto o subí una imagen y la IA identificará la especie al instante</p>
-        </div>
 
-        {/* INPUT CÁMARA (oculto) */}
-        <input
-          ref={cameraInputRef}
-          type="file"
-          accept="image/*"
-          capture="environment"
-          className="hidden"
-          onChange={(e) => loadFile(e.target.files?.[0])}
-        />
+      <style>{`
+        @keyframes idUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes idSpin { to { transform: rotate(360deg) } }
+        .idUp { animation: idUp 0.7s cubic-bezier(0.2,0.7,0.2,1) both; }
+        .idPress { transition: transform 0.18s cubic-bezier(0.2,0.7,0.2,1); }
+        .idPress:active { transform: scale(0.97); }
+        .idSpin { animation: idSpin 0.9s linear infinite; }
+      `}</style>
 
-        {/* BOTÓN CÁMARA */}
-        <button
-          onClick={() => cameraInputRef.current?.click()}
-          className="w-full mb-4 btn-primary py-4 text-base flex items-center justify-center gap-2"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-            <circle cx="12" cy="13" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} />
-          </svg>
-          Sacar foto con la cámara
-        </button>
+      {/* input cámara oculto */}
+      <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={(e) => loadFile(e.target.files?.[0])} />
 
-        <div className="flex items-center gap-3 mb-4">
-          <div className="flex-1 h-px bg-floria-200" />
-          <span className="font-sans text-xs text-floria-400">o subí una imagen</span>
-          <div className="flex-1 h-px bg-floria-200" />
-        </div>
+      <div style={{ maxWidth: '620px', margin: '0 auto', padding: '104px 22px 40px' }}>
 
-        {/* DROPZONE */}
-        <div
-          {...getRootProps()}
-          className={`
-            relative border-2 border-dashed rounded-3xl p-10 text-center cursor-pointer
-            transition-all duration-200
-            ${isDragActive ? 'border-floria-600 bg-floria-100' : 'border-floria-300 bg-white hover:border-floria-500'}
-            ${preview ? 'border-floria-500' : ''}
-          `}
-        >
-          <input {...getInputProps()} />
-          {preview ? (
-            <div className="relative">
-              <img src={preview} alt="Preview" className="max-h-80 mx-auto rounded-2xl object-contain" />
-              <p className="mt-4 font-sans text-sm text-floria-500">Hacé clic para cambiar la imagen</p>
-            </div>
-          ) : (
-            <div>
-              <svg className="w-14 h-14 text-floria-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                <circle cx="12" cy="13" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} />
-              </svg>
-              <p className="font-serif text-lg text-floria-700 mb-2">
-                {isDragActive ? 'Soltá la imagen acá' : 'Arrastrá una foto o hacé clic'}
+        {!result && (
+          <>
+            {/* HERO */}
+            <div className="idUp" style={{ textAlign: 'center', marginBottom: '30px' }}>
+              <div style={{
+                width: '128px', height: '128px', borderRadius: '40px', margin: '0 auto 26px',
+                background: `linear-gradient(150deg, ${color.mist} 0%, #D3E4CE 100%)`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: shadow.card, position: 'relative',
+              }}>
+                <Camera size={58} weight="light" color={color.ink} />
+                <div style={{ position: 'absolute', bottom: '-8px', right: '-6px', width: '44px', height: '44px', borderRadius: '999px', backgroundColor: color.ink, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: shadow.soft }}>
+                  <Leaf size={22} weight="fill" color={color.blush} />
+                </div>
+              </div>
+              <h1 style={{ fontFamily: font.serif, fontSize: '40px', fontWeight: 500, color: color.ink, margin: '0 0 10px', lineHeight: 0.98, letterSpacing: '-0.6px' }}>
+                Reconocé<br />una planta
+              </h1>
+              <p style={{ fontSize: '16px', color: color.inkSoft, lineHeight: 1.6, margin: '0 auto', maxWidth: '320px' }}>
+                Sacá una foto y la IA identifica la especie al instante — con más de 1000 plantas en nuestra base.
               </p>
-              <p className="font-sans text-sm text-floria-400">JPG, PNG o WEBP · máx. 10 MB</p>
             </div>
-          )}
-        </div>
 
-        {/* BOTÓN */}
-        {preview && !result && (
-          <button
-            onClick={identify}
-            disabled={loading}
-            className="w-full mt-5 btn-primary py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                </svg>
-                Identificando...
-              </span>
-            ) : 'Identificar planta'}
-          </button>
+            {/* BOTÓN PRINCIPAL — cámara */}
+            {!preview && (
+              <>
+                <button onClick={() => cameraInputRef.current?.click()} className="idPress idUp" style={{
+                  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                  backgroundColor: color.ink, color: '#F2E9DD', border: 'none', cursor: 'pointer',
+                  padding: '18px', borderRadius: `${radius.pill}px`, fontSize: '16px', fontWeight: 700,
+                  boxShadow: shadow.card, marginBottom: '14px',
+                }}>
+                  <Camera size={22} weight="fill" color="#F2E9DD" />
+                  Sacar foto con la cámara
+                </button>
+
+                {/* Upload secundario */}
+                <div {...getRootProps()} className="idPress" style={{
+                  cursor: 'pointer', backgroundColor: color.paper, borderRadius: `${radius.lg}px`,
+                  border: `1.5px dashed ${isDragActive ? color.green : color.line}`,
+                  padding: '20px', display: 'flex', alignItems: 'center', gap: '14px',
+                  boxShadow: shadow.soft,
+                }}>
+                  <input {...getInputProps()} />
+                  <div style={{ width: '46px', height: '46px', borderRadius: '14px', backgroundColor: color.cream, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <ImageSquare size={24} weight="light" color={color.ink} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ margin: 0, fontSize: '15px', fontWeight: 600, color: color.ink }}>{isDragActive ? 'Soltá la imagen acá' : 'Subir una imagen'}</p>
+                    <p style={{ margin: 0, fontSize: '12.5px', color: color.inkSoft }}>JPG, PNG o WEBP · máx. 10 MB</p>
+                  </div>
+                  <CaretRight size={18} weight="bold" color={color.inkFaint} />
+                </div>
+              </>
+            )}
+
+            {/* PREVIEW + identificar */}
+            {preview && (
+              <div className="idUp">
+                <div {...getRootProps()} className="idPress" style={{ cursor: 'pointer', borderRadius: `${radius.lg}px`, overflow: 'hidden', position: 'relative', marginBottom: '16px', boxShadow: shadow.card }}>
+                  <input {...getInputProps()} />
+                  <img src={preview} alt="Preview" style={{ width: '100%', maxHeight: '420px', objectFit: 'cover', display: 'block' }} />
+                  <div style={{ position: 'absolute', bottom: '12px', left: '12px', backgroundColor: 'rgba(30,61,43,0.7)', backdropFilter: 'blur(8px)', color: '#F2E9DD', fontSize: '12px', fontWeight: 600, padding: '7px 14px', borderRadius: '999px' }}>
+                    Tocá para cambiar la foto
+                  </div>
+                </div>
+                <button onClick={identify} disabled={loading} className="idPress" style={{
+                  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                  backgroundColor: loading ? color.green : color.ink, color: '#F2E9DD', border: 'none',
+                  cursor: loading ? 'default' : 'pointer', padding: '18px', borderRadius: `${radius.pill}px`,
+                  fontSize: '16px', fontWeight: 700, boxShadow: shadow.card,
+                }}>
+                  {loading ? (
+                    <><ArrowClockwise size={20} weight="bold" color="#F2E9DD" className="idSpin" /> Identificando…</>
+                  ) : (
+                    <><Sparkle size={20} weight="fill" color={color.blush} /> Identificar planta</>
+                  )}
+                </button>
+              </div>
+            )}
+          </>
         )}
 
         {/* ERROR */}
         {error && (
-          <div className="mt-5 p-4 bg-red-50 border border-red-200 rounded-2xl">
-            <p className="font-sans text-sm text-red-700">{error}</p>
+          <div className="idUp" style={{ marginTop: '18px', padding: '16px 18px', backgroundColor: '#FCEEEC', border: '1px solid #F3D6D0', borderRadius: `${radius.md}px` }}>
+            <p style={{ margin: 0, fontSize: '13.5px', color: '#8B3A2F', lineHeight: 1.5 }}>{error}</p>
             {error.includes('límite') && (
-              <Link href="/pricing" className="inline-block mt-2 btn-primary text-sm">
+              <Link href="/pricing" style={{ display: 'inline-block', marginTop: '12px', backgroundColor: color.ink, color: '#F2E9DD', padding: '10px 18px', borderRadius: '999px', textDecoration: 'none', fontSize: '13px', fontWeight: 700 }}>
                 Activar Floria Pro
               </Link>
             )}
@@ -203,33 +218,30 @@ export default function IdentifyPage() {
 
         {/* RESULTADOS */}
         {result && (
-          <div className="mt-8 space-y-4 animate-fade-up">
+          <div className="idUp" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {preview && (
+              <div style={{ borderRadius: `${radius.lg}px`, overflow: 'hidden', boxShadow: shadow.card, marginBottom: '4px' }}>
+                <img src={preview} alt="" style={{ width: '100%', maxHeight: '260px', objectFit: 'cover', display: 'block' }} />
+              </div>
+            )}
             {!result.is_plant ? (
-              <div className="p-6 bg-amber-50 border border-amber-200 rounded-2xl text-center">
-                <p className="font-serif text-lg text-amber-800">No parece ser una planta</p>
-                <p className="font-sans text-sm text-amber-600 mt-1">
-                  Intentá con una foto más cercana y con buena iluminación
-                </p>
+              <div style={{ padding: '24px', backgroundColor: '#FBF4E6', border: '1px solid #F0E2C4', borderRadius: `${radius.md}px`, textAlign: 'center' }}>
+                <p style={{ fontFamily: font.serif, fontSize: '20px', color: '#8A6A1E', margin: '0 0 4px', fontWeight: 500 }}>No parece ser una planta</p>
+                <p style={{ fontSize: '13.5px', color: '#A6863C', margin: 0 }}>Intentá con una foto más cercana y con buena iluminación.</p>
               </div>
             ) : (
               <>
-                <h2 className="font-serif text-2xl text-floria-900">Resultados</h2>
-
-                {/* Cartel de resumen: identificación principal */}
+                {/* Cartel resumen */}
                 {summary && (
-                  <div className="p-4 rounded-2xl bg-floria-50 border border-floria-200">
-                    <p className="font-sans text-xs text-floria-500 mb-1">
+                  <div style={{ padding: '20px', borderRadius: `${radius.md}px`, background: `linear-gradient(150deg, ${color.ink}, #14301F)`, boxShadow: shadow.card }}>
+                    <p style={{ margin: '0 0 6px', fontSize: '10.5px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: color.blush }}>
                       {summary.topProb >= 0.5 ? 'Identificación probable' : 'Mejor coincidencia'}
                     </p>
-                    <p className="font-serif text-xl text-floria-900">
-                      {summary.sameGenus
-                        ? <>Muy probablemente una <span className="italic">{summary.genusLabel}</span></>
-                        : (summary.topCommon || summary.items[0].name)}
+                    <p style={{ margin: 0, fontFamily: font.serif, fontSize: '26px', fontWeight: 500, color: '#F2E9DD', lineHeight: 1.05, letterSpacing: '-0.3px' }}>
+                      {summary.sameGenus ? <>Muy probablemente una <em>{summary.genusLabel}</em></> : (summary.topCommon || summary.items[0].name)}
                     </p>
-                    <p className="font-sans text-sm text-floria-600 mt-0.5">
-                      {summary.sameGenus
-                        ? 'La foto coincide con varias especies de este género. Abajo, las más probables.'
-                        : summary.items[0].name}
+                    <p style={{ margin: '6px 0 0', fontSize: '13px', color: 'rgba(242,233,221,0.72)', lineHeight: 1.5 }}>
+                      {summary.sameGenus ? 'Tu foto coincide con varias especies de este género. Abajo, las más probables.' : summary.items[0].name}
                     </p>
                   </div>
                 )}
@@ -237,62 +249,47 @@ export default function IdentifyPage() {
                 {summary?.items.map((s, i) => {
                   const cl = confLabel(s.probability)
                   return (
-                  <div
-                    key={i}
-                    className={`plant-card p-5 flex items-start gap-4 ${i === 0 ? 'border-floria-500 border-2' : ''}`}
-                  >
-                    {s.similar_images?.[0] && (
-                      <img
-                        src={s.similar_images[0].url_small}
-                        alt={s.name}
-                        className="w-20 h-20 rounded-xl object-cover flex-shrink-0"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <p className="font-serif text-lg text-floria-900 italic">{s.name}</p>
-                          {s.details?.common_names?.[0] && (
-                            <p className="font-sans text-sm text-floria-600">{s.details.common_names[0]}</p>
-                          )}
+                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', padding: '16px', backgroundColor: color.paper, borderRadius: `${radius.md}px`, border: i === 0 ? `1.5px solid ${color.green}` : `1px solid ${color.line}`, boxShadow: shadow.soft }}>
+                      {s.similar_images?.[0] && (
+                        <img src={s.similar_images[0].url_small} alt={s.name} style={{ width: '72px', height: '72px', borderRadius: '16px', objectFit: 'cover', flexShrink: 0 }} />
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
+                          <div style={{ minWidth: 0 }}>
+                            <p style={{ margin: 0, fontFamily: font.serif, fontSize: '18px', fontStyle: 'italic', color: color.ink, lineHeight: 1.1 }}>{s.name}</p>
+                            {s.details?.common_names?.[0] && (
+                              <p style={{ margin: '2px 0 0', fontSize: '13px', color: color.inkSoft }}>{s.details.common_names[0]}</p>
+                            )}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', flexShrink: 0 }}>
+                            <span style={{ fontSize: '17px', fontWeight: 700, color: color.ink }}>{Math.round(s.norm * 100)}%</span>
+                            <span style={{ fontSize: '9.5px', fontWeight: 700, padding: '3px 8px', borderRadius: '999px', whiteSpace: 'nowrap', backgroundColor: cl.bg, color: cl.tx }}>{cl.t}</span>
+                          </div>
                         </div>
-                        <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                          <span className="text-base font-semibold text-floria-800">
-                            {Math.round(s.norm * 100)}%
-                          </span>
-                          <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${cl.bg} ${cl.tx}`}>
-                            {cl.t}
-                          </span>
-                        </div>
+                        {s.details?.description?.value && (
+                          <p style={{ margin: '8px 0 0', fontSize: '12px', color: color.inkSoft, lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.details.description.value}</p>
+                        )}
+                        {result.matched_plant_slug && i === 0 && (
+                          <Link href={`/plant/${result.matched_plant_slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '10px', fontSize: '13px', fontWeight: 700, color: color.green, textDecoration: 'none' }}>
+                            Ver ficha completa <CaretRight size={14} weight="bold" color={color.green} />
+                          </Link>
+                        )}
                       </div>
-                      {s.details?.description?.value && (
-                        <p className="font-sans text-xs text-floria-500 mt-2 line-clamp-2">
-                          {s.details.description.value}
-                        </p>
-                      )}
-                      {result.matched_plant_slug && i === 0 && (
-                        <Link
-                          href={`/plant/${result.matched_plant_slug}`}
-                          className="inline-block mt-2 text-xs font-sans text-floria-700 underline underline-offset-2 hover:text-floria-900"
-                        >
-                          Ver ficha completa →
-                        </Link>
-                      )}
                     </div>
-                  </div>
                   )
                 })}
 
-                <p className="font-sans text-[11px] text-floria-400 text-center px-4">
+                <p style={{ fontSize: '11.5px', color: color.inkFaint, textAlign: 'center', padding: '4px 16px', lineHeight: 1.5, margin: 0 }}>
                   El porcentaje indica cuánto se parece tu foto a cada especie. Una foto con flor o fruto mejora la precisión.
                 </p>
               </>
             )}
 
-            <button
-              onClick={() => { setPreview(null); setFile(null); setResult(null) }}
-              className="w-full btn-secondary mt-2"
-            >
+            <button onClick={() => { setPreview(null); setFile(null); setResult(null) }} className="idPress" style={{
+              width: '100%', marginTop: '6px', padding: '15px', borderRadius: `${radius.pill}px`,
+              border: `1.5px solid ${color.line}`, backgroundColor: color.paper, color: color.ink,
+              cursor: 'pointer', fontSize: '14px', fontWeight: 700,
+            }}>
               Identificar otra planta
             </button>
           </div>
