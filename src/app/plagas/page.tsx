@@ -3,6 +3,10 @@
 import { useState } from 'react'
 import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
+import { color, font, shadow, radius } from '@/lib/ui'
+import { Bug, Drop, Virus, Warning, MagnifyingGlass, CalendarBlank, ShieldCheck, Sparkle, CaretDown, type Icon } from '@phosphor-icons/react'
+
+const CAT_ICON: Record<string, Icon> = { insecto: Bug, acaro: Bug, hongo: Drop, bacteria: Virus, virus: Virus, otro: Warning }
 
 type Severidad = 'alta' | 'media' | 'baja'
 type Categoria = 'insecto' | 'hongo' | 'bacteria' | 'virus' | 'acaro' | 'otro'
@@ -205,42 +209,39 @@ export default function PlagasPage() {
   return (
     <main style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #F2E9DD 0%, #F9FCF8 55%, #E7EFE6 100%)',
-      fontFamily: 'Montserrat, system-ui, sans-serif',
-      color: '#1E3D2B',
-      paddingBottom: '100px',
+      backgroundColor: color.bg,
+      fontFamily: font.sans,
+      color: color.ink,
+      paddingBottom: '110px',
     }}>
       <Nav />
 
-      <div style={{ maxWidth: '680px', margin: '0 auto', padding: '88px 20px 0' }}>
+      <div style={{ maxWidth: '680px', margin: '0 auto', padding: '100px 20px 0' }}>
         {/* Header */}
-        <div style={{ marginBottom: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
-            <span style={{ fontSize: '32px' }}>🐛</span>
-            <div>
-              <p style={{ fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#4C7F5B', fontWeight: 600, margin: 0 }}>Guía</p>
-              <h1 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '38px', fontWeight: 600, margin: 0, lineHeight: 1.1 }}>Plagas y Enfermedades</h1>
-            </div>
-          </div>
-          <p style={{ color: '#4C7F5B', fontSize: '14px', lineHeight: 1.7, margin: 0 }}>
-            Identificá problemas, prevenilo antes de que lleguen y actuá con los mejores tratamientos, orgánicos o convencionales.
+        <div style={{ marginBottom: '22px' }}>
+          <p style={{ fontSize: '11px', letterSpacing: '2.5px', textTransform: 'uppercase', color: color.blushDeep, fontWeight: 700, margin: '0 0 8px' }}>Guía de sanidad</p>
+          <h1 style={{ fontFamily: font.serif, fontSize: '46px', fontWeight: 500, margin: '0 0 8px', lineHeight: 0.95, letterSpacing: '-0.8px' }}>Plagas y<br />enfermedades</h1>
+          <p style={{ color: color.inkSoft, fontSize: '15px', lineHeight: 1.65, margin: 0 }}>
+            Identificá el problema, prevenilo a tiempo y actuá con el mejor tratamiento, orgánico o convencional.
           </p>
         </div>
 
         {/* Buscador */}
         <div style={{ position: 'relative', marginBottom: '14px' }}>
+          <span style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', display: 'flex' }}>
+            <MagnifyingGlass size={19} weight="regular" color={color.inkFaint} />
+          </span>
           <input
             value={busqueda}
             onChange={e => setBusqueda(e.target.value)}
-            placeholder="Buscar plaga o planta afectada..."
+            placeholder="Buscar plaga o planta afectada…"
             style={{
-              width: '100%', padding: '14px 18px 14px 44px', borderRadius: '999px',
-              border: '1px solid #DDE9DA', fontSize: '14px', color: '#1E3D2B',
-              outline: 'none', boxSizing: 'border-box', backgroundColor: 'rgba(255,255,255,0.88)',
-              fontFamily: 'Montserrat, system-ui, sans-serif',
+              width: '100%', padding: '16px 18px 16px 46px', borderRadius: `${radius.pill}px`,
+              border: `1px solid ${color.line}`, fontSize: '15px', color: color.ink,
+              outline: 'none', boxSizing: 'border-box', backgroundColor: color.paper,
+              fontFamily: font.sans, boxShadow: shadow.soft,
             }}
           />
-          <span style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', fontSize: '18px' }}>🔍</span>
         </div>
 
         {/* Filtros */}
@@ -278,10 +279,10 @@ export default function PlagasPage() {
             const abierta = expandida === plaga.nombre
             return (
               <div key={plaga.nombre} style={{
-                backgroundColor: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(12px)',
-                borderRadius: '22px', border: '1px solid rgba(231,239,230,0.9)',
+                backgroundColor: color.paper,
+                borderRadius: `${radius.md}px`, border: `1px solid ${color.line}`,
                 overflow: 'hidden',
-                boxShadow: abierta ? '0 8px 30px rgba(30,61,43,0.1)' : '0 2px 8px rgba(30,61,43,0.04)',
+                boxShadow: abierta ? shadow.card : shadow.soft,
               }}>
                 {/* Cabecera */}
                 <button onClick={() => setExpandida(abierta ? null : plaga.nombre)} style={{
@@ -289,7 +290,11 @@ export default function PlagasPage() {
                   gap: '14px', backgroundColor: 'transparent', border: 'none', cursor: 'pointer',
                   textAlign: 'left', fontFamily: 'Montserrat, system-ui, sans-serif',
                 }}>
-                  <span style={{ fontSize: '30px', flexShrink: 0 }}>{plaga.emoji}</span>
+                  {(() => { const CIcon = CAT_ICON[plaga.categoria] ?? Warning; return (
+                    <div style={{ width: '46px', height: '46px', borderRadius: '14px', backgroundColor: catCfg.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <CIcon size={24} weight="light" color={catCfg.color} />
+                    </div>
+                  ) })()}
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 700, fontSize: '15px', color: '#1E3D2B' }}>{plaga.nombre}</div>
                     {plaga.nombreCientifico && (
@@ -302,7 +307,7 @@ export default function PlagasPage() {
                       </span>
                     </div>
                   </div>
-                  <span style={{ color: '#4C7F5B', fontSize: '14px', transform: abierta ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}>▾</span>
+                  <CaretDown size={18} weight="bold" color={color.inkFaint} style={{ transform: abierta ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }} />
                 </button>
 
                 {/* Contenido expandido */}
@@ -319,16 +324,17 @@ export default function PlagasPage() {
                     </div>
 
                     {/* Época */}
-                    <div style={{ marginBottom: '16px', padding: '10px 14px', backgroundColor: '#FDF3E3', borderRadius: '14px', border: '1px solid #F0DDB0' }}>
-                      <span style={{ fontSize: '12px', color: '#7A5C1E' }}>📅 <strong>Época de riesgo:</strong> {plaga.epoca}</span>
+                    <div style={{ marginBottom: '16px', padding: '11px 14px', backgroundColor: '#FBF2E6', borderRadius: '14px', border: '1px solid #F0DFC2', display: 'flex', alignItems: 'center', gap: '9px' }}>
+                      <CalendarBlank size={17} weight="light" color="#8A6A1E" style={{ flexShrink: 0 }} />
+                      <span style={{ fontSize: '12.5px', color: '#8A6A1E' }}><strong>Época de riesgo:</strong> {plaga.epoca}</span>
                     </div>
 
                     {/* Tabs */}
-                    <div style={{ display: 'flex', backgroundColor: '#F0F7EE', borderRadius: '999px', padding: '3px', marginBottom: '14px', gap: '2px' }}>
+                    <div style={{ display: 'flex', backgroundColor: color.mist, borderRadius: '999px', padding: '3px', marginBottom: '14px', gap: '2px' }}>
                       {([
-                        { key: 'sintomas' as const, label: '🔎 Síntomas' },
-                        { key: 'prevencion' as const, label: '🛡️ Prevención' },
-                        { key: 'tratamiento' as const, label: '💊 Tratamiento' },
+                        { key: 'sintomas' as const, label: 'Síntomas' },
+                        { key: 'prevencion' as const, label: 'Prevención' },
+                        { key: 'tratamiento' as const, label: 'Tratamiento' },
                       ]).map(tab => (
                         <button key={tab.key} onClick={() => setTabExpandida(tab.key)} style={{
                           flex: 1, padding: '9px 4px', borderRadius: '999px', border: 'none',
@@ -355,14 +361,14 @@ export default function PlagasPage() {
 
                     {tabExpandida === 'tratamiento' && (
                       <div>
-                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#7A5C1E', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          🧪 Tratamiento convencional
+                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#7A5C1E', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '7px' }}>
+                          <Sparkle size={15} weight="light" color="#8A6A1E" /> Tratamiento convencional
                         </div>
                         <ul style={{ margin: '0 0 14px', padding: '0 0 0 18px' }}>
                           {plaga.tratamiento.map(s => <li key={s} style={{ fontSize: '13px', color: '#3D6650', lineHeight: 1.7, marginBottom: '4px' }}>{s}</li>)}
                         </ul>
-                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#1E3D2B', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          🌿 Tratamiento orgánico
+                        <div style={{ fontSize: '12px', fontWeight: 700, color: color.ink, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '7px' }}>
+                          <ShieldCheck size={15} weight="light" color={color.green} /> Tratamiento orgánico
                         </div>
                         <ul style={{ margin: 0, padding: '0 0 0 18px' }}>
                           {plaga.tratamientoOrganico.map(s => <li key={s} style={{ fontSize: '13px', color: '#3D6650', lineHeight: 1.7, marginBottom: '4px' }}>{s}</li>)}
@@ -376,9 +382,9 @@ export default function PlagasPage() {
           })}
 
           {plagasFiltradas.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '48px 24px', backgroundColor: 'rgba(255,255,255,0.7)', borderRadius: '24px' }}>
-              <div style={{ fontSize: '40px', marginBottom: '12px' }}>🔍</div>
-              <p style={{ color: '#4C7F5B', fontSize: '15px', margin: 0 }}>No se encontraron resultados.</p>
+            <div style={{ textAlign: 'center', padding: '48px 24px', backgroundColor: color.paper, borderRadius: `${radius.md}px`, border: `1px solid ${color.line}`, boxShadow: shadow.soft }}>
+              <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><MagnifyingGlass size={40} weight="light" color={color.sage} /></div>
+              <p style={{ color: color.inkSoft, fontSize: '15px', margin: 0 }}>No se encontraron resultados.</p>
             </div>
           )}
         </div>
