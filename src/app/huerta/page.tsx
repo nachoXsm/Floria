@@ -3,6 +3,11 @@
 import { useState, useEffect } from 'react'
 import Nav from '@/components/Nav'
 import BottomNav from '@/components/BottomNav'
+import { color, font, shadow, radius } from '@/lib/ui'
+import { Carrot, Plant, Leaf, Orange, Basket, House, PottedPlant, GlobeHemisphereWest, CalendarBlank, type Icon } from '@phosphor-icons/react'
+
+const TAREA_ICON: Record<string, Icon> = { siembra_directa: Plant, siembra_indoor: House, trasplante: PottedPlant, cosecha: Basket }
+const TIPO_ICON: Record<string, Icon> = { verdura: Plant, hierba: Leaf, fruta: Orange }
 
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
@@ -232,10 +237,10 @@ export default function HuertaPage() {
   return (
     <main style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #F2E9DD 0%, #F9FCF8 55%, #E7EFE6 100%)',
-      fontFamily: 'Montserrat, system-ui, sans-serif',
-      color: '#1E3D2B',
-      paddingBottom: '100px',
+      backgroundColor: color.bg,
+      fontFamily: font.sans,
+      color: color.ink,
+      paddingBottom: '110px',
     }}>
       <Nav />
 
@@ -251,8 +256,8 @@ export default function HuertaPage() {
             maxWidth: '380px', width: '100%', textAlign: 'center',
             boxShadow: '0 24px 60px rgba(0,0,0,0.2)',
           }}>
-            <div style={{ fontSize: '40px', marginBottom: '12px' }}>🌍</div>
-            <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '26px', color: '#1E3D2B', margin: '0 0 8px' }}>¿Dónde estás?</h2>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><GlobeHemisphereWest size={44} weight="light" color={color.green} /></div>
+            <h2 style={{ fontFamily: font.serif, fontSize: '28px', color: color.ink, margin: '0 0 8px', fontWeight: 500 }}>¿Dónde estás?</h2>
             <p style={{ color: '#4C7F5B', fontSize: '14px', lineHeight: 1.6, margin: '0 0 24px' }}>
               Las estaciones son opuestas según el hemisferio. Elegí tu ubicación para ver las fechas correctas.
             </p>
@@ -262,7 +267,7 @@ export default function HuertaPage() {
                 backgroundColor: '#1E3D2B', color: 'white', cursor: 'pointer',
                 fontSize: '14px', fontWeight: 700, fontFamily: 'Montserrat, system-ui, sans-serif',
               }}>
-                <div style={{ fontSize: '24px', marginBottom: '6px' }}>🇦🇷</div>
+                <div style={{ marginBottom: '6px', display: 'flex', justifyContent: 'center' }}><GlobeHemisphereWest size={24} weight="fill" color="#F2E9DD" /></div>
                 Hemisferio Sur
                 <div style={{ fontSize: '11px', fontWeight: 400, opacity: 0.8, marginTop: '3px' }}>Argentina, Chile, Brasil...</div>
               </button>
@@ -271,7 +276,7 @@ export default function HuertaPage() {
                 backgroundColor: 'white', color: '#1E3D2B', cursor: 'pointer',
                 fontSize: '14px', fontWeight: 700, fontFamily: 'Montserrat, system-ui, sans-serif',
               }}>
-                <div style={{ fontSize: '24px', marginBottom: '6px' }}>🌍</div>
+                <div style={{ marginBottom: '6px', display: 'flex', justifyContent: 'center' }}><GlobeHemisphereWest size={24} weight="light" color={color.ink} /></div>
                 Hemisferio Norte
                 <div style={{ fontSize: '11px', fontWeight: 400, color: '#4C7F5B', marginTop: '3px' }}>Europa, EEUU, México...</div>
               </button>
@@ -281,26 +286,22 @@ export default function HuertaPage() {
       )}
 
       {/* Header */}
-      <div style={{ paddingTop: '88px', padding: '88px 20px 0' }}>
+      <div style={{ padding: '100px 20px 0' }}>
         <div style={{ maxWidth: '680px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
-            <span style={{ fontSize: '32px' }}>🥕</span>
-            <div>
-              <p style={{ fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#4C7F5B', fontWeight: 600, margin: 0 }}>Sección</p>
-              <h1 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '40px', fontWeight: 600, margin: 0, lineHeight: 1.1 }}>Mi Huerta</h1>
-            </div>
-          </div>
-          <p style={{ color: '#4C7F5B', fontSize: '14px', lineHeight: 1.7, marginTop: '12px' }}>
+          <p style={{ fontSize: '11px', letterSpacing: '2.5px', textTransform: 'uppercase', color: color.blushDeep, fontWeight: 700, margin: '0 0 8px' }}>Calendario de siembra</p>
+          <h1 style={{ fontFamily: font.serif, fontSize: '48px', fontWeight: 500, margin: '0 0 8px', lineHeight: 0.95, letterSpacing: '-0.8px' }}>Mi Huerta</h1>
+          <p style={{ color: color.inkSoft, fontSize: '15px', lineHeight: 1.65, margin: 0 }}>
             Qué sembrar, trasplantar y cosechar cada mes del año.
           </p>
           <button onClick={() => setShowHemisferioModal(true)} style={{
-            marginTop: '10px', display: 'inline-flex', alignItems: 'center', gap: '6px',
-            padding: '7px 14px', borderRadius: '999px', border: '1px solid #DDE9DA',
-            backgroundColor: 'rgba(255,255,255,0.8)', cursor: 'pointer',
-            fontSize: '12px', fontWeight: 600, color: '#4C7F5B',
-            fontFamily: 'Montserrat, system-ui, sans-serif',
+            marginTop: '14px', display: 'inline-flex', alignItems: 'center', gap: '7px',
+            padding: '9px 15px', borderRadius: '999px', border: `1px solid ${color.line}`,
+            backgroundColor: color.paper, cursor: 'pointer', boxShadow: shadow.soft,
+            fontSize: '12.5px', fontWeight: 600, color: color.inkSoft,
+            fontFamily: font.sans,
           }}>
-            {hemisferio === 'sur' ? '🌎 Hemisferio Sur' : '🌍 Hemisferio Norte'}
+            <GlobeHemisphereWest size={16} weight="light" color={color.green} />
+            {hemisferio === 'sur' ? 'Hemisferio Sur' : 'Hemisferio Norte'}
             <span style={{ opacity: 0.6 }}>· cambiar</span>
           </button>
         </div>
@@ -370,19 +371,22 @@ export default function HuertaPage() {
       <div style={{ padding: '16px 20px 0', maxWidth: '680px', margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {/* Filtro por tarea */}
-          {(Object.entries(TAREA_CONFIG) as [Tarea, typeof TAREA_CONFIG[Tarea]][]).map(([key, cfg]) => (
+          {(Object.entries(TAREA_CONFIG) as [Tarea, typeof TAREA_CONFIG[Tarea]][]).map(([key, cfg]) => {
+            const TIcon = TAREA_ICON[key]
+            return (
             <button key={key} onClick={() => setFiltroTarea(filtroTarea === key ? null : key)} style={{
               padding: '7px 14px',
               borderRadius: '999px',
-              border: `1px solid ${filtroTarea === key ? cfg.color : '#DDE9DA'}`,
+              border: `1px solid ${filtroTarea === key ? cfg.color : color.line}`,
               cursor: 'pointer',
               fontSize: '12px',
               fontWeight: 600,
-              fontFamily: 'Montserrat, system-ui, sans-serif',
-              backgroundColor: filtroTarea === key ? cfg.bg : 'rgba(255,255,255,0.7)',
-              color: filtroTarea === key ? cfg.color : '#4C7F5B',
-            }}>{cfg.icon} {cfg.label}</button>
-          ))}
+              fontFamily: font.sans,
+              backgroundColor: filtroTarea === key ? cfg.bg : color.paper,
+              color: filtroTarea === key ? cfg.color : color.inkSoft,
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+            }}><TIcon size={15} weight="light" color={filtroTarea === key ? cfg.color : color.inkSoft} /> {cfg.label}</button>
+          )})}
           {/* Filtro por tipo */}
           {Object.entries(TIPO_CONFIG).map(([key, cfg]) => (
             <button key={key} onClick={() => setFiltroTipo(filtroTipo === key ? null : key)} style={{
@@ -414,7 +418,7 @@ export default function HuertaPage() {
                 padding: '14px 16px',
                 border: `1px solid ${cfg.color}22`,
               }}>
-                <div style={{ fontSize: '22px', marginBottom: '4px' }}>{cfg.icon}</div>
+                {(() => { const TIcon = TAREA_ICON[key]; return <div style={{ marginBottom: '6px' }}><TIcon size={22} weight="light" color={cfg.color} /></div> })()}
                 <div style={{ fontSize: '22px', fontWeight: 700, color: cfg.color, lineHeight: 1 }}>{count}</div>
                 <div style={{ fontSize: '11px', color: cfg.color, fontWeight: 600, marginTop: '2px' }}>{cfg.label}</div>
               </div>
@@ -428,11 +432,11 @@ export default function HuertaPage() {
         {itemsDelMes.length === 0 ? (
           <div style={{
             textAlign: 'center', padding: '48px 24px',
-            backgroundColor: 'rgba(255,255,255,0.7)', borderRadius: '24px',
-            border: '1px solid rgba(231,239,230,0.9)',
+            backgroundColor: color.paper, borderRadius: `${radius.md}px`,
+            border: `1px solid ${color.line}`, boxShadow: shadow.soft,
           }}>
-            <div style={{ fontSize: '40px', marginBottom: '12px' }}>🌾</div>
-            <p style={{ color: '#4C7F5B', fontSize: '15px', margin: 0 }}>No hay actividad para este filtro en {MESES[mesSeleccionado]}.</p>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><Plant size={44} weight="light" color={color.sage} /></div>
+            <p style={{ color: color.inkSoft, fontSize: '15px', margin: 0 }}>No hay actividad para este filtro en {MESES[mesSeleccionado]}.</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -444,36 +448,37 @@ export default function HuertaPage() {
                   key={item.nombre}
                   onClick={() => setItemExpandido(expandido ? null : item.nombre)}
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.88)',
-                    backdropFilter: 'blur(12px)',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(231,239,230,0.9)',
-                    padding: '16px 20px',
+                    backgroundColor: color.paper,
+                    borderRadius: `${radius.md}px`,
+                    border: `1px solid ${color.line}`,
+                    padding: '16px 18px',
                     cursor: 'pointer',
-                    boxShadow: expandido ? '0 8px 24px rgba(30,61,43,0.1)' : '0 2px 8px rgba(30,61,43,0.04)',
+                    boxShadow: expandido ? shadow.card : shadow.soft,
                     transition: 'box-shadow 0.2s',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: '28px' }}>{item.emoji}</span>
+                      {(() => { const VIcon = TIPO_ICON[item.tipo] ?? Plant; return (
+                        <div style={{ width: '44px', height: '44px', borderRadius: '13px', backgroundColor: color.mist, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <VIcon size={24} weight="light" color={TIPO_CONFIG[item.tipo]?.color ?? color.green} />
+                        </div>
+                      ) })()}
                       <div>
-                        <div style={{ fontWeight: 700, fontSize: '15px', color: '#1E3D2B' }}>{item.nombre}</div>
-                        <div style={{ fontSize: '11px', color: '#4C7F5B', fontWeight: 500, marginTop: '2px' }}>
+                        <div style={{ fontWeight: 700, fontSize: '15px', color: color.ink }}>{item.nombre}</div>
+                        <div style={{ fontSize: '11px', color: color.inkSoft, fontWeight: 500, marginTop: '2px' }}>
                           {TIPO_CONFIG[item.tipo].label}
                         </div>
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                      {tareas.map(t => (
+                      {tareas.map(t => { const TIcon = TAREA_ICON[t]; return (
                         <span key={t} style={{
-                          fontSize: '16px',
-                          backgroundColor: TAREA_CONFIG[t].bg,
-                          borderRadius: '8px',
-                          padding: '4px 6px',
-                        }} title={TAREA_CONFIG[t].label}>{TAREA_CONFIG[t].icon}</span>
-                      ))}
-                      <span style={{ color: '#4C7F5B', fontSize: '14px', marginLeft: '4px' }}>{expandido ? '▲' : '▼'}</span>
+                          display: 'inline-flex', backgroundColor: TAREA_CONFIG[t].bg,
+                          borderRadius: '9px', padding: '6px',
+                        }} title={TAREA_CONFIG[t].label}><TIcon size={16} weight="light" color={TAREA_CONFIG[t].color} /></span>
+                      )})}
+                      <span style={{ color: color.inkFaint, fontSize: '12px', marginLeft: '4px' }}>{expandido ? '▲' : '▼'}</span>
                     </div>
                   </div>
 
@@ -489,7 +494,8 @@ export default function HuertaPage() {
                             padding: '5px 12px',
                             borderRadius: '999px',
                             border: `1px solid ${TAREA_CONFIG[t].color}33`,
-                          }}>{TAREA_CONFIG[t].icon} {TAREA_CONFIG[t].label}</span>
+                          display: 'inline-flex', alignItems: 'center', gap: '6px',
+                          }}>{(() => { const TIcon = TAREA_ICON[t]; return <TIcon size={14} weight="light" color={TAREA_CONFIG[t].color} /> })()} {TAREA_CONFIG[t].label}</span>
                         ))}
                       </div>
 
@@ -546,7 +552,7 @@ export default function HuertaPage() {
                           padding: '12px 14px',
                           border: '1px solid #E7EFE6',
                         }}>
-                          <div style={{ fontSize: '11px', fontWeight: 700, color: '#1E3D2B', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>💡 Consejo</div>
+                          <div style={{ fontSize: '11px', fontWeight: 700, color: color.ink, marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Consejo</div>
                           <div style={{ fontSize: '13px', color: '#3D6650', lineHeight: 1.6 }}>{item.consejo}</div>
                         </div>
                       )}
