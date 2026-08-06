@@ -3,6 +3,8 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import FloriaLogo from './FloriaLogo'
+import { useI18n } from './I18nProvider'
+import { type TranslationKey } from '@/lib/i18n'
 import {
   ArrowLeft, List, X, House, MagnifyingGlass, Camera, PottedPlant, Notebook,
   Sparkle, Carrot, Moon, Bug, Storefront, User, Tag, type Icon,
@@ -10,24 +12,25 @@ import {
 
 type NavProps = { dark?: boolean }
 
-const MENU: { href: string; label: string; Icon: Icon }[] = [
-  { href: '/', label: 'Inicio', Icon: House },
-  { href: '/explore', label: 'Explorar plantas', Icon: MagnifyingGlass },
-  { href: '/identify', label: 'Identificar', Icon: Camera },
-  { href: '/diseno', label: 'Diseñar cantero', Icon: PottedPlant },
-  { href: '/bitacora', label: 'Bitácora de jardín', Icon: Notebook },
-  { href: '/jardinero', label: 'Jardinero IA', Icon: Sparkle },
-  { href: '/huerta', label: 'Mi Huerta', Icon: Carrot },
-  { href: '/luna', label: 'Calendario lunar', Icon: Moon },
-  { href: '/plagas', label: 'Plagas y enfermedades', Icon: Bug },
-  { href: '/viveros', label: 'Viveros', Icon: Storefront },
-  { href: '/perfil', label: 'Mi perfil', Icon: User },
-  { href: '/pricing', label: 'Planes y precios', Icon: Tag },
+const MENU: { href: string; key: TranslationKey; Icon: Icon }[] = [
+  { href: '/', key: 'menu_home', Icon: House },
+  { href: '/explore', key: 'menu_explore', Icon: MagnifyingGlass },
+  { href: '/identify', key: 'menu_identify', Icon: Camera },
+  { href: '/diseno', key: 'menu_diseno', Icon: PottedPlant },
+  { href: '/bitacora', key: 'menu_bitacora', Icon: Notebook },
+  { href: '/jardinero', key: 'menu_jardinero', Icon: Sparkle },
+  { href: '/huerta', key: 'menu_huerta', Icon: Carrot },
+  { href: '/luna', key: 'menu_luna', Icon: Moon },
+  { href: '/plagas', key: 'menu_plagas', Icon: Bug },
+  { href: '/viveros', key: 'menu_viveros', Icon: Storefront },
+  { href: '/perfil', key: 'menu_perfil', Icon: User },
+  { href: '/pricing', key: 'menu_pricing', Icon: Tag },
 ]
 
 export default function Nav({ dark }: NavProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const { t } = useI18n()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const isHome = pathname === '/'
@@ -102,7 +105,7 @@ export default function Nav({ dark }: NavProps) {
                   <div style={{ width: '38px', height: '38px', borderRadius: '11px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: active ? 'rgba(242,233,221,0.14)' : '#E7EFE6' }}>
                     <item.Icon size={21} weight="light" color={active ? '#F2E9DD' : '#1E3D2B'} />
                   </div>
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: active ? '#F2E9DD' : '#1E3D2B' }}>{item.label}</span>
+                  <span style={{ fontSize: '15px', fontWeight: 600, color: active ? '#F2E9DD' : '#1E3D2B' }}>{t(item.key)}</span>
                 </a>
               )
             })}

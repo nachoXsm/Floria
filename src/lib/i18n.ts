@@ -2,6 +2,19 @@ export type Lang = 'es' | 'en' | 'pt'
 
 export const TRANSLATIONS = {
   es: {
+    // Menu
+    menu_home: 'Inicio',
+    menu_explore: 'Explorar plantas',
+    menu_identify: 'Identificar',
+    menu_diseno: 'Diseñar cantero',
+    menu_bitacora: 'Bitácora de jardín',
+    menu_jardinero: 'Jardinero IA',
+    menu_huerta: 'Mi Huerta',
+    menu_luna: 'Calendario lunar',
+    menu_plagas: 'Plagas y enfermedades',
+    menu_viveros: 'Viveros',
+    menu_perfil: 'Mi perfil',
+    menu_pricing: 'Planes y precios',
     // Nav
     nav_explore: 'Explorar',
     nav_identify: 'Identificar',
@@ -66,6 +79,18 @@ export const TRANSLATIONS = {
     contact_email_label: 'Tu email',
   },
   en: {
+    menu_home: 'Home',
+    menu_explore: 'Explore plants',
+    menu_identify: 'Identify',
+    menu_diseno: 'Design a bed',
+    menu_bitacora: 'Garden journal',
+    menu_jardinero: 'AI Gardener',
+    menu_huerta: 'My Veggie Patch',
+    menu_luna: 'Lunar calendar',
+    menu_plagas: 'Pests & diseases',
+    menu_viveros: 'Nurseries',
+    menu_perfil: 'My profile',
+    menu_pricing: 'Plans & pricing',
     nav_explore: 'Explore',
     nav_identify: 'Identify',
     nav_pricing: 'Pricing',
@@ -123,6 +148,18 @@ export const TRANSLATIONS = {
     contact_email_label: 'Your email',
   },
   pt: {
+    menu_home: 'Início',
+    menu_explore: 'Explorar plantas',
+    menu_identify: 'Identificar',
+    menu_diseno: 'Desenhar cantero',
+    menu_bitacora: 'Diário de jardim',
+    menu_jardinero: 'Jardineiro IA',
+    menu_huerta: 'Minha Horta',
+    menu_luna: 'Calendário lunar',
+    menu_plagas: 'Pragas e doenças',
+    menu_viveros: 'Viveiros',
+    menu_perfil: 'Meu perfil',
+    menu_pricing: 'Planos e preços',
     nav_explore: 'Explorar',
     nav_identify: 'Identificar',
     nav_pricing: 'Preços',
@@ -185,6 +222,8 @@ export type TranslationKey = keyof typeof TRANSLATIONS.es
 
 export function detectLang(): Lang {
   if (typeof window === 'undefined') return 'es'
+  const cookie = document.cookie.split('; ').find(c => c.startsWith('floria-lang='))?.split('=')[1] as Lang | undefined
+  if (cookie && ['es', 'en', 'pt'].includes(cookie)) return cookie
   const saved = localStorage.getItem('floria-lang') as Lang | null
   if (saved && ['es', 'en', 'pt'].includes(saved)) return saved
   const browser = navigator.language?.toLowerCase() ?? ''
@@ -195,6 +234,8 @@ export function detectLang(): Lang {
 
 export function setLang(lang: Lang) {
   localStorage.setItem('floria-lang', lang)
+  // Cookie para que los componentes server-side también lean el idioma
+  document.cookie = `floria-lang=${lang};path=/;max-age=31536000;samesite=lax`
 }
 
 export function t(lang: Lang, key: TranslationKey): string {
