@@ -2,7 +2,8 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import BottomNav from '@/components/BottomNav'
-import FloriaLogo from '@/components/FloriaLogo'
+import { color, font, shadow, radius } from '@/lib/ui'
+import { ArrowLeft } from '@phosphor-icons/react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -38,239 +39,91 @@ export default function LoginPage() {
   }
 
   return (
-    <main style={{
-      minHeight: '100vh',
-      background: 'radial-gradient(circle at 20% 10%, #E7EFE6 0, transparent 34%), linear-gradient(135deg, #F2E9DD 0%, #F9FCF8 55%, #E7EFE6 100%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '32px 20px',
-      fontFamily: 'Montserrat, system-ui, sans-serif',
-      color: '#1E3D2B',
-    }}>
-      <div style={{
-        width: '100%',
-        maxWidth: '980px',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '24px',
-        alignItems: 'stretch',
-      }}>
-        <section style={{
-          borderRadius: '36px',
-          padding: '44px',
-          background: 'linear-gradient(145deg, #1E3D2B 0%, #0D1E15 100%)',
-          color: '#F9FCF8',
-          boxShadow: '0 24px 70px rgba(30, 61, 43, 0.18)',
-          overflow: 'hidden',
-          position: 'relative',
-          minHeight: '440px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}>
-          <div style={{
-            position: 'absolute',
-            width: '220px',
-            height: '220px',
-            right: '-70px',
-            top: '-70px',
-            borderRadius: '999px',
-            backgroundColor: 'rgba(167,196,161,0.16)',
-          }} />
-          <a href="/" style={{
-            color: '#F9FCF8',
-            textDecoration: 'none',
-            fontFamily: 'Cormorant Garamond, Georgia, serif',
-            fontSize: '34px',
-            fontWeight: 600,
-            letterSpacing: '-0.5px',
-            position: 'relative',
-          }}>Floria</a>
+    <main style={{ minHeight: '100vh', backgroundColor: color.bg, fontFamily: font.sans, color: color.ink }}>
+      {/* HERO botánico */}
+      <div style={{ position: 'relative', height: '300px', overflow: 'hidden', background: `radial-gradient(130% 100% at 78% 12%, #2E5B3E 0%, ${color.ink} 55%, #12281B 100%)` }}>
+        <svg width="100%" height="100%" viewBox="0 0 390 300" preserveAspectRatio="xMidYMid slice" style={{ position: 'absolute', inset: 0, opacity: 0.14 }}>
+          <g fill="none" stroke="#F2E9DD" strokeWidth="1.2" strokeLinecap="round">
+            <path d="M300 60c-38 10-66 44-76 90M300 60c10 38-4 76-42 100M300 60c-30 30-48 62-52 100" />
+          </g>
+        </svg>
+        <a href="/" style={{ position: 'absolute', top: '26px', left: '22px', display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'rgba(242,233,221,0.9)', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+          <ArrowLeft size={16} weight="bold" color="rgba(242,233,221,0.9)" /> Volver
+        </a>
+        <div style={{ position: 'absolute', left: '24px', right: '24px', bottom: '46px', maxWidth: '480px', margin: '0 auto' }}>
+          <p style={{ margin: '0 0 10px', fontSize: '11px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: color.blush }}>Tu espacio, tu naturaleza</p>
+          <h1 style={{ fontFamily: font.serif, fontSize: '52px', fontWeight: 500, color: '#FBF7F0', margin: 0, lineHeight: 0.9, letterSpacing: '-1px' }}>Floria</h1>
+        </div>
+      </div>
 
-          <div style={{ position: 'relative' }}>
-            <p style={{
-              textTransform: 'uppercase',
-              letterSpacing: '3px',
-              fontSize: '12px',
-              color: '#A7C4A1',
-              margin: '0 0 18px',
-              fontWeight: 600,
-            }}>Tu espacio, tu naturaleza</p>
-            <h1 style={{
-              fontFamily: 'Cormorant Garamond, Georgia, serif',
-              fontSize: 'clamp(42px, 6vw, 66px)',
-              lineHeight: 0.95,
-              margin: '0 0 18px',
-              fontWeight: 500,
-              letterSpacing: '-1px',
-            }}>Inspiración inteligente para vivir rodeado de verde.</h1>
-            <p style={{
-              color: '#E7EFE6',
-              fontSize: '15px',
-              lineHeight: 1.8,
-              maxWidth: '430px',
-              margin: 0,
-            }}>Explorá especies, identificá plantas y diseñá espacios con una experiencia visual premium, cálida y botánica.</p>
-          </div>
+      {/* HOJA — formulario */}
+      <div style={{ position: 'relative', marginTop: '-26px', backgroundColor: color.bg, borderRadius: '30px 30px 0 0', padding: '30px 22px 120px', minHeight: '400px' }}>
+        <div style={{ maxWidth: '440px', margin: '0 auto' }}>
+          <h2 style={{ fontFamily: font.serif, fontSize: '32px', fontWeight: 500, color: color.ink, margin: '0 0 4px', letterSpacing: '-0.4px' }}>
+            {mode === 'login' ? 'Bienvenido de vuelta' : 'Creá tu cuenta'}
+          </h2>
+          <p style={{ color: color.inkSoft, fontSize: '14px', margin: '0 0 26px' }}>
+            {mode === 'login' ? 'Ingresá para cuidar y diseñar con plantas.' : 'Gratis para empezar. Sin tarjeta.'}
+          </p>
 
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', position: 'relative' }}>
-            {['Reconocé especies', 'Explorá plantas', 'Guardá favoritas'].map(item => (
-              <span key={item} style={{
-                border: '1px solid rgba(231,239,230,0.22)',
-                backgroundColor: 'rgba(255,255,255,0.08)',
-                borderRadius: '999px',
-                padding: '10px 14px',
-                fontSize: '12px',
-                color: '#E7EFE6',
-              }}>{item}</span>
+          {/* Toggle */}
+          <div style={{ display: 'flex', backgroundColor: color.mist, borderRadius: '999px', padding: '5px', marginBottom: '24px' }}>
+            {(['login', 'signup'] as const).map(m => (
+              <button key={m} onClick={() => setMode(m)} style={{
+                flex: 1, padding: '12px', borderRadius: '999px', border: 'none', cursor: 'pointer',
+                fontSize: '13px', fontWeight: 700, fontFamily: font.sans,
+                backgroundColor: mode === m ? color.paper : 'transparent',
+                color: mode === m ? color.ink : color.inkSoft,
+                boxShadow: mode === m ? shadow.soft : 'none', transition: 'all 0.2s',
+              }}>{m === 'login' ? 'Iniciar sesión' : 'Registrarse'}</button>
             ))}
           </div>
-        </section>
 
-        <section style={{
-          backgroundColor: 'rgba(255,255,255,0.88)',
-          backdropFilter: 'blur(18px)',
-          borderRadius: '36px',
-          padding: '42px',
-          border: '1px solid rgba(231,239,230,0.9)',
-          boxShadow: '0 24px 70px rgba(30, 61, 43, 0.12)',
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <div style={{ margin: '0 auto 20px', display: 'flex', justifyContent: 'center' }}>
-              <div style={{ width: 80, height: 80, borderRadius: 18, backgroundColor: '#1E3D2B', overflow: 'hidden' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo-floria-icon.png" alt="Floria" width={80} height={80} style={{ display: 'block', width: 80, height: 80 }} />
-              </div>
-            </div>
-            <h2 style={{
-              fontFamily: 'Cormorant Garamond, Georgia, serif',
-              fontSize: '38px',
-              color: '#1E3D2B',
-              margin: '0 0 8px',
-              fontWeight: 600,
-            }}>Floria</h2>
-            <p style={{ color: '#4C7F5B', fontSize: '14px', margin: 0 }}>
-              {mode === 'login' ? 'Bienvenido de vuelta' : 'Creá tu cuenta gratis'}
-            </p>
-          </div>
+          {/* Email */}
+          <label style={{ display: 'block', fontSize: '12px', color: color.ink, fontWeight: 700, marginBottom: '8px' }}>Email</label>
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="tu@email.com" style={inputStyle} />
 
-          <div style={{
-            display: 'flex',
-            backgroundColor: '#E7EFE6',
-            borderRadius: '999px',
-            padding: '5px',
-            marginBottom: '26px',
-          }}>
-            <button onClick={() => setMode('login')} style={{
-              flex: 1,
-              padding: '12px',
-              borderRadius: '999px',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-              fontFamily: 'Montserrat, system-ui, sans-serif',
-              backgroundColor: mode === 'login' ? 'white' : 'transparent',
-              color: mode === 'login' ? '#1E3D2B' : '#4C7F5B',
-              boxShadow: mode === 'login' ? '0 8px 22px rgba(30,61,43,0.10)' : 'none',
-            }}>Iniciar sesión</button>
-            <button onClick={() => setMode('signup')} style={{
-              flex: 1,
-              padding: '12px',
-              borderRadius: '999px',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-              fontFamily: 'Montserrat, system-ui, sans-serif',
-              backgroundColor: mode === 'signup' ? 'white' : 'transparent',
-              color: mode === 'signup' ? '#1E3D2B' : '#4C7F5B',
-              boxShadow: mode === 'signup' ? '0 8px 22px rgba(30,61,43,0.10)' : 'none',
-            }}>Registrarse</button>
-          </div>
-
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', fontSize: '12px', color: '#1E3D2B', fontWeight: 600, marginBottom: '8px', letterSpacing: '0.3px' }}>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="tu@email.com"
-              style={{
-                width: '100%',
-                padding: '15px 18px',
-                borderRadius: '18px',
-                border: '1px solid #DDE9DA',
-                fontSize: '14px',
-                color: '#1E3D2B',
-                outline: 'none',
-                boxSizing: 'border-box',
-                backgroundColor: '#F9FCF8',
-                fontFamily: 'Montserrat, system-ui, sans-serif',
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '22px' }}>
-            <label style={{ display: 'block', fontSize: '12px', color: '#1E3D2B', fontWeight: 600, marginBottom: '8px', letterSpacing: '0.3px' }}>Contraseña</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="••••••••"
-              style={{
-                width: '100%',
-                padding: '15px 18px',
-                borderRadius: '18px',
-                border: '1px solid #DDE9DA',
-                fontSize: '14px',
-                color: '#1E3D2B',
-                outline: 'none',
-                boxSizing: 'border-box',
-                backgroundColor: '#F9FCF8',
-                fontFamily: 'Montserrat, system-ui, sans-serif',
-              }}
-            />
-          </div>
+          {/* Password */}
+          <label style={{ display: 'block', fontSize: '12px', color: color.ink, fontWeight: 700, margin: '16px 0 8px' }}>Contraseña</label>
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" style={inputStyle} />
 
           {error && (
-            <div style={{ backgroundColor: '#FFF4F1', border: '1px solid #E8C4B9', borderRadius: '18px', padding: '13px 16px', marginBottom: '16px' }}>
-              <p style={{ color: '#9F3A2F', fontSize: '13px', margin: 0 }}>{error}</p>
+            <div style={{ backgroundColor: '#FCEEEC', border: '1px solid #F3D6D0', borderRadius: `${radius.sm}px`, padding: '13px 16px', marginTop: '18px' }}>
+              <p style={{ color: '#8B3A2F', fontSize: '13px', margin: 0 }}>{error}</p>
             </div>
           )}
           {success && (
-            <div style={{ backgroundColor: '#E7EFE6', border: '1px solid #A7C4A1', borderRadius: '18px', padding: '13px 16px', marginBottom: '16px' }}>
-              <p style={{ color: '#1E3D2B', fontSize: '13px', margin: 0 }}>{success}</p>
+            <div style={{ backgroundColor: color.mist, border: `1px solid ${color.sage}`, borderRadius: `${radius.sm}px`, padding: '13px 16px', marginTop: '18px' }}>
+              <p style={{ color: color.ink, fontSize: '13px', margin: 0 }}>{success}</p>
             </div>
           )}
 
-          <button
-            onClick={handleSubmit}
-            disabled={loading || !email || !password}
-            style={{
-              width: '100%',
-              padding: '15px',
-              borderRadius: '999px',
-              border: 'none',
-              cursor: loading || !email || !password ? 'not-allowed' : 'pointer',
-              backgroundColor: loading || !email || !password ? '#A7C4A1' : '#1E3D2B',
-              color: 'white',
-              fontSize: '15px',
-              fontWeight: 600,
-              fontFamily: 'Montserrat, system-ui, sans-serif',
-              boxShadow: loading || !email || !password ? 'none' : '0 14px 30px rgba(30,61,43,0.22)',
-            }}
-          >
-            {loading ? 'Cargando...' : mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}
+          <button onClick={handleSubmit} disabled={loading || !email || !password} className="idPress" style={{
+            width: '100%', marginTop: '24px', padding: '17px', borderRadius: '999px', border: 'none',
+            cursor: loading || !email || !password ? 'not-allowed' : 'pointer',
+            backgroundColor: loading || !email || !password ? color.sage : color.ink,
+            color: '#F2E9DD', fontSize: '15px', fontWeight: 700, fontFamily: font.sans,
+            boxShadow: loading || !email || !password ? 'none' : shadow.card,
+          }}>
+            {loading ? 'Cargando…' : mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}
           </button>
 
-          <div style={{ textAlign: 'center', marginTop: '24px' }}>
-            <a href="/" style={{ color: '#4C7F5B', fontSize: '13px', textDecoration: 'none', fontWeight: 500 }}>← Volver al inicio</a>
-          </div>
-        </section>
+          <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '12px', color: color.inkFaint, lineHeight: 1.6 }}>
+            {mode === 'login' ? '¿No tenés cuenta? ' : '¿Ya tenés cuenta? '}
+            <button onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: color.green, fontWeight: 700, fontSize: '12px', fontFamily: font.sans }}>
+              {mode === 'login' ? 'Registrate' : 'Iniciá sesión'}
+            </button>
+          </p>
+        </div>
       </div>
       <BottomNav />
     </main>
   )
+}
+
+const inputStyle: React.CSSProperties = {
+  width: '100%', padding: '16px 18px', borderRadius: '16px',
+  border: `1px solid ${color.line}`, fontSize: '15px', color: color.ink,
+  outline: 'none', boxSizing: 'border-box', backgroundColor: color.paper,
+  fontFamily: font.sans, boxShadow: shadow.soft,
 }
