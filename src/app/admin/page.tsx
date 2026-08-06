@@ -67,6 +67,8 @@ export default function AdminPage() {
   const [overrideUrl, setOverrideUrl] = useState('')
   const [autoFixLog, setAutoFixLog] = useState<string[]>([])
   const [autoFixRunning, setAutoFixRunning] = useState(false)
+  const [transLog, setTransLog] = useState<string[]>([])
+  const [transRunning, setTransRunning] = useState(false)
 
   if (!authed) {
     return (
@@ -151,6 +153,36 @@ export default function AdminPage() {
     setAutoFixRunning(false)
   }
 
+  async function runImportTranslations() {
+    setTransRunning(true)
+    setTransLog(['Cargando traducciones EN/PT de las 982 plantas...'])
+    let offset: number | null = 0
+    let totalUpdated = 0
+    while (offset !== null) {
+      const params = new URLSearchParams({ token: TOKEN, offset: String(offset), limit: '300' })
+      let json: Result
+      try {
+        const res = await fetch(`/api/admin/import-translations?${params}`)
+        json = await res.json()
+      } catch (e) {
+        setTransLog(l => [...l, `❌ Error de red: ${String(e)}`])
+        break
+      }
+      if (json.error) {
+        setTransLog(l => [...l, `❌ ${json.error}`])
+        break
+      }
+      const updated = (json.updated as number) ?? 0
+      totalUpdated += updated
+      const fails = (json.failures as string[]) ?? []
+      setTransLog(l => [...l, `Lote desde ${offset}: ${updated} plantas actualizadas${fails.length ? ` · ${fails.length} con error` : ''}`])
+      offset = (json.next_offset as number | null)
+      await new Promise(r => setTimeout(r, 500))
+    }
+    setTransLog(l => [...l, `✅ Listo. ${totalUpdated} plantas con traducción EN + PT cargada.`])
+    setTransRunning(false)
+  }
+
   async function runOverride() {
     if (!overrideName.trim() || !overrideUrl.trim()) return
     setLoading(l => ({ ...l, override: true }))
@@ -168,6 +200,34 @@ export default function AdminPage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
           <h1 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '36px', color: '#1E3D2B', margin: 0 }}>Panel Admin</h1>
           <button onClick={() => setAuthed(false)} style={{ padding: '6px 16px', borderRadius: '999px', border: '1px solid #E7EFE6', backgroundColor: 'white', color: '#6B7280', fontSize: '12px', cursor: 'pointer' }}>Salir</button>
+        </div>
+
+        {/* CARGAR TRADUCCIONES EN/PT */}
+        <div style={{ backgroundColor: '#4C7F5B', borderRadius: '16px', padding: '20px', marginBottom: '24px', color: 'white' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, margin: '0 0 4px' }}>🌐 Cargar traducciones EN / PT (982 plantas)</h2>
+          <p style={{ fontSize: '12px', opacity: 0.85, margin: '0 0 14px' }}>
+            Carga los nombres y descripciones en inglés y portugués a la base, en 4 lotes automáticos.
+            Requiere haber corrido antes la migración <code>006</code> en Supabase (agrega las columnas de idioma).
+          </p>
+          <button
+            onClick={transRunning ? undefined : runImportTranslations}
+            disabled={transRunning}
+            style={{
+              padding: '12px 28px', borderRadius: '10px', border: 'none',
+              backgroundColor: transRunning ? '#3B6347' : '#F9FCF8',
+              color: '#1E3D2B', fontSize: '14px', fontWeight: 700,
+              cursor: transRunning ? 'default' : 'pointer',
+            }}
+          >
+            {transRunning ? '⏳ Cargando...' : 'Cargar traducciones'}
+          </button>
+          {transLog.length > 0 && (
+            <div style={{ marginTop: '14px', backgroundColor: 'rgba(0,0,0,0.25)', borderRadius: '10px', padding: '12px', maxHeight: '200px', overflowY: 'auto' }}>
+              {transLog.map((line, i) => (
+                <p key={i} style={{ margin: '2px 0', fontSize: '12px', fontFamily: 'monospace', opacity: 0.9 }}>{line}</p>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* AUTO-FIX: busca fotos en loop hasta terminar */}
