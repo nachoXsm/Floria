@@ -102,6 +102,8 @@ export default function PerfilPage() {
   }
 
   const initials = user?.email?.slice(0, 2).toUpperCase() ?? '??'
+  const emailPrefix = user?.email?.split('@')[0] ?? ''
+  const displayName = emailPrefix ? emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1) : '...'
 
   return (
     <main style={{
@@ -117,69 +119,108 @@ export default function PerfilPage() {
 
         {/* ── Cabecera de usuario ── */}
         <div style={{
-          backgroundColor: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(18px)',
+          position: 'relative', overflow: 'hidden',
+          backgroundColor: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(18px)',
           borderRadius: '28px', border: '1px solid rgba(231,239,230,0.9)',
-          padding: '28px', boxShadow: '0 8px 30px rgba(30,61,43,0.07)',
-          display: 'flex', alignItems: 'center', gap: '18px',
+          padding: '24px 22px 18px', boxShadow: '0 12px 36px rgba(30,61,43,0.09)',
           marginBottom: '16px',
         }}>
+          {/* halo decorativo */}
           <div style={{
-            width: '64px', height: '64px', borderRadius: '20px',
-            backgroundColor: '#1E3D2B', display: 'flex', alignItems: 'center',
-            justifyContent: 'center', flexShrink: 0,
-          }}>
-            <span style={{ fontSize: '22px', fontWeight: 700, color: 'white', fontFamily: 'Cormorant Garamond, Georgia, serif' }}>
-              {initials}
-            </span>
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 700, fontSize: '16px', color: '#1E3D2B', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {user?.email ?? '...'}
-            </div>
-            <div style={{ marginTop: '6px' }}>
-              <span style={{
-                fontSize: '11px', fontWeight: 700, padding: '3px 12px', borderRadius: '999px',
-                backgroundColor: isPro ? '#1E3D2B' : '#E7EFE6',
-                color: isPro ? 'white' : '#4C7F5B',
-                border: isPro ? 'none' : '1px solid #C5D9C2',
-                letterSpacing: '0.5px',
-              }}>
-                {isPro ? t('profile_plan_pro') : t('profile_plan_free')}
+            position: 'absolute', top: '-50px', right: '-40px', width: '150px', height: '150px',
+            borderRadius: '50%', background: 'radial-gradient(circle, rgba(76,127,91,0.16), transparent 70%)',
+            pointerEvents: 'none',
+          }} />
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', position: 'relative' }}>
+            <div style={{
+              width: '60px', height: '60px', borderRadius: '18px',
+              background: 'linear-gradient(135deg, #1E3D2B 0%, #4C7F5B 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0, boxShadow: '0 6px 18px rgba(30,61,43,0.26)',
+            }}>
+              <span style={{ fontSize: '22px', fontWeight: 700, color: 'white', fontFamily: 'Cormorant Garamond, Georgia, serif', letterSpacing: '0.5px' }}>
+                {initials}
               </span>
             </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 700, fontSize: '18px', color: '#1E3D2B', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.2 }}>
+                {displayName}
+              </div>
+              <div style={{ fontSize: '12.5px', color: '#7A8B7E', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '3px' }}>
+                {user?.email ?? '...'}
+              </div>
+            </div>
           </div>
-          <button onClick={logout} style={{
-            padding: '9px 16px', borderRadius: '999px', border: '1px solid #DDE9DA',
-            backgroundColor: 'white', color: '#4C7F5B', cursor: 'pointer',
-            fontSize: '12px', fontWeight: 600, fontFamily: 'Montserrat, system-ui, sans-serif',
-            flexShrink: 0,
-          }}>{t('profile_logout')}</button>
+
+          {/* fila plan + logout */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
+            marginTop: '18px', paddingTop: '16px', borderTop: '1px solid rgba(221,233,218,0.8)',
+            position: 'relative',
+          }}>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              fontSize: '12px', fontWeight: 700, padding: '7px 15px', borderRadius: '999px',
+              backgroundColor: isPro ? '#1E3D2B' : '#EDF4EB',
+              color: isPro ? '#F9FCF8' : '#4C7F5B',
+              border: isPro ? 'none' : '1px solid #D3E4CF',
+              whiteSpace: 'nowrap', letterSpacing: '0.3px',
+            }}>
+              <span aria-hidden style={{ fontSize: '13px' }}>{isPro ? '★' : '✦'}</span>
+              {isPro ? t('profile_plan_pro') : t('profile_plan_free')}
+            </span>
+            <button onClick={logout} style={{
+              display: 'inline-flex', alignItems: 'center', gap: '7px',
+              padding: '9px 18px', borderRadius: '999px', border: '1px solid #DDE9DA',
+              backgroundColor: 'rgba(255,255,255,0.9)', color: '#4C7F5B', cursor: 'pointer',
+              fontSize: '12.5px', fontWeight: 600, fontFamily: 'Montserrat, system-ui, sans-serif',
+              whiteSpace: 'nowrap', flexShrink: 0,
+            }}>
+              <span aria-hidden style={{ fontSize: '13px' }}>⏻</span>
+              {t('profile_logout')}
+            </button>
+          </div>
         </div>
 
         {/* ── Tabs de sección ── */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px',
+          padding: '6px', marginBottom: '18px',
+          backgroundColor: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(12px)',
+          borderRadius: '18px', border: '1px solid rgba(231,239,230,0.9)',
+          boxShadow: '0 4px 18px rgba(30,61,43,0.05)',
+        }}>
           {([
             { key: 'gardens' as const, icon: '🌿', label: 'Jardines' },
             { key: 'lang'    as const, icon: '🌐', label: 'Idioma' },
             { key: 'help'    as const, icon: '❓', label: 'Ayuda' },
             { key: 'contact' as const, icon: '✉️', label: 'Contacto' },
-          ]).map(tab => (
-            <button key={tab.key} onClick={() => setActiveSection(tab.key)} style={{
-              flexShrink: 0, padding: '10px 18px', borderRadius: '999px',
-              border: `1px solid ${activeSection === tab.key ? '#1E3D2B' : '#DDE9DA'}`,
-              backgroundColor: activeSection === tab.key ? '#1E3D2B' : 'rgba(255,255,255,0.8)',
-              color: activeSection === tab.key ? 'white' : '#4C7F5B',
-              cursor: 'pointer', fontSize: '13px', fontWeight: 600,
-              fontFamily: 'Montserrat, system-ui, sans-serif',
-            }}>{tab.icon} {tab.label}</button>
-          ))}
+          ]).map(tab => {
+            const active = activeSection === tab.key
+            return (
+              <button key={tab.key} onClick={() => setActiveSection(tab.key)} style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+                padding: '9px 4px', borderRadius: '13px', border: 'none',
+                backgroundColor: active ? '#1E3D2B' : 'transparent',
+                color: active ? 'white' : '#4C7F5B',
+                cursor: 'pointer', fontFamily: 'Montserrat, system-ui, sans-serif',
+                fontSize: '11.5px', fontWeight: 600,
+                boxShadow: active ? '0 5px 14px rgba(30,61,43,0.22)' : 'none',
+                transition: 'background-color 0.15s, color 0.15s',
+              }}>
+                <span aria-hidden style={{ fontSize: '15px', lineHeight: 1, opacity: active ? 1 : 0.85 }}>{tab.icon}</span>
+                <span style={{ whiteSpace: 'nowrap' }}>{tab.label}</span>
+              </button>
+            )
+          })}
         </div>
 
         {/* ── JARDINES ── */}
         {activeSection === 'gardens' && (
           <div style={{ backgroundColor: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(18px)', borderRadius: '28px', border: '1px solid rgba(231,239,230,0.9)', padding: '24px', boxShadow: '0 4px 20px rgba(30,61,43,0.06)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '24px', fontWeight: 600, margin: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '20px' }}>
+              <h2 style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '22px', fontWeight: 600, margin: 0, whiteSpace: 'nowrap' }}>
                 🌿 {t('gardens_title')}
               </h2>
               {!showNewGarden && (
@@ -187,6 +228,7 @@ export default function PerfilPage() {
                   padding: '9px 18px', borderRadius: '999px', border: 'none',
                   backgroundColor: '#1E3D2B', color: 'white', cursor: 'pointer',
                   fontSize: '13px', fontWeight: 600, fontFamily: 'Montserrat, system-ui, sans-serif',
+                  whiteSpace: 'nowrap', flexShrink: 0, boxShadow: '0 5px 14px rgba(30,61,43,0.2)',
                 }}>+ {t('gardens_new')}</button>
               )}
             </div>
