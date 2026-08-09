@@ -25,9 +25,59 @@ interface IdentificationResult {
   }>
 }
 
+/**
+ * Normaliza cualquier foto a JPEG antes de enviarla a la API.
+ * Resuelve el problema de iOS: los iPhone capturan en HEIC/HEIF, que Pl@ntNet no acepta.
+ * iOS Safari decodifica HEIC nativamente en <img>/<canvas>, así que la conversión ocurre en el propio teléfono.
+ * También corrige la orientación EXIF y reduce el tamaño (fotos de iPhone son de 12MP+).
+ */
+async function normalizeImage(file: File): Promise<File> {
+  try {
+    const dataUrl: string = await new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = () => reject(new Error('read'))
+      reader.readAsDataURL(file)
+    })
+
+    const img: HTMLImageElement = await new Promise((resolve, reject) => {
+      const im = new Image()
+      im.onload = () => resolve(im)
+      im.onerror = () => reject(new Error('decode'))
+      im.src = dataUrl
+    })
+
+    const MAX = 1600
+    let w = img.naturalWidth || img.width
+    let h = img.naturalHeight || img.height
+    if (!w || !h) return file
+    if (w > MAX || h > MAX) {
+      const scale = MAX / Math.max(w, h)
+      w = Math.round(w * scale)
+      h = Math.round(h * scale)
+    }
+
+    const canvas = document.createElement('canvas')
+    canvas.width = w
+    canvas.height = h
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return file
+    ctx.drawImage(img, 0, 0, w, h)
+
+    const blob: Blob | null = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.9))
+    if (!blob || blob.size === 0) return file
+
+    return new File([blob], 'foto.jpg', { type: 'image/jpeg' })
+  } catch {
+    // Si algo falla, mandamos el archivo original (mejor que romper el flujo)
+    return file
+  }
+}
+
 export default function IdentifyPage() {
   const [preview, setPreview] = useState<string | null>(null)
   const [file, setFile] = useState<File | null>(null)
+  const [preparing, setPreparing] = useState(false)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<IdentificationResult | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -54,12 +104,16 @@ export default function IdentifyPage() {
     p >= 0.2 ? { t: 'Coincidencia media', bg: '#FBEFD3', tx: '#8A6A1E' } :
                { t: 'Coincidencia baja', bg: '#E7EFE6', tx: '#4C7F5B' }
 
-  const loadFile = useCallback((f: File | null | undefined) => {
+  const loadFile = useCallback(async (f: File | null | undefined) => {
     if (!f) return
-    setFile(f)
-    setPreview(URL.createObjectURL(f))
     setResult(null)
     setError(null)
+    setPreview(URL.createObjectURL(f))
+    setFile(null)
+    setPreparing(true)
+    const normalized = await normalizeImage(f)
+    setFile(normalized)
+    setPreparing(false)
   }, [])
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -68,9 +122,11 @@ export default function IdentifyPage() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': ['.jpg', '.jpeg', '.png', '.webp'] },
+    // Aceptamos HEIC/HEIF además de los formatos web: los iPhone entregan HEIC y
+    // sin esto react-dropzone descartaría la foto en silencio. Se convierte a JPEG en normalizeImage().
+    accept: { 'image/*': ['.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif'] },
     maxFiles: 1,
-    maxSize: 10 * 1024 * 1024, // 10MB
+    maxSize: 25 * 1024 * 1024, // 25MB (una foto HEIC de iPhone puede superar 10MB)
   })
 
   const identify = async () => {
@@ -187,14 +243,16 @@ export default function IdentifyPage() {
                     Tocá para cambiar la foto
                   </div>
                 </div>
-                <button onClick={identify} disabled={loading} className="idPress" style={{
+                <button onClick={identify} disabled={loading || preparing || !file} className="idPress" style={{
                   width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-                  backgroundColor: loading ? color.green : color.ink, color: '#F2E9DD', border: 'none',
-                  cursor: loading ? 'default' : 'pointer', padding: '18px', borderRadius: `${radius.pill}px`,
-                  fontSize: '16px', fontWeight: 700, boxShadow: shadow.card,
+                  backgroundColor: (loading || preparing) ? color.green : color.ink, color: '#F2E9DD', border: 'none',
+                  cursor: (loading || preparing || !file) ? 'default' : 'pointer', padding: '18px', borderRadius: `${radius.pill}px`,
+                  fontSize: '16px', fontWeight: 700, boxShadow: shadow.card, opacity: (preparing && !loading) ? 0.85 : 1,
                 }}>
                   {loading ? (
                     <><ArrowClockwise size={20} weight="bold" color="#F2E9DD" className="idSpin" /> Identificando…</>
+                  ) : preparing ? (
+                    <><ArrowClockwise size={20} weight="bold" color="#F2E9DD" className="idSpin" /> Preparando imagen…</>
                   ) : (
                     <><Sparkle size={20} weight="fill" color={color.blush} /> Identificar planta</>
                   )}
