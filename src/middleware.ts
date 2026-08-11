@@ -1,7 +1,9 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const PROTECTED_ROUTES = ['/garden', '/profile', '/perfil', '/identify']
+// /identify queda ABIERTA: los invitados pueden probar la identificación con un
+// límite gratuito (freemium). El límite se aplica en /api/identify.
+const PROTECTED_ROUTES = ['/garden', '/profile', '/perfil']
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })

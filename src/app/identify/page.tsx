@@ -81,6 +81,7 @@ export default function IdentifyPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<IdentificationResult | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [limitGate, setLimitGate] = useState<{ registered: boolean } | null>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
 
   // Resumen de resultados: normaliza porcentajes y detecta género común
@@ -108,6 +109,7 @@ export default function IdentifyPage() {
     if (!f) return
     setResult(null)
     setError(null)
+    setLimitGate(null)
     setPreview(URL.createObjectURL(f))
     setFile(null)
     setPreparing(true)
@@ -143,7 +145,7 @@ export default function IdentifyPage() {
 
       if (!res.ok) {
         if (data.code === 'FREE_LIMIT_REACHED') {
-          setError(`Alcanzaste tu límite de identificaciones gratuitas. Activá Floria Pro para continuar.`)
+          setLimitGate({ registered: !!data.registered })
         } else {
           const extra = data.detail ? ` [${data.status} · key:${data.has_key} · ${data.detail}]` : ''
           setError((data.error || 'Error al identificar la planta') + extra)
@@ -271,6 +273,41 @@ export default function IdentifyPage() {
                 Activar Floria Pro
               </Link>
             )}
+          </div>
+        )}
+
+        {/* GATE PREMIUM (límite freemium alcanzado) */}
+        {limitGate && (
+          <div className="idUp" style={{
+            marginTop: '18px', padding: '28px 22px', borderRadius: `${radius.lg}px`,
+            background: `linear-gradient(150deg, ${color.ink}, #14301F)`, boxShadow: shadow.card, textAlign: 'center',
+          }}>
+            <div style={{ width: '58px', height: '58px', borderRadius: '999px', margin: '0 auto 16px', background: 'rgba(242,233,221,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Sparkle size={28} weight="fill" color={color.blush} />
+            </div>
+            <p style={{ margin: '0 0 8px', fontFamily: font.serif, fontSize: '25px', fontWeight: 500, color: '#F2E9DD', lineHeight: 1.1 }}>
+              Llegaste al límite gratuito
+            </p>
+            <p style={{ margin: '0 auto 20px', maxWidth: '340px', fontSize: '14px', color: 'rgba(242,233,221,0.75)', lineHeight: 1.6 }}>
+              {limitGate.registered
+                ? 'Usaste tus 3 identificaciones gratis de este mes. Pasá a Floria Pro para identificar plantas sin límites.'
+                : 'Probaste Floria con 3 identificaciones gratis. Creá tu cuenta para seguir, o pasá a Pro para identificar sin límites.'}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
+              {!limitGate.registered && (
+                <Link href="/auth/login?redirect=/identify" style={{
+                  display: 'block', padding: '14px', borderRadius: `${radius.pill}px`, backgroundColor: '#F2E9DD',
+                  color: color.ink, textDecoration: 'none', fontSize: '15px', fontWeight: 700,
+                }}>Crear cuenta gratis</Link>
+              )}
+              <Link href="/pricing" style={{
+                display: 'block', padding: '14px', borderRadius: `${radius.pill}px`,
+                backgroundColor: limitGate.registered ? '#F2E9DD' : 'transparent',
+                color: limitGate.registered ? color.ink : '#F2E9DD',
+                border: limitGate.registered ? 'none' : '1.5px solid rgba(242,233,221,0.4)',
+                textDecoration: 'none', fontSize: '15px', fontWeight: 700,
+              }}>{limitGate.registered ? 'Pasar a Floria Pro' : 'Ver Floria Pro'}</Link>
+            </div>
           </div>
         )}
 
