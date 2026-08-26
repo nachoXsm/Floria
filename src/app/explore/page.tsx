@@ -76,6 +76,7 @@ const FILTER_GROUPS: { label: string; chips: FilterChip[] }[] = [
       { label: 'Rojo', field: 'flower_color', value: 'rojo' },
       { label: 'Violeta', field: 'flower_color', value: 'violeta' },
       { label: 'Azul', field: 'flower_color', value: 'azul' },
+      { label: 'Verde', field: 'flower_color', value: 'verdoso' },
     ],
   },
   {
