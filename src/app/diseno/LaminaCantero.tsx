@@ -175,3 +175,5 @@ export default function LaminaCantero({ plants, title = 'CANTERO' }: { plants: P
     </div>
   )
 }
+
+// deploy trigger
