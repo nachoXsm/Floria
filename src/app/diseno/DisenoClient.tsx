@@ -1,21 +1,23 @@
 'use client'
 import { useState, useMemo } from 'react'
 import type { PlantOption } from './page'
+import LaminaCantero from './LaminaCantero'
 
 const SPACES = [
-  { id: 'jardin', label: 'Jardín', icon: '🌳' },
-  { id: 'cantero', label: 'Cantero / Borde', icon: '🌷' },
-  { id: 'balcon', label: 'Balcón', icon: '🪴' },
-  { id: 'interior', label: 'Interior', icon: '🏠' },
+  { id: 'cantero', label: 'Cantero angosto', icon: '🌷' },
+  { id: 'borde', label: 'Borde mixto', icon: '🌾' },
+  { id: 'isla', label: 'Cantero isla', icon: '🌳' },
+  { id: 'maceta', label: 'Macetero', icon: '🪴' },
 ]
+const SPACE_TITLE: Record<string, string> = {
+  cantero: 'CANTERO ANGOSTO', borde: 'BORDE MIXTO', isla: 'CANTERO ISLA', maceta: 'MACETERO',
+}
 
 export default function DisenoClient({ plants }: { plants: PlantOption[] }) {
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<PlantOption[]>([])
-  const [space, setSpace] = useState('jardin')
-  const [loading, setLoading] = useState(false)
-  const [image, setImage] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [space, setSpace] = useState('cantero')
+  const [showLamina, setShowLamina] = useState(false)
 
   const results = useMemo(() => {
     if (!query.trim()) return []
@@ -29,6 +31,7 @@ export default function DisenoClient({ plants }: { plants: PlantOption[] }) {
   }, [query, plants])
 
   const toggle = (p: PlantOption) => {
+    setShowLamina(false)
     setSelected(prev => {
       if (prev.find(x => x.id === p.id)) return prev.filter(x => x.id !== p.id)
       if (prev.length >= 6) return prev
@@ -37,35 +40,9 @@ export default function DisenoClient({ plants }: { plants: PlantOption[] }) {
     setQuery('')
   }
 
-  const generate = async () => {
+  const generate = () => {
     if (!selected.length) return
-    setLoading(true)
-    setError(null)
-    setImage(null)
-    try {
-      const res = await fetch('/api/diseno', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          space,
-          plants: selected.map(p => ({
-            common_name: p.common_name,
-            scientific_name: p.scientific_name,
-            plant_type: p.plant_type,
-          })),
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        setError((data.error || 'No se pudo generar el render') + (data.detail ? ` · ${data.detail}` : ''))
-        return
-      }
-      setImage(data.image_url)
-    } catch {
-      setError('Error de conexión. Intentá de nuevo.')
-    } finally {
-      setLoading(false)
-    }
+    setShowLamina(true)
   }
 
   return (
@@ -74,7 +51,7 @@ export default function DisenoClient({ plants }: { plants: PlantOption[] }) {
         Diseñá tu cantero
       </h1>
       <p style={{ fontSize: '14px', color: '#4C7F5B', margin: '0 0 28px', lineHeight: 1.6 }}>
-        Elegí hasta 6 plantas y la IA genera un render de cómo se verían combinadas.
+        Elegí hasta 6 plantas y armá la lámina de tu cantero: elevación, paleta de colores y ficha de especies.
       </p>
 
       {/* PASO 1 — Espacio */}
@@ -156,44 +133,19 @@ export default function DisenoClient({ plants }: { plants: PlantOption[] }) {
       )}
 
       {/* GENERAR */}
-      <button onClick={generate} disabled={loading || !selected.length} style={{
+      <button onClick={generate} disabled={!selected.length} style={{
         width: '100%', marginTop: '24px', padding: '16px',
         borderRadius: '999px', border: 'none', cursor: selected.length ? 'pointer' : 'not-allowed',
         backgroundColor: selected.length ? '#1E3D2B' : 'rgba(30,61,43,0.3)',
         color: '#F2E9DD', fontSize: '15px', fontWeight: 700,
         boxShadow: selected.length ? '0 12px 30px rgba(30,61,43,0.25)' : 'none',
       }}>
-        {loading ? 'Generando render…' : 'Generar render ✨'}
+        Armar lámina 🌿
       </button>
 
-      {loading && (
-        <p style={{ textAlign: 'center', fontSize: '13px', color: '#4C7F5B', marginTop: '14px' }}>
-          Esto puede tardar unos segundos…
-        </p>
-      )}
-
-      {error && (
-        <div style={{ marginTop: '18px', padding: '16px', backgroundColor: '#FEF0EE', border: '1px solid #FAD9D4', borderRadius: '16px' }}>
-          <p style={{ margin: 0, fontSize: '13px', color: '#8B3A2F' }}>{error}</p>
-        </div>
-      )}
-
       {/* RESULTADO */}
-      {image && (
-        <div style={{ marginTop: '24px' }}>
-          <img src={image} alt="Render del cantero" style={{ width: '100%', borderRadius: '24px', boxShadow: '0 20px 50px rgba(30,61,43,0.2)' }} />
-          <div style={{ display: 'flex', gap: '10px', marginTop: '14px' }}>
-            <button onClick={generate} disabled={loading} style={{
-              flex: 1, padding: '13px', borderRadius: '999px', cursor: 'pointer',
-              border: '1.5px solid rgba(30,61,43,0.2)', backgroundColor: 'rgba(255,255,255,0.7)',
-              color: '#1E3D2B', fontSize: '13px', fontWeight: 700,
-            }}>Generar otra versión</button>
-            <a href={image} download target="_blank" rel="noopener noreferrer" style={{
-              flex: 1, padding: '13px', borderRadius: '999px', textAlign: 'center', textDecoration: 'none',
-              backgroundColor: '#1E3D2B', color: '#F2E9DD', fontSize: '13px', fontWeight: 700,
-            }}>Descargar</a>
-          </div>
-        </div>
+      {showLamina && selected.length > 0 && (
+        <LaminaCantero plants={selected} title={SPACE_TITLE[space] ?? 'CANTERO'} />
       )}
     </div>
   )
