@@ -42,7 +42,10 @@ export default function CutoutsAdminPage() {
     setRunning(true)
     const batch = plants.slice(0, limit)
     setRows(batch.map(p => ({ id: p.id, name: p.scientific_name, status: 'pendiente' })))
-    const { removeBackground } = await import('@imgly/background-removal')
+    // Cargamos el quita-fondo desde CDN en runtime (no se empaqueta: evita romper el build).
+    // @ts-ignore - módulo ESM cargado por URL en el navegador
+    const imgly = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0')
+    const removeBackground = imgly.removeBackground as (src: string) => Promise<Blob>
 
     for (const p of batch) {
       try {
