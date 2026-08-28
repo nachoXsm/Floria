@@ -13,19 +13,26 @@ export const metadata: Metadata = {
 const TAG_COLORS = ['#DCE8D6', '#E8C4B9', '#E7EFE6', '#EFE3D2']
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
 
+// Sube la resolución de las fotos de iNaturalist (medium ~500px → large ~1024px)
+// para que el hero a pantalla completa no se vea pixelado.
+function hiRes(url: string | null | undefined): string {
+  if (!url) return ''
+  return url.replace(/\/(square|small|medium)\.(jpe?g|png)(\?.*)?$/i, '/large.$2$3')
+}
+
 export default async function HomePage() {
   let plants: { name: string; scientific: string; tag: string; color: string; img: string; slug: string }[] = []
   let heroImg = ''
   try {
     const featuredRaw = await getFeaturedPlants(9)
     const withImg = featuredRaw.filter(p => p.cover_image)
-    heroImg = withImg[0]?.cover_image ?? ''
+    heroImg = hiRes(withImg[0]?.cover_image)
     plants = withImg.slice(1, 8).map((p, i) => ({
       name: p.common_name ?? '',
       scientific: p.scientific_name ?? '',
       tag: p.indoor ? 'Interior' : p.outdoor ? 'Exterior' : 'Planta',
       color: TAG_COLORS[i % TAG_COLORS.length],
-      img: p.cover_image ?? '',
+      img: hiRes(p.cover_image),
       slug: p.slug ?? '',
     }))
   } catch {
