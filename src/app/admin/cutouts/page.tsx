@@ -22,18 +22,19 @@ export default function CutoutsAdminPage() {
   const [limit, setLimit] = useState(15)
   const [running, setRunning] = useState(false)
   const [rows, setRows] = useState<Row[]>([])
+  const [regen, setRegen] = useState(false)
 
   useEffect(() => {
     const supabase = createClient()
-    supabase.from('plants')
+    let q = supabase.from('plants')
       .select('id, common_name, scientific_name, cutout_image')
-      .eq('published', true).is('cutout_image', null)
-      .order('common_name').limit(300)
-      .then(({ data, error }) => {
-        if (error) setLoadError(error.message)
-        else setPlants((data ?? []) as Plant[])
-      })
-  }, [])
+      .eq('published', true)
+    if (!regen) q = q.is('cutout_image', null)   // por defecto solo las que faltan
+    q.order('common_name').limit(300).then(({ data, error }) => {
+      if (error) setLoadError(error.message)
+      else setPlants((data ?? []) as Plant[])
+    })
+  }, [regen])
 
   const setRow = (id: string, patch: Partial<Row>) =>
     setRows(prev => prev.map(r => (r.id === id ? { ...r, ...patch } : r)))
@@ -92,8 +93,14 @@ export default function CutoutsAdminPage() {
 
       {!loadError && (
         <>
-          <p style={{ fontSize: 14 }}>Plantas sin recorte: <strong>{plants.length}</strong> (mostrando primeras 300)</p>
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center', margin: '14px 0 24px' }}>
+          <p style={{ fontSize: 14 }}>
+            {regen ? 'Plantas a (re)generar' : 'Plantas sin recorte'}: <strong>{plants.length}</strong> (primeras 300)
+          </p>
+          <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, margin: '4px 0 14px', cursor: 'pointer' }}>
+            <input type="checkbox" checked={regen} disabled={running} onChange={e => setRegen(e.target.checked)} />
+            Regenerar también las que ya tienen recorte (rehacer con el prompt mejorado)
+          </label>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', margin: '0 0 24px' }}>
             <label style={{ fontSize: 13 }}>Cantidad:</label>
             <input type="number" min={1} max={100} value={limit} disabled={running}
               onChange={e => setLimit(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
