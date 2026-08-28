@@ -22,10 +22,26 @@ export async function POST(request: NextRequest) {
 
   const supabase = createAdminClient()
   const { data: plant } = await supabase
-    .from('plants').select('common_name, scientific_name').eq('id', plantId).single()
+    .from('plants').select('common_name, scientific_name, plant_type').eq('id', plantId).single()
   if (!plant) return NextResponse.json({ error: 'Planta no encontrada' }, { status: 404 })
 
-  const prompt = `A single ${plant.common_name} plant (${plant.scientific_name}), whole plant shown from the side in elevation view, isolated on a plain solid white background, photorealistic, botanically accurate, natural colors, soft studio lighting, centered, entire plant visible from base to top, no pot, no text, no people.`
+  // Descriptor de porte según el tipo, para que salga el ejemplar maduro y completo
+  // (no en maceta, no un plantín, no solo la flor).
+  const t = (plant.plant_type ?? '').toLowerCase()
+  const has = (...k: string[]) => k.some(x => t.includes(x))
+  let form = 'a mature, fully-grown, well-established specimen at its full natural landscape size, showing the entire plant with all its foliage and flowers'
+  if (has('árbol', 'arbol', 'tree')) form = 'a mature full-grown tree with a full broad canopy of foliage and a visible trunk'
+  else if (has('arbusto', 'shrub')) form = 'a large mature shrub forming a dense, rounded, bushy globular mass full of branches and foliage from the ground up'
+  else if (has('gramín', 'gramin', 'grass')) form = 'a full mature ornamental grass clump, dense fountain-shaped mound with many arching blades and flower plumes'
+  else if (has('bulb')) form = 'a full mature clump showing the strap-like basal foliage AND the flower stems together (not just a single flower), the complete plant'
+  else if (has('herbá', 'herba', 'herb', 'aromá', 'aroma')) form = 'a full mature bushy clump: a mound of abundant foliage from the base with its characteristic tall flower spikes or stems, the whole plant'
+  else if (has('trepad', 'climb')) form = 'a mature climbing plant with abundant foliage and flowers cascading, full and leafy'
+  else if (has('palm')) form = 'a mature palm with a full crown of fronds and its trunk'
+  else if (has('helecho', 'fern')) form = 'a full mature fern with a complete rosette of many arching fronds from the base'
+  else if (has('sucul', 'cact', 'succ')) form = 'a mature, full-size specimen with all its structure visible'
+  else if (has('tapiz', 'ground')) form = 'a mature spreading groundcover mat, full and dense'
+
+  const prompt = `${form}. Species: ${plant.common_name} (${plant.scientific_name}). Planted in the ground (NOT in a pot, no container, no planter, no vase). The COMPLETE plant fully visible from the base/soil to the top. Photorealistic, botanically accurate for the species, natural healthy colors, side elevation view, soft even studio lighting, centered, isolated on a plain solid pure white background. No pot, no soil pile, no text, no labels, no people, no hands.`
 
   try {
     const res = await fetch(
