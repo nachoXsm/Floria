@@ -58,7 +58,10 @@ export default function CutoutsAdminPage() {
           body: JSON.stringify({ plantId: p.id }),
         })
         const gd = await g.json()
-        if (!g.ok) throw new Error(gd.error + (gd.detail ? ` · ${gd.detail}` : ''))
+        if (!g.ok) {
+          if (gd.quota) { setRow(p.id, { status: 'error', error: gd.error }); break } // cuota diaria agotada: cortar
+          throw new Error(gd.error + (gd.detail ? ` · ${gd.detail}` : ''))
+        }
 
         setRow(p.id, { status: 'recortando' })
         const blob = await removeBackground(`data:image/jpeg;base64,${gd.image}`, bgCfg)
