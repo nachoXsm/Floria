@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
   else if (has('sucul', 'cact', 'succ')) form = 'a mature, full-size specimen with all its structure visible'
   else if (has('tapiz', 'ground')) form = 'a mature spreading groundcover mat, full and dense'
 
-  const prompt = `${form}. Species: ${plant.common_name} (${plant.scientific_name}). Planted in the ground (NOT in a pot, no container, no planter, no vase). The COMPLETE plant fully visible from the base/soil to the top. Photorealistic, botanically accurate for the species, natural healthy colors, side elevation view, soft even studio lighting, centered, isolated on a plain solid pure white background. No pot, no soil pile, no text, no labels, no people, no hands.`
+  const prompt = `${form}. Species: ${plant.common_name} (${plant.scientific_name}). Show ONLY the plant itself, cleanly isolated on a plain solid pure white background as a catalog cutout — absolutely NO pot, NO container, NO planter, NO soil, NO dirt, NO ground, NO grass, NO rocks, NO shadow and NO reflection under or around the plant, nothing beneath it. The complete plant from the base of its stems to the very top, floating on pure white. Photorealistic, botanically accurate for the species, natural healthy colors, side elevation view, soft even studio lighting, centered. No text, no labels, no watermark, no people, no hands.`
 
   try {
     const res = await fetch(
