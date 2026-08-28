@@ -46,7 +46,9 @@ export default function CutoutsAdminPage() {
     // Cargamos el quita-fondo desde CDN en runtime (no se empaqueta: evita romper el build).
     // @ts-ignore - módulo ESM cargado por URL en el navegador
     const imgly = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0')
-    const removeBackground = imgly.removeBackground as (src: string) => Promise<Blob>
+    const removeBackground = imgly.removeBackground as (src: string, cfg?: unknown) => Promise<Blob>
+    // Modelo más liviano (fp16): más rápido y menos memoria que el default.
+    const bgCfg = { model: 'isnet_fp16', output: { format: 'image/png' as const } }
 
     for (const p of batch) {
       try {
@@ -59,7 +61,7 @@ export default function CutoutsAdminPage() {
         if (!g.ok) throw new Error(gd.error + (gd.detail ? ` · ${gd.detail}` : ''))
 
         setRow(p.id, { status: 'recortando' })
-        const blob = await removeBackground(`data:image/jpeg;base64,${gd.image}`)
+        const blob = await removeBackground(`data:image/jpeg;base64,${gd.image}`, bgCfg)
         const pngUrl = await blobToDataURL(blob)
 
         setRow(p.id, { status: 'guardando' })
@@ -74,6 +76,8 @@ export default function CutoutsAdminPage() {
       } catch (e) {
         setRow(p.id, { status: 'error', error: String((e as Error).message || e).slice(0, 160) })
       }
+      // Cede el hilo entre plantas para que el navegador no se congele.
+      await new Promise(r => setTimeout(r, 60))
     }
     setRunning(false)
   }

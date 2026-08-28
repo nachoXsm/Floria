@@ -43,6 +43,15 @@ export async function POST(request: NextRequest) {
 
   const prompt = `${form}. Species: ${plant.common_name} (${plant.scientific_name}). Show ONLY the plant itself, cleanly isolated on a plain solid pure white background as a catalog cutout — absolutely NO pot, NO container, NO planter, NO soil, NO dirt, NO ground, NO grass, NO rocks, NO shadow and NO reflection under or around the plant, nothing beneath it. The complete plant from the base of its stems to the very top, floating on pure white. Photorealistic, botanically accurate for the species, natural healthy colors, side elevation view, soft even studio lighting, centered. No text, no labels, no watermark, no people, no hands.`
 
+  // Respaldo gratis cuando Cloudflare se queda sin cuota diaria: Pollinations (FLUX).
+  async function pollinations(): Promise<string> {
+    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true&model=flux&seed=${Math.floor(Math.random() * 1e6)}`
+    const r = await fetch(url)
+    if (!r.ok) throw new Error(`Pollinations ${r.status}`)
+    const buf = Buffer.from(await r.arrayBuffer())
+    return buf.toString('base64')
+  }
+
   try {
     const res = await fetch(
       `https://api.cloudflare.com/client/v4/accounts/${acc}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
@@ -52,14 +61,25 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({ prompt, steps: 8 }),
       },
     )
-    if (!res.ok) {
-      return NextResponse.json({ error: 'Cloudflare', detail: (await res.text()).slice(0, 300) }, { status: 502 })
-    }
-    const data = await res.json()
+    const data = res.ok ? await res.json() : null
     const image = data?.result?.image
-    if (!image) return NextResponse.json({ error: 'Sin imagen de Cloudflare' }, { status: 502 })
-    return NextResponse.json({ image }) // base64 JPEG
-  } catch (e) {
-    return NextResponse.json({ error: 'Error de conexión', detail: String(e).slice(0, 200) }, { status: 502 })
+    if (image) return NextResponse.json({ image, source: 'cloudflare' }) // base64 JPEG
+
+    // Cloudflare falló o sin cuota → respaldo Pollinations
+    try {
+      const alt = await pollinations()
+      return NextResponse.json({ image: alt, source: 'pollinations' })
+    } catch (e2) {
+      const detail = res.ok ? 'Cloudflare sin imagen' : (await res.text()).slice(0, 200)
+      return NextResponse.json({ error: 'Cloudflare y respaldo fallaron', detail: `${detail} · ${String(e2).slice(0, 120)}` }, { status: 502 })
+    }
+  } catch {
+    // Error de red con Cloudflare → intentar respaldo directo
+    try {
+      const alt = await pollinations()
+      return NextResponse.json({ image: alt, source: 'pollinations' })
+    } catch (e2) {
+      return NextResponse.json({ error: 'No se pudo generar', detail: String(e2).slice(0, 200) }, { status: 502 })
+    }
   }
 }
