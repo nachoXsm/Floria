@@ -27,6 +27,9 @@ export default function CutoutsCuratorPage() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [regen, setRegen] = useState(false)
   const [idx, setIdx] = useState(0)
+  const [allPlants, setAllPlants] = useState<Plant[]>([])
+  const [query, setQuery] = useState('')
+  const [selected, setSelected] = useState<Plant | null>(null)
 
   const [cands, setCands] = useState<Candidate[]>([])
   const [loadingCands, setLoadingCands] = useState(false)
@@ -47,7 +50,23 @@ export default function CutoutsCuratorPage() {
     })
   }, [regen])
 
-  const current = plants[idx]
+  // Cargar TODAS las plantas (para el buscador — incluye las ya recortadas)
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.from('plants').select('id, common_name, scientific_name, cutout_image')
+      .eq('published', true).order('common_name').limit(2000)
+      .then(({ data }) => setAllPlants((data ?? []) as Plant[]))
+  }, [])
+
+  // La planta buscada tiene prioridad sobre la de la secuencia.
+  const current = selected ?? plants[idx]
+
+  const searchResults = query.trim()
+    ? allPlants.filter(p =>
+        p.common_name?.toLowerCase().includes(query.toLowerCase()) ||
+        p.scientific_name?.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 8)
+    : []
 
   const loadCandidates = useCallback(async (plantId: string) => {
     setLoadingCands(true); setCands([]); setPreview(null); setStatus('')
@@ -64,7 +83,10 @@ export default function CutoutsCuratorPage() {
 
   useEffect(() => { if (current) loadCandidates(current.id) }, [current, loadCandidates])
 
-  const next = () => { setIdx(i => Math.min(i + 1, plants.length)); }
+  // Si estamos en una planta buscada, "siguiente/anterior" vuelve a la secuencia.
+  const next = () => { if (selected) { setSelected(null); return } setIdx(i => Math.min(i + 1, plants.length)) }
+  const prev = () => { if (selected) { setSelected(null); return } setIdx(i => Math.max(i - 1, 0)) }
+  const pickSearch = (p: Plant) => { setSelected(p); setQuery('') }
 
   async function processDataUrl(dataUrl: string) {
     if (!current) return
@@ -82,8 +104,7 @@ export default function CutoutsCuratorPage() {
       })
       const sd = await s.json()
       if (!s.ok) throw new Error(sd.error || 'Error al guardar')
-      setStatus('Guardado ✓ — pasando a la siguiente')
-      setTimeout(next, 900)
+      setStatus('Guardado ✓ — revisá el recorte. Tocá «Siguiente» o elegí otra foto para rehacerlo.')
     } catch (e) {
       setStatus('Error: ' + String((e as Error).message || e).slice(0, 140))
     } finally { setBusy(false) }
@@ -126,6 +147,22 @@ export default function CutoutsCuratorPage() {
         Incluir también las que ya tienen recorte (rehacer)
       </label>
 
+      {/* Buscar una planta puntual para rehacer (sin reiniciar la secuencia) */}
+      <div style={{ position: 'relative', margin: '4px 0 8px' }}>
+        <input value={query} onChange={e => setQuery(e.target.value)} placeholder="🔍 Buscar una planta por nombre para rehacerla…"
+          style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', borderRadius: 12, border: '1px solid #cddac7', fontSize: 14 }} />
+        {searchResults.length > 0 && (
+          <div style={{ position: 'absolute', zIndex: 5, left: 0, right: 0, background: '#fff', border: '1px solid #E1EADD', borderRadius: 12, marginTop: 4, boxShadow: '0 10px 30px rgba(30,61,43,0.12)', overflow: 'hidden' }}>
+            {searchResults.map(p => (
+              <button key={p.id} onClick={() => pickSearch(p)} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, width: '100%', padding: '10px 14px', border: 'none', borderBottom: '1px solid #F2E9DD', background: '#fff', textAlign: 'left', cursor: 'pointer' }}>
+                <span><strong style={{ fontSize: 13 }}>{p.common_name}</strong> <span style={{ fontSize: 12, fontStyle: 'italic', color: '#4C7F5B' }}>{p.scientific_name}</span></span>
+                {p.cutout_image && <span style={{ fontSize: 11, color: '#7A9E82' }}>✓ tiene recorte</span>}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       {done ? (
         <div style={{ padding: 30, textAlign: 'center', background: '#EEF4EA', borderRadius: 16, marginTop: 20 }}>
           <p style={{ fontSize: 16, margin: 0 }}>🎉 ¡No quedan plantas pendientes en esta lista!</p>
@@ -137,7 +174,11 @@ export default function CutoutsCuratorPage() {
               <div style={{ fontSize: 20, fontWeight: 700 }}>{current.common_name}</div>
               <div style={{ fontSize: 14, fontStyle: 'italic', color: '#4C7F5B' }}>{current.scientific_name}</div>
             </div>
-            <div style={{ fontSize: 13, color: '#7A9E82' }}>{idx + 1} / {plants.length}</div>
+            <div style={{ fontSize: 13, color: '#7A9E82', textAlign: 'right' }}>
+              {selected
+                ? <span style={{ color: '#C4773B', fontWeight: 700 }}>✎ rehaciendo (fuera de la secuencia)</span>
+                : <>{idx + 1} / {plants.length}</>}
+            </div>
           </div>
 
           {/* Candidatas */}
@@ -160,8 +201,22 @@ export default function CutoutsCuratorPage() {
             )}
           </div>
 
+          {/* Búsqueda rápida de una buena foto (planta entera) */}
+          <div style={{ marginTop: 18, padding: 12, background: '#F7FBF5', border: '1px solid #E1EADD', borderRadius: 12 }}>
+            <p style={{ fontSize: 12, color: '#4C7F5B', margin: '0 0 8px' }}>
+              ¿Las candidatas no sirven? Buscá una foto de <strong>planta entera</strong> y pegá su link abajo:
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <a href={`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(current.scientific_name + ' planta entera arbusto')}`} target="_blank" rel="noreferrer"
+                style={{ padding: '8px 14px', borderRadius: 999, background: '#1E3D2B', color: '#fff', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Google Imágenes ↗</a>
+              <a href={`https://www.pinterest.com/search/pins/?q=${encodeURIComponent(current.scientific_name + ' plant full')}`} target="_blank" rel="noreferrer"
+                style={{ padding: '8px 14px', borderRadius: 999, background: '#fff', color: '#1E3D2B', border: '1.5px solid #cddac7', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Pinterest ↗</a>
+              <span style={{ fontSize: 11, color: '#7A9E82', alignSelf: 'center' }}>→ clic derecho en la foto → &quot;Copiar dirección de la imagen&quot; → pegá abajo</span>
+            </div>
+          </div>
+
           {/* Fallbacks */}
-          <div style={{ marginTop: 18, display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
             <input value={urlInput} onChange={e => setUrlInput(e.target.value)} placeholder="Pegá el link de una foto…" disabled={busy}
               style={{ flex: 1, minWidth: 220, padding: '10px 12px', borderRadius: 10, border: '1px solid #cddac7' }} />
             <button onClick={() => applyUrl(urlInput)} disabled={busy || !urlInput} style={{ padding: '10px 16px', borderRadius: 999, border: 'none', background: '#4C7F5B', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>Usar URL</button>
@@ -169,18 +224,32 @@ export default function CutoutsCuratorPage() {
             <button onClick={() => fileRef.current?.click()} disabled={busy} style={{ padding: '10px 16px', borderRadius: 999, border: '1.5px solid #cddac7', background: '#fff', color: '#1E3D2B', fontWeight: 700, cursor: 'pointer' }}>Subir foto</button>
           </div>
 
-          {/* Estado + preview + navegación */}
-          <div style={{ marginTop: 18, display: 'flex', gap: 16, alignItems: 'center' }}>
-            {preview && (
-              <div style={{ width: 120, height: 120, background: 'repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 18px 18px', borderRadius: 12, overflow: 'hidden', flexShrink: 0 }}>
+          {/* Vista previa GRANDE del recorte guardado */}
+          {preview && (
+            <div style={{ marginTop: 18, textAlign: 'center' }}>
+              <div style={{ width: '100%', maxWidth: 460, height: 460, margin: '0 auto', background: 'repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 26px 26px', borderRadius: 16, overflow: 'hidden', border: '1px solid #E1EADD' }}>
                 <img src={preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </div>
-            )}
+              <div style={{ fontSize: 12, color: '#7A9E82', marginTop: 6 }}>✓ recorte guardado — así se va a ver en la lámina</div>
+            </div>
+          )}
+
+          {/* Estado + navegación */}
+          <div style={{ marginTop: 18 }}>
             <div style={{ flex: 1 }}>
-              {status && <p style={{ fontSize: 13, color: status.startsWith('Error') ? '#c0392b' : '#4C7F5B', margin: '0 0 8px' }}>{status}</p>}
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={next} disabled={busy} style={{ padding: '9px 16px', borderRadius: 999, border: '1.5px solid #cddac7', background: '#fff', color: '#1E3D2B', fontWeight: 600, cursor: 'pointer' }}>Saltear →</button>
-                <button onClick={() => loadCandidates(current.id)} disabled={busy || loadingCands} style={{ padding: '9px 16px', borderRadius: 999, border: '1.5px solid #cddac7', background: '#fff', color: '#1E3D2B', fontWeight: 600, cursor: 'pointer' }}>Buscar de nuevo</button>
+              {busy && <p style={{ fontSize: 13, color: '#4C7F5B', margin: '0 0 8px' }}>⏳ {status || 'Procesando…'}</p>}
+              {!busy && status && <p style={{ fontSize: 13, color: status.startsWith('Error') ? '#c0392b' : '#2f7a4c', margin: '0 0 10px', fontWeight: 600 }}>{status}</p>}
+              {preview && !busy && (
+                <p style={{ fontSize: 12, color: '#7A9E82', margin: '0 0 10px' }}>
+                  ¿No te gusta? Hacé clic en otra foto de arriba para <strong>rehacerlo</strong>.
+                </p>
+              )}
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {(() => { const dis = busy || (!selected && idx === 0); return (
+                  <button onClick={prev} disabled={dis} style={{ padding: '11px 18px', borderRadius: 999, border: '1.5px solid #cddac7', background: '#fff', color: dis ? '#aaa' : '#1E3D2B', fontWeight: 600, cursor: dis ? 'default' : 'pointer' }}>← Anterior</button>
+                )})()}
+                <button onClick={next} disabled={busy} style={{ padding: '11px 22px', borderRadius: 999, border: 'none', background: preview ? '#1E3D2B' : '#9bb59f', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>{selected ? 'Volver a la secuencia →' : 'Siguiente planta →'}</button>
+                <button onClick={() => loadCandidates(current.id)} disabled={busy || loadingCands} style={{ padding: '11px 18px', borderRadius: 999, border: '1.5px solid #cddac7', background: '#fff', color: '#1E3D2B', fontWeight: 600, cursor: 'pointer' }}>Buscar de nuevo</button>
               </div>
             </div>
           </div>
