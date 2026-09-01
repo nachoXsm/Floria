@@ -23,6 +23,20 @@ function blobToDataURL(blob: Blob): Promise<string> {
 function fileToDataURL(file: File): Promise<string> {
   return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result as string); r.onerror = rej; r.readAsDataURL(file) })
 }
+// Normaliza a PNG y detecta si la imagen YA viene recortada (fondo transparente).
+async function analyzeImage(dataUrl: string): Promise<{ png: string; transparent: boolean }> {
+  const img = new Image()
+  await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = dataUrl })
+  const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight
+  const ctx = c.getContext('2d')!; ctx.drawImage(img, 0, 0)
+  let transparent = false
+  try {
+    const w = c.width, h = c.height
+    const corners = [[0, 0], [w - 1, 0], [0, h - 1], [w - 1, h - 1]] as const
+    transparent = corners.every(([x, y]) => ctx.getImageData(x, y, 1, 1).data[3] < 20)
+  } catch { transparent = false }
+  return { png: c.toDataURL('image/png'), transparent }
+}
 
 export default function CutoutsCuratorPage() {
   const [plants, setPlants] = useState<Plant[]>([])
@@ -40,6 +54,7 @@ export default function CutoutsCuratorPage() {
   const [status, setStatus] = useState('')
   const [preview, setPreview] = useState<string | null>(null)
   const [urlInput, setUrlInput] = useState('')
+  const [asIs, setAsIs] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
   // Cargar lista de plantas
@@ -97,11 +112,20 @@ export default function CutoutsCuratorPage() {
     if (!current) return
     setBusy(true)
     try {
-      setStatus('Quitando fondo…')
-      const { removeBackground } = await ensureImgly()
-      // Modelo isnet (máxima calidad de recorte; fp16 era más rápido pero recortaba peor).
-      const blob = await removeBackground(dataUrl, { model: 'isnet', output: { format: 'image/png' as const, quality: 1 } })
-      const png = await blobToDataURL(blob)
+      setStatus('Analizando la foto…')
+      const { png: normalized, transparent } = await analyzeImage(dataUrl)
+      let png: string
+      if (asIs || transparent) {
+        // Ya viene recortada (o el usuario pide usarla tal cual): no tocar el fondo.
+        png = normalized
+        setStatus(transparent ? 'Ya venía recortada — usándola tal cual…' : 'Usando la foto tal cual…')
+      } else {
+        setStatus('Quitando fondo…')
+        const { removeBackground } = await ensureImgly()
+        // Modelo isnet (máxima calidad de recorte).
+        const blob = await removeBackground(dataUrl, { model: 'isnet', output: { format: 'image/png' as const, quality: 1 } })
+        png = await blobToDataURL(blob)
+      }
       setPreview(png)
       setStatus('Guardando…')
       const s = await fetch(`/api/admin/cutouts/save?token=${TOKEN}`, {
@@ -214,15 +238,19 @@ export default function CutoutsCuratorPage() {
           {/* Búsqueda rápida de una buena foto (planta entera) */}
           <div style={{ marginTop: 18, padding: 12, background: '#F7FBF5', border: '1px solid #E1EADD', borderRadius: 12 }}>
             <p style={{ fontSize: 12, color: '#4C7F5B', margin: '0 0 8px' }}>
-              ¿Las candidatas no sirven? Buscá una foto de <strong>planta entera</strong> y pegá su link abajo:
+              <strong>Truco:</strong> buscá fotos <strong>PNG con fondo transparente</strong> (ya vienen recortadas y salen perfectas). El botón ya filtra por transparentes:
             </p>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <a href={`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(current.scientific_name + ' planta entera arbusto')}`} target="_blank" rel="noreferrer"
-                style={{ padding: '8px 14px', borderRadius: 999, background: '#1E3D2B', color: '#fff', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Google Imágenes ↗</a>
-              <a href={`https://www.pinterest.com/search/pins/?q=${encodeURIComponent(current.scientific_name + ' plant full')}`} target="_blank" rel="noreferrer"
+              <a href={`https://www.google.com/search?tbm=isch&tbs=ic:trans&q=${encodeURIComponent(current.scientific_name + ' plant png')}`} target="_blank" rel="noreferrer"
+                style={{ padding: '8px 14px', borderRadius: 999, background: '#1E3D2B', color: '#fff', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Google Imágenes · PNG transparente ↗</a>
+              <a href={`https://www.pinterest.com/search/pins/?q=${encodeURIComponent(current.scientific_name + ' plant png cutout')}`} target="_blank" rel="noreferrer"
                 style={{ padding: '8px 14px', borderRadius: 999, background: '#fff', color: '#1E3D2B', border: '1.5px solid #cddac7', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Pinterest ↗</a>
-              <span style={{ fontSize: 11, color: '#7A9E82', alignSelf: 'center' }}>→ clic derecho en la foto → &quot;Copiar dirección de la imagen&quot; → pegá abajo</span>
             </div>
+            <p style={{ fontSize: 11, color: '#7A9E82', margin: '8px 0 0' }}>→ clic derecho en la foto → &quot;Copiar dirección de la imagen&quot; → pegala abajo. Si ya es transparente, la uso tal cual (recorte perfecto).</p>
+            <label style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 12, marginTop: 8, cursor: 'pointer' }}>
+              <input type="checkbox" checked={asIs} onChange={e => setAsIs(e.target.checked)} />
+              Usar la foto tal cual, sin quitar fondo (para PNG ya recortados o fondo blanco que quiero conservar)
+            </label>
           </div>
 
           {/* Fallbacks */}
