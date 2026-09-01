@@ -99,7 +99,8 @@ export default function CutoutsCuratorPage() {
     try {
       setStatus('Quitando fondo…')
       const { removeBackground } = await ensureImgly()
-      const blob = await removeBackground(dataUrl, { model: 'isnet_fp16', output: { format: 'image/png' as const } })
+      // Modelo isnet (máxima calidad de recorte; fp16 era más rápido pero recortaba peor).
+      const blob = await removeBackground(dataUrl, { model: 'isnet', output: { format: 'image/png' as const, quality: 1 } })
       const png = await blobToDataURL(blob)
       setPreview(png)
       setStatus('Guardando…')
