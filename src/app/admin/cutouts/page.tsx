@@ -4,7 +4,9 @@ import { createClient } from '@/lib/supabase/client'
 
 const TOKEN = 'floria-audit-2026'
 
-type Plant = { id: string; common_name: string; scientific_name: string; cutout_image?: string | null }
+type Plant = { id: string; common_name: string; scientific_name: string; cutout_image?: string | null; plant_type?: string | null }
+// Árboles y palmeras no van en canteros: se excluyen del recorte por defecto.
+const isTreeLike = (pt?: string | null) => /árbol|arbol|\btree\b|palm/i.test(pt ?? '')
 type Candidate = { url: string; thumb: string; source: string; attribution?: string }
 
 // Carga perezosa del quita-fondo desde CDN (no se empaqueta).
@@ -26,6 +28,7 @@ export default function CutoutsCuratorPage() {
   const [plants, setPlants] = useState<Plant[]>([])
   const [loadError, setLoadError] = useState<string | null>(null)
   const [regen, setRegen] = useState(false)
+  const [excludeTrees, setExcludeTrees] = useState(true)
   const [idx, setIdx] = useState(0)
   const [allPlants, setAllPlants] = useState<Plant[]>([])
   const [query, setQuery] = useState('')
@@ -42,13 +45,15 @@ export default function CutoutsCuratorPage() {
   // Cargar lista de plantas
   useEffect(() => {
     const supabase = createClient()
-    let q = supabase.from('plants').select('id, common_name, scientific_name, cutout_image').eq('published', true)
+    let q = supabase.from('plants').select('id, common_name, scientific_name, cutout_image, plant_type').eq('published', true)
     if (!regen) q = q.is('cutout_image', null)
-    q.order('common_name').limit(1000).then(({ data, error }) => {
-      if (error) setLoadError(error.message)
-      else { setPlants((data ?? []) as Plant[]); setIdx(0) }
+    q.order('common_name').limit(2000).then(({ data, error }) => {
+      if (error) { setLoadError(error.message); return }
+      let list = (data ?? []) as Plant[]
+      if (excludeTrees) list = list.filter(p => !isTreeLike(p.plant_type))
+      setPlants(list); setIdx(0)
     })
-  }, [regen])
+  }, [regen, excludeTrees])
 
   // Cargar TODAS las plantas (para el buscador — incluye las ya recortadas)
   useEffect(() => {
@@ -145,6 +150,10 @@ export default function CutoutsCuratorPage() {
       <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, margin: '10px 0', cursor: 'pointer' }}>
         <input type="checkbox" checked={regen} onChange={e => setRegen(e.target.checked)} />
         Incluir también las que ya tienen recorte (rehacer)
+      </label>
+      <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, margin: '0 0 6px', cursor: 'pointer' }}>
+        <input type="checkbox" checked={excludeTrees} onChange={e => setExcludeTrees(e.target.checked)} />
+        Excluir árboles y palmeras (no van en canteros)
       </label>
 
       {/* Buscar una planta puntual para rehacer (sin reiniciar la secuencia) */}
